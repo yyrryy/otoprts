@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="block-finder block">
+    <div class="decor block-finder__decor decor--type--bottom">
+        <div class="decor__body">
+            <div class="decor__start"></div>
+            <div class="decor__end"></div>
+            <div class="decor__center"></div>
+        </div>
+    </div>
+    <div class="block-finder__image" style="background-image: url(\'images/finder-1903x500.jpg\');"></div>
+    <div class="block-finder__body container container--max--xl">
+        <div class="block-finder__title">Find Parts For Your Vehicle</div>
+        <div class="block-finder__subtitle">Over hundreds of brands and tens of thousands of parts</div>
+        <div class="formholder block-finder__form">
+            <div class="block-finder__form-control block-finder__form-control--select">
+                <select
+                    class="year"
+                    aria-label="Vehicle Year" 
+                    name="year">
+                    <option value=0>Select Year</option>
+                    <option value="2121">2121</option>
+                    <option value="2121">2021</option>
+                    
+                </select></div>
+            <div class="block-finder__form-control block-finder__form-control--select">
+                <select
+                    class="make"
+                    aria-label="Vehicle Make" disabled="disabled" name="make">
+                    <option value="none">Select Make</option>
+                    <option value="cf">cf</option>
+                    <option value="sdf">sdf</option>
+                    
+                </select></div>
+            <div class="block-finder__form-control block-finder__form-control--select">
+                <select
+                    class="model"
+                    aria-label="Vehicle Model" disabled="disabled" name="model">
+                    <option value="none">Select Model</option>
+                    
+                </select>
+            </div>
+            <div class="block-finder__form-control block-finder__form-control--select">
+                <select
+                    class="engine"
+                    aria-label="Vehicle Engine" disabled="disabled" name="engine">
+                    <option value="none">Select Engine</option>
+                    
+                </select>
+            </div>
+            <button class="block-finder__form-control block-finder__form-control--button" disabled>Search
+            </button>
+        </div>
+    </div>
+</div>
+<div class="block-features block block-features--layout--top-strip">
+    <div class="container">
+        <ul class="block-features__list">
+            <li class="block-features__item">
+                <div class="block-features__item-icon">
+                </div>
+                <div class="block-features__item-info">
+                    <div class="block-features__item-title">Free Shipping</div>
+                    <div class="block-features__item-subtitle">For orders from $50</div>
+                </div>
+            </li>
+            <li class="block-features__item">
+                <div class="block-features__item-icon">
+                </div>
+                <div class="block-features__item-info">
+                    <div class="block-features__item-title">Support 24/7</div>
+                    <div class="block-features__item-subtitle">Call us anytime</div>
+                </div>
+            </li>
+            <li class="block-features__item">
+                <div class="block-features__item-icon">
+                </div>
+                <div class="block-features__item-info">
+                    <div class="block-features__item-title">100% Safety</div>
+                    <div class="block-features__item-subtitle">Only secure payments</div>
+                </div>
+            </li>
+            <li class="block-features__item">
+                <div class="block-features__item-icon">
+                </div>
+                <div class="block-features__item-info">
+                    <div class="block-features__item-title">Hot Offers</div>
+                    <div class="block-features__item-subtitle">Discounts up to 90%</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="data">
+
+</div>
+<script src="/static/js/sc.js"></script>
+
+{% endblock %}
+
