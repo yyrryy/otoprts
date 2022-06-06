@@ -6,7 +6,7 @@ def blog(request):
     return render(request, 'blog.html', {'title':'blog'})
 
 
-def post(request, id):
+def post(request):
     #get post data based on the id
     return render(request, 'post.html', {'title':'post'})
 

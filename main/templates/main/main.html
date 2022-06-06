@@ -1,7 +1,213 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block css %}
+<style>
+    
+.tabs {
+  padding: 15px;
+  width: 70vw;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  border-radius: 5px;
+  min-width: 240px;
+}
+.tabs input[name=tab-control] {
+  display: none;
+}
+.tabs .content section h2,
+.tabs ul li label {
+  font-weight: bold;
+  font-size: 18px;
+  color: #ffff;
+}
+.tabs ul {
+  list-style-type: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0px;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+.tabs ul li {
+  box-sizing: border-box;
+  flex: 1;
+  width: 25%;
+  text-align: center;
+}
+.tabs ul li label {
+  margin-bottom: 0px;
+  transition: all 0.3s ease-in-out;
+  color: #929daf;
+  padding: 5px auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  white-space: nowrap;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.tabs ul li label br {
+  display: none;
+}
+.tabs ul li label svg {
+  fill: #929daf;
+  height: 1.2em;
+  vertical-align: bottom;
+  margin-right: 0.2em;
+  transition: all 0.2s ease-in-out;
+}
+.tabs ul li label:hover, .tabs ul li label:focus, .tabs ul li label:active {
+  outline: 0;
+  color: #bec5cf;
+}
+.tabs ul li label:hover svg, .tabs ul li label:focus svg, .tabs ul li label:active svg {
+  fill: #bec5cf;
+}
+.tabs .slider {
+  position: relative;
+  width: 25%;
+  transition: all 0.33s cubic-bezier(0.38, 0.8, 0.32, 1.07);
+}
+.tabs .slider .indicator {
+  position: relative;
+  width: 50px;
+  max-width: 100%;
+  margin: 0 auto;
+  height: 4px;
+  background: #ffff;
+  border-radius: 1px;
+}
+.tabs .content {
+    background: #464645;
+    padding: 20px;
+}
+.tabs .content section {
+  display: none;
+  -webkit-animation-name: content;
+          animation-name: content;
+  -webkit-animation-direction: normal;
+          animation-direction: normal;
+  -webkit-animation-duration: 0.3s;
+          animation-duration: 0.3s;
+  -webkit-animation-timing-function: ease-in-out;
+          animation-timing-function: ease-in-out;
+  -webkit-animation-iteration-count: 1;
+          animation-iteration-count: 1;
+  line-height: 1.4;
+}
+.tabs .content section h2 {
+  color: #ffff;
+  display: none;
+}
+.tabs .content section h2::after {
+  content: "";
+  position: relative;
+  display: block;
+  width: 30px;
+  height: 3px;
+  background: #ffff;
+  margin-top: 5px;
+  left: 1px;
+}
+.tabs input[name=tab-control]:nth-of-type(1):checked ~ ul > li:nth-child(1) > label {
+  background: #464645;
+  color: #ffff;
+  padding: 5px;
+  border-radius: 50px 0 0 0;
+
+
+}
+
+@media (max-width: 600px) {
+  .tabs input[name=tab-control]:nth-of-type(1):checked ~ ul > li:nth-child(1) > label {
+      background: #464645;
+      color: #ffff;
+      padding: 5px;
+      border-radius: 20px 0 0 0;
+
+  }
+}
+.tabs input[name=tab-control]:nth-of-type(1):checked ~ .slider {
+  transform: translateX(0%);
+}
+.tabs input[name=tab-control]:nth-of-type(1):checked ~ .content > section:nth-child(1) {
+  display: block;
+}
+.tabs input[name=tab-control]:nth-of-type(2):checked ~ ul > li:nth-child(2) > label {
+  color: #ffff;
+  background: #464645;
+  padding: 5px;
+  border-radius: 0 50px 0 0;
+}
+
+@media (max-width: 600px) {
+  .tabs input[name=tab-control]:nth-of-type(2):checked ~ ul > li:nth-child(2) > label {
+      background: #464645;
+  border-radius: 0 20px 0 0;
+
+  }
+}
+.tabs input[name=tab-control]:nth-of-type(2):checked ~ .slider {
+  transform: translateX(100%);
+}
+.tabs input[name=tab-control]:nth-of-type(2):checked ~ .content > section:nth-child(2) {
+  display: block;
+}
+@-webkit-keyframes content {
+  from {
+    opacity: 0;
+    transform: translateY(5%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+@keyframes content {
+  from {
+    opacity: 0;
+    transform: translateY(5%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+@media (max-width: 1000px) {
+  .tabs{
+    width: 100%;
+  }
+  .tabs ul li label {
+    white-space: initial;
+  }
+  .tabs ul li label br {
+    display: initial;
+  }
+  .tabs ul li label svg {
+    height: 1.5em;
+  }
+}
+@media (max-width: 600px) {
+  .tabs ul li label {
+    padding: 5px;
+  }
+  .tabs .content section h2 {
+    display: block;
+  }
+}
+</style>
+{% endblock %}
+
+
 {% block content %}
-<div class="block-finder block">
+<div class="block-finder block vh-70">
     <div class="decor block-finder__decor decor--type--bottom">
         <div class="decor__body">
             <div class="decor__start"></div>
@@ -9,60 +215,149 @@
             <div class="decor__center"></div>
         </div>
     </div>
-    <div class="block-finder__image" style="background-image: url(\'images/finder-1903x500.jpg\');"></div>
-    <div class="block-finder__body container container--max--xl">
-        <div class="block-finder__title">Find Parts For Your Vehicle</div>
-        <div class="block-finder__subtitle">Over hundreds of brands and tens of thousands of parts</div>
-        <div class="formholder block-finder__form">
-            <div class="block-finder__form-control block-finder__form-control--select">
-                <select
-                    class="year"
-                    aria-label="Vehicle Year" 
-                    name="year">
-                    <option value=0>Select Year</option>
-                    <option value="2121">2121</option>
-                    <option value="2121">2021</option>
-                    
-                </select></div>
-            <div class="block-finder__form-control block-finder__form-control--select">
-                <select
-                    class="make"
-                    aria-label="Vehicle Make" disabled="disabled" name="make">
-                    <option value="none">Select Make</option>
-                    <option value="cf">cf</option>
-                    <option value="sdf">sdf</option>
-                    
-                </select></div>
-            <div class="block-finder__form-control block-finder__form-control--select">
-                <select
-                    class="model"
-                    aria-label="Vehicle Model" disabled="disabled" name="model">
-                    <option value="none">Select Model</option>
-                    
-                </select>
+    <div class="block-finder__body block-finder__body d-flex flex-column align-items-center ">
+        <div class="block-finder__title">Trouvez des pièces pour votre véhicule</div>
+        <div class="block-finder__subtitle">Plus de centaines de marques et des dizaines de milliers de pièces</div>
+
+
+        <!-- tabs -->
+        <div class="tabs">
+        
+            <input type="radio" id="tab1" name="tab-control" checked>
+            <input type="radio" id="tab2" name="tab-control">
+            <ul>
+                <li title="Features"><label for="tab1" role="button"><span>Reference</span></label></li>
+                <li title="N° chasis"><label for="tab2" role="button"><span>N° chasis</span></label></li>
+            </ul>
+
+            <div class="content">
+                <section class="text-start">
+                  <form action="/byref" method="post" class="byref">
+                    {% csrf_token %}
+                    <div class="row">
+
+                      <div class="mb-2 col-md-8">
+                        <input 
+                        name="ref"
+                        type="text" 
+                        class="form-control ref" 
+                        placeholder="N° reference">
+                      </div>
+                      <div class="col-md-4">
+  
+                        <button type="submit" class="btn btn-danger w-100 searchref btn-lg">
+                          Search
+                        </button>
+                      </div>
+                    </div>
+
+
+
+                  </form>
+                </section>
+                <section>
+                  <form action="/bych" method="post" class="bychas">
+                    {% csrf_token %}
+                    <div class="row">
+
+                      <div class="mb-2 col-md-4">
+  
+                        <input type="text" class="form-control chas" placeholder="N° de chasis">
+                      </div>
+                      <div class="mb-2 col-md-4">
+  
+                        <select class="form-control catg">
+                          <option value="0">----</option>
+
+                          {% for i in cc %}
+                          <option value="{{i.id}}">{{i.title}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                      <div class="col-md-4">
+                      
+                        <button type="submit" class="btn btn-danger w-100 searchchas btn-lg" disabled>
+                          Search
+                        </button>
+                      </div>
+                    </div>
+                  
+                  
+                  </form>
+                </section>
             </div>
-            <div class="block-finder__form-control block-finder__form-control--select">
-                <select
-                    class="engine"
-                    aria-label="Vehicle Engine" disabled="disabled" name="engine">
-                    <option value="none">Select Engine</option>
-                    
-                </select>
-            </div>
-            <button class="block-finder__form-control block-finder__form-control--button" disabled>Search
-            </button>
         </div>
+
+
+
+        <!-- tabs -->
+        <!-- <div class="tab-container tabsholder">
+
+            <div class="tab-menu ">
+                <ul class="d-flex justify-content-sm-between">
+                    <li class="animate mr-2">
+                        <a href="#" class="tab-a active-a chasis" data-id="tab1">
+                            N° de chasis
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="tab-a reference" data-id="tab2">
+                            Reference
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            end of tab-men
+            <div class="tab tab-active" data-id="tab1">
+                <div class="mt-5 formch block-finder__form">
+                    <div class="form-group">
+                        <input type="text" name="nchasis" class="form-control border" placeholder="N° de chasis">
+                    </div>
+                    
+                    <div class="block-finder__form-control--select">
+                        <select class="category" name="category">
+                            <option value="none">Select Categorie</option>
+                            <option value="freinage">freinage</option>
+                            <option value="volant">volant</option>
+                            <option value="janta">janta</option>
+                        </select>
+                    </div>
+
+
+                </div>
+
+            </div>
+            end of tab one
+
+            <div class="tab" data-id="tab2">
+                <div class="mt-5 formch block-finder__form">
+                    <input type="text" name="nref" class="form-control" placeholder="N° de reference">  
+                
+                    
+                
+                
+                </div>
+
+
+            </div>
+
+            <div class="searchholder mt-3">
+                <button disabled="disabled" class="block-finder__form-control--button form-control searchchas">Search
+                </button>
+            </div>
+        </div> -->
     </div>
 </div>
-<div class="block-features block block-features--layout--top-strip">
+<!-- features -->
+<div class="bg-white block-features block block-features--layout--top-strip">
     <div class="container">
         <ul class="block-features__list">
             <li class="block-features__item">
                 <div class="block-features__item-icon">
                 </div>
                 <div class="block-features__item-info">
-                    <div class="block-features__item-title">Free Shipping</div>
-                    <div class="block-features__item-subtitle">For orders from $50</div>
+                    <div class="block-features__item-title">Livraison gratuite</div>
+                    <div class="block-features__item-subtitle"></div>
                 </div>
             </li>
             <li class="block-features__item">
@@ -70,33 +365,63 @@
                 </div>
                 <div class="block-features__item-info">
                     <div class="block-features__item-title">Support 24/7</div>
-                    <div class="block-features__item-subtitle">Call us anytime</div>
+                    <div class="block-features__item-subtitle">Appelez-nous à tout moment</div>
                 </div>
             </li>
             <li class="block-features__item">
                 <div class="block-features__item-icon">
                 </div>
                 <div class="block-features__item-info">
-                    <div class="block-features__item-title">100% Safety</div>
-                    <div class="block-features__item-subtitle">Only secure payments</div>
+                    <div class="block-features__item-title">100% Sécurité</div>
+                    <div class="block-features__item-subtitle">Paiements sécurisés uniquement</div>
                 </div>
             </li>
             <li class="block-features__item">
                 <div class="block-features__item-icon">
                 </div>
                 <div class="block-features__item-info">
-                    <div class="block-features__item-title">Hot Offers</div>
-                    <div class="block-features__item-subtitle">Discounts up to 90%</div>
+                    <div class="block-features__item-title">Offres chaudes</div>
+                    <div class="block-features__item-subtitle">Réductions jusqu'à 30%</div>
                 </div>
             </li>
         </ul>
     </div>
 </div>
 
-<div class="data">
 
+<div class="container-fluid px-1 px-md-4 py-5 mx-auto">
+    
 </div>
-<script src="/static/js/sc.js"></script>
+
+
+<div class="block-split__row row no-gutters selectproducts">
+    <div class="block-split__item block-split__item-content col-12">
+        <div class="block container">
+            <div class="products-view">
+
+                <div class="products-view__list products-list products-list--grid--4" data-layout="table"
+                    data-with-features="false">
+
+                    <div class="products-list__content pdctsholder">
+                        
+
+                        
+
+                    </div>
+                </div>
+
+                
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="block-space block-space--layout--before-footer"></div>
+
+
 
 {% endblock %}
 
+{% block js %}
+<script src="{% static 'js/script.js' %} "></script>
+{% endblock %}

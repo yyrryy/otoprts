@@ -14,7 +14,6 @@
     {% else %}
     <title>Autoparts</title>
     {% endif %}
-    <link href="images/favicon.png" rel="icon" type="image/png" /><!-- fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i" rel="stylesheet" />
     <!-- css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
@@ -27,6 +26,8 @@
     <link href="{% static 'css/style.header-spaceship-variant-one.css'%} " rel="stylesheet" />
     <link href="{% static 'css/style.mobile-header-variant-one.css'%} " rel="stylesheet" />
     <script src="{% static 'js/jquery.min.js'%}"></script>
+    {% block css%}
+    {% endblock %}
 </head>
 
 <body>
@@ -475,7 +476,7 @@
                                     href="https://abdelouahed.me" target="_blank">Yurey</a>
                                 <!-- copyright / end -->
                             </div>
-                            <div class="site-footer__payments"><img alt="" src="images/payments.png" /></div>
+                            <div class="site-footer__payments"><img alt="" src="" /></div>
                         </div>
                     </div>
                 </div>
@@ -1094,8 +1095,10 @@
             </div>
         </div>
     </div>
-
+    
     <!-- scripts -->
+    {% block js %}
+    {% endblock %}
     <script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
     <script src="{% static 'js/owl.carousel.min.js'%}"></script>
     <script src="{% static 'js/nouislider.min.js'%}"></script>
