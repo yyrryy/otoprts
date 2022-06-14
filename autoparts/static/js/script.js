@@ -17,7 +17,6 @@ searchchas.attr("disabled", true);
 searchref.attr("disabled", true);
 
 bychas.on("input", () => {
-  console.log("rrr");
   chas.val().length > 3 && catg.val() != 0
     ? searchchas.attr("disabled", false)
     : searchchas.attr("disabled", true);
@@ -31,13 +30,14 @@ byref.on("input", () => {
 });
 
 byref.on('submit', (e) => {
+  searchref.addClass("btn-loading").text("");
   e.preventDefault();
-  console.log('dfd')
+  const nref=ref.val();
   $.ajax({
     type: "POST",
     url: "/byref",
     data: {
-      ref: ref.val(),
+      ref: nref,
       csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val() },
     success: (data) => {
       $(".pdctsholder").html('')
@@ -53,8 +53,8 @@ byref.on('submit', (e) => {
                           <div class="product-card">
                         
                             <div class="product-card__image">
-                              <div class="image image--type--product"><a href="product-full.html" class="image__body"><img class="image__tag"
-                                    src="https://via.placeholder.com/250" alt="${data.name}"></a></div>
+                              <div class="image image--type--product"><div class="image__body"><img class="image__tag"
+                                    src="https://via.placeholder.com/250" alt="${data.name}"></div></div>
                               <div
                                 class="status-badge status-badge--style--success product-card__fit status-badge--has-icon status-badge--has-text">
                                 <div class="status-badge__body">
@@ -75,7 +75,7 @@ byref.on('submit', (e) => {
                                 <span class="product-card__meta-title">REF:</span>${data.ref}
                               </div>
                               <div>
-                                <span class="product-card__meta-title">REF:</span><img class="image__tag" src='https://countryflagsapi.com/png/${data.country}' width=30 height=20/>
+                                <span class="product-card__meta-title">REF:</span><img class="border image__tag" src='https://countryflagsapi.com/png/${data.country}' width=30 height=20/>
                               </div>
                             </div>
                               <div class="product-card__name">
@@ -109,11 +109,14 @@ byref.on('submit', (e) => {
         `);
       }
       else {
+        console.log('here')
         searchref.removeClass("btn-loading").text("Search");
+        alert("N° ref " + nref + " Nt founf");
         
       }
     },
     error: (err) => {
+      console.log(err)
       searchref.removeClass("btn-loading").text("Search");
 
     },
@@ -123,11 +126,12 @@ byref.on('submit', (e) => {
 bychas.on('submit', (e) => {
   searchchas.addClass('btn-loading').text('')
   e.preventDefault();
+  const nchas=chas.val()
   $.ajax({
     type: "POST",
     url: "/bychas",
     data: {
-      chas: chas.val(),
+      chas: nchas,
       catg:catg.val(),
       csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val(),
     },
@@ -147,8 +151,8 @@ bychas.on('submit', (e) => {
                           <div class="product-card">
                         
                             <div class="product-card__image">
-                              <div class="image image--type--product"><a href="product-full.html" class="image__body"><img class="image__tag"
-                                    src="https://via.placeholder.com/250" alt="${e.name}"></a></div>
+                              <div class="image image--type--product"><div class="image__body"><img class="image__tag"
+                                    src="https://via.placeholder.com/250" alt="${e.name}"></div></div>
                               <div
                                 class="status-badge status-badge--style--success product-card__fit status-badge--has-icon status-badge--has-text">
                                 <div class="status-badge__body">
@@ -169,7 +173,7 @@ bychas.on('submit', (e) => {
                                 <span class="product-card__meta-title">REF:</span>${e.ref}
                               </div>
                               <div>
-                                <span class="product-card__meta-title">Factory:</span><img class="image__tag" src='https://countryflagsapi.com/png/${e.country}' width=30 height=20/>
+                                <span class="product-card__meta-title">Factory:</span><img class="border image__tag" src='https://countryflagsapi.com/png/${e.country}' width=30 height=20/>
                               </div>
                             </div>
                               <div class="product-card__name">
@@ -205,12 +209,13 @@ bychas.on('submit', (e) => {
         searchchas.removeClass("btn-loading").text("Search");
       }
       else {
+        console.log('zedze')
         searchchas.removeClass("btn-loading").text("Search");
-        
+        alert('N° chasis '+nchas+' Nt founf')
       }
     },
     error: (err) => {
-      console.error(err);
+      console.log(err);
       searchchas.removeClass("btn-loading").text("Search");
 
     },

@@ -22,7 +22,6 @@ def proccess(request):
 def byref(request):
     
     ref=request.POST.get('ref')
-    print(ref)
     pds=Produit.objects.filter(ref=ref).first()
     if not(pds):
         return JsonResponse({
@@ -33,7 +32,6 @@ def byref(request):
         'id':pds.id,
         'name':pds.nom,
         'ref':pds.ref,
-        'sku':pds.sku,
         'price':pds.prix,
         'stock':pds.stock,
         'mark':pds.marque,
@@ -60,7 +58,6 @@ def bysach(request):
             'id':i.id,
             'name':i.nom,
             'ref':i.ref,
-            'sku':i.sku,
             'price':i.prix,
             'stock':i.stock,
             'mark':i.marque,

@@ -37,8 +37,8 @@ class Produit(models.Model):
     #ref
     ref=models.CharField(max_length=50)
 
-    #car
-    
+    #image
+    # image = models.ImageField()
 
     #cartgrise
     n_chasis=models.CharField(max_length=50, null=True)

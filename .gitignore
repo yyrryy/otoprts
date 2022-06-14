@@ -1,3 +1,8 @@
 vautoenv
-db.*
-_pycache_
+db.sqlite3
+autoparts/__pycache__
+test.py
+# Django stuff:
+*.log
+*.pot
+__pycache__/
