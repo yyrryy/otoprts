@@ -5,4 +5,4 @@ test.py
 # Django stuff:
 *.log
 *.pot
-__pycache__/
+__pycache__
