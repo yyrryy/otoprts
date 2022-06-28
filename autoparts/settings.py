@@ -9,9 +9,13 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+
 import os
 from pathlib import Path
 from os.path import join
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,7 +28,6 @@ SECRET_KEY = 'django-insecure-wwc%l%l#o)#u@lhc7gwe5@ldnmwdx(0yf*yg@9*5(w7jkg-7jr
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 ALLOWED_HOSTS = []
 
 
@@ -38,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
-    'blog'
+    'blog',
+    'cloudinary'
 ]
 
 MIDDLEWARE = [
@@ -128,3 +132,10 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+cloudinary.config( 
+  cloud_name = os.environ.get('CLOUDINARY_NAME'), 
+  api_key = os.environ.get('CLOUDINARY_API'),
+  api_secret = os.environ.get('CLOUDINARY_SECRET'),
+  secure = True
+)

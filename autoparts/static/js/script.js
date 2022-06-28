@@ -38,8 +38,10 @@ byref.on('submit', (e) => {
     url: "/byref",
     data: {
       ref: nref,
-      csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val() },
+      csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val()
+    },
     success: (data) => {
+      searchref.removeClass("btn-loading").text("Search");
       $(".pdctsholder").html('')
       if (data.valid) {
         $("html,body").animate(
@@ -54,7 +56,7 @@ byref.on('submit', (e) => {
                         
                             <div class="product-card__image">
                               <div class="image image--type--product"><div class="image__body"><img class="image__tag"
-                                    src="https://via.placeholder.com/250" alt="${data.name}"></div></div>
+                                    src="${data.img}" alt="${data.name}"></div></div>
                               <div
                                 class="status-badge status-badge--style--success product-card__fit status-badge--has-icon status-badge--has-text">
                                 <div class="status-badge__body">
@@ -90,7 +92,7 @@ byref.on('submit', (e) => {
                             </div>
                             <div class="product-card__footer">
                               <div class="product-card__prices">
-                                <div class="product-card__price product-card__price--current">${data.price} <br> <small>${data.stock} unities in stock</small></div>
+                                <div class="product-card__price product-card__price--current">${data.price} DH <br> <small>${data.stock} unities in stock</small></div>
                               </div><button class="product-card__addtocart-icon" type="button" aria-label="Add to cart"><svg width="20"
                                   height="20">
                                   <circle cx="7" cy="17" r="2"></circle>
@@ -136,8 +138,8 @@ bychas.on('submit', (e) => {
       csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val(),
     },
     success: (data) => {
+      searchchas.removeClass("btn-loading").text("Search");
       $(".pdctsholder").html('')
-      
       if (data.valid) {
         $("html,body").animate(
           {
@@ -152,7 +154,7 @@ bychas.on('submit', (e) => {
                         
                             <div class="product-card__image">
                               <div class="image image--type--product"><div class="image__body"><img class="image__tag"
-                                    src="https://via.placeholder.com/250" alt="${e.name}"></div></div>
+                                    src="${e.img}" alt="${e.name}"></div></div>
                               <div
                                 class="status-badge status-badge--style--success product-card__fit status-badge--has-icon status-badge--has-text">
                                 <div class="status-badge__body">
@@ -188,7 +190,7 @@ bychas.on('submit', (e) => {
                             </div>
                             <div class="product-card__footer">
                               <div class="product-card__prices">
-                                <div class="product-card__price product-card__price--current">${e.price} <br> <small>${e.stock} unities in stock</small></div>
+                                <div class="product-card__price product-card__price--current">${e.price} DH<br> <small>${e.stock} unities in stock</small></div>
                               </div><button class="product-card__addtocart-icon" type="button" aria-label="Add to cart"><svg width="20"
                                   height="20">
                                   <circle cx="7" cy="17" r="2"></circle>

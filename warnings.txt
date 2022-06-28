@@ -1,0 +1,2 @@
+disable debuging before deploying
+https://red-parts.html.themeforest.scompiler.ru/

@@ -1,5 +1,5 @@
 from django.db import models
-
+from cloudinary.models import CloudinaryField
 # Create your models here.
 
 class Voiture(models.Model):
@@ -38,7 +38,7 @@ class Produit(models.Model):
     ref=models.CharField(max_length=50)
 
     #image
-    # image = models.ImageField()
+    image = CloudinaryField('image', folder='autoparts/')
 
     #cartgrise
     n_chasis=models.CharField(max_length=50, null=True)
@@ -47,6 +47,9 @@ class Produit(models.Model):
 
 
     
-     
+    
+class Orders(models.Model):
+    pdct=models.ForeignKey(Produit, on_delete=models.CASCADE, default=1)
+    stts=models.CharField(max_length=50)
 
  

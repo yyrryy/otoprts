@@ -7,6 +7,7 @@ from .models import Categories, Produit
 # Create your views here.
 def home(request):
     cts= Categories.objects.all()
+
     return render(request, 'main/main.html', {'cc':cts})
 
 
@@ -35,7 +36,8 @@ def byref(request):
         'price':pds.prix,
         'stock':pds.stock,
         'mark':pds.marque,
-        'country':pds.pays
+        'country':pds.pays,
+        'img':pds.image.url
     }
 
     return JsonResponse(pd, safe=False)
@@ -61,7 +63,8 @@ def bysach(request):
             'price':i.prix,
             'stock':i.stock,
             'mark':i.marque,
-            'country':i.pays
+            'country':i.pays,
+            'img':i.image.url
         }
         artcls.append(pd)
     res['pdcts']=artcls
