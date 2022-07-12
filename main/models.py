@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 from cloudinary.models import CloudinaryField
 # Create your models here.
@@ -38,7 +39,7 @@ class Produit(models.Model):
     ref=models.CharField(max_length=50)
 
     #image
-    image = CloudinaryField('image', folder='autoparts/')
+    image = CloudinaryField('image', folder='autoparts/', default=None, null=True)
 
     #cartgrise
     n_chasis=models.CharField(max_length=50, null=True)
@@ -49,7 +50,9 @@ class Produit(models.Model):
     
     
 class Orders(models.Model):
-    pdct=models.ForeignKey(Produit, on_delete=models.CASCADE, default=1)
+    pdct=models.ForeignKey(Produit, on_delete=models.CASCADE)
     stts=models.CharField(max_length=50)
+    isconfirmed = models.BooleanField(default=False)
 
- 
+class Deliveredorders(models.Model):
+    order=models.ForeignKey(Orders, on_delete=models.CASCADE)

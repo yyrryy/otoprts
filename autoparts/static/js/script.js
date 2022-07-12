@@ -16,6 +16,8 @@ const searchchas = $(".searchchas");
 searchchas.attr("disabled", true);
 searchref.attr("disabled", true);
 
+document.addEventListener('DOMContentLoaded', Ui.displayprdcts)
+
 bychas.on("input", () => {
   chas.val().length > 3 && catg.val() != 0
     ? searchchas.attr("disabled", false)
@@ -77,7 +79,7 @@ byref.on('submit', (e) => {
                                 <span class="product-card__meta-title">REF:</span>${data.ref}
                               </div>
                               <div>
-                                <span class="product-card__meta-title">REF:</span><img class="border image__tag" src='https://countryflagsapi.com/png/${data.country}' width=30 height=20/>
+                                <span class="product-card__meta-title">REF:</span><img class="border image__tag" src='https://countryflagsapi.com/png/${data.country}' alt="${data.country}" width=30 height=20/>
                               </div>
                             </div>
                               <div class="product-card__name">
@@ -93,22 +95,44 @@ byref.on('submit', (e) => {
                             <div class="product-card__footer">
                               <div class="product-card__prices">
                                 <div class="product-card__price product-card__price--current">${data.price} DH <br> <small>${data.stock} unities in stock</small></div>
-                              </div><button class="product-card__addtocart-icon" type="button" aria-label="Add to cart"><svg width="20"
-                                  height="20">
-                                  <circle cx="7" cy="17" r="2"></circle>
-                                  <circle cx="15" cy="17" r="2"></circle>
-                                  <path
-                                    d="M20,4.4V5l-1.8,6.3c-0.1,0.4-0.5,0.7-1,0.7H6.7c-0.4,0-0.8-0.3-1-0.7L3.3,3.9C3.1,3.3,2.6,3,2.1,3H0.4C0.2,3,0,2.8,0,2.6
-                                                	V1.4C0,1.2,0.2,1,0.4,1h2.5c1,0,1.8,0.6,2.1,1.6L5.1,3l2.3,6.8c0,0.1,0.2,0.2,0.3,0.2h8.6c0.1,0,0.3-0.1,0.3-0.2l1.3-4.4
-                                                	C17.9,5.2,17.7,5,17.5,5H9.4C9.2,5,9,4.8,9,4.6V3.4C9,3.2,9.2,3,9.4,3h9.2C19.4,3,20,3.6,20,4.4z">
-                                  </path>
-                                </svg></button>
-                              <button class="product-card__addtocart-full" type="button">Add
+                              </div><button class="product-card__addtocart-icon add-to-cart fa fa-shopping" 
+                              data-id="${data.id}"
+                              data-price="${data.price}"
+                              data-name="${data.name}"
+                              data-img="${data.img}"
+                              data-stock="${data.stock}"
+                              type="button" aria-label="Add to cart"></button>
+                              <button class="product-card__addtocart-full add-to-cart bi bi-cart-plus" 
+                              data-id="${data.id}"
+                              data-price="${data.price}"
+                              data-name="${data.name}"
+                              data-img="${data.img}"
+                              data-stock="${data.stock}" type="button">Add
                                 to cart</button>
                             </div>
                           </div>
                         </div>
         `);
+        bts_addtocats=document.querySelectorAll('.add-to-cart')
+        bts_addtocats.forEach(bts_addtocat=>{
+            bts_addtocat.addEventListener('click', (e)=>{
+                // disable this button
+                bts_addtocat.disabled=true;
+
+                const id=e.target.dataset.id
+                const name=e.target.dataset.name
+                const price=e.target.dataset.price
+                const img=e.target.dataset.img
+                const stock=e.target.dataset.stock
+                pdct=new Product(id, name, price, img, stock)
+                console.log('saving')
+                Storage.add(pdct)
+                console.log("displaying")
+                Ui.addtocart(pdct)
+
+            })
+                
+        })
       }
       else {
         console.log('here')
@@ -138,9 +162,14 @@ bychas.on('submit', (e) => {
       csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val(),
     },
     success: (data) => {
-      searchchas.removeClass("btn-loading").text("Search");
-      $(".pdctsholder").html('')
       if (data.valid) {
+        $("html,body").animate(
+            {
+              scrollTop: $(".selectproducts").offset().top,
+            },
+            "slow"
+          );
+        $(".pdctsholder").html('')
         $("html,body").animate(
           {
             scrollTop: $(".selectproducts").offset().top,
@@ -191,23 +220,42 @@ bychas.on('submit', (e) => {
                             <div class="product-card__footer">
                               <div class="product-card__prices">
                                 <div class="product-card__price product-card__price--current">${e.price} DH<br> <small>${e.stock} unities in stock</small></div>
-                              </div><button class="product-card__addtocart-icon" type="button" aria-label="Add to cart"><svg width="20"
-                                  height="20">
-                                  <circle cx="7" cy="17" r="2"></circle>
-                                  <circle cx="15" cy="17" r="2"></circle>
-                                  <path
-                                    d="M20,4.4V5l-1.8,6.3c-0.1,0.4-0.5,0.7-1,0.7H6.7c-0.4,0-0.8-0.3-1-0.7L3.3,3.9C3.1,3.3,2.6,3,2.1,3H0.4C0.2,3,0,2.8,0,2.6
-                                                	V1.4C0,1.2,0.2,1,0.4,1h2.5c1,0,1.8,0.6,2.1,1.6L5.1,3l2.3,6.8c0,0.1,0.2,0.2,0.3,0.2h8.6c0.1,0,0.3-0.1,0.3-0.2l1.3-4.4
-                                                	C17.9,5.2,17.7,5,17.5,5H9.4C9.2,5,9,4.8,9,4.6V3.4C9,3.2,9.2,3,9.4,3h9.2C19.4,3,20,3.6,20,4.4z">
-                                  </path>
-                                </svg></button>
-                              <button class="product-card__addtocart-full" type="button">Add
-                                to cart</button>
+                              </div><button class="product-card__addtocart-icon add-to-cart bi bi-cart-plus" 
+                              type="button" aria-label="Add to cart">
+                              </button>
+                              <button class="product-card__addtocart-full" 
+                              type="button"
+                              data-id="${data.id}"
+                              data-price="${data.price}"
+                              data-name="${data.name}"
+                              data-img="${data.img}"
+                              data-stock="${data.stock}"
+                              >
+                              </button>
                             </div>
                           </div>
                         </div>
         `);
         });
+        bts_addtocats=document.querySelectorAll('.add-to-cart')
+        bts_addtocats.forEach(bts_addtocat=>{
+            bts_addtocat.addEventListener('click', (e)=>{
+                // disable this button
+                bts_addtocat.disabled=true;
+
+                const id=e.target.dataset.id
+                const name=e.target.dataset.name
+                const price=e.target.dataset.price
+                const img=e.target.dataset.img
+                const stock=e.target.dataset.stock
+                pdct=new Product(id, name, price, img, stock)
+                console.log('saving')
+                Storage.add(pdct)
+                console.log("displaying")
+                Ui.addtocart(pdct)
+
+            })
+          })
         searchchas.removeClass("btn-loading").text("Search");
       }
       else {
@@ -223,3 +271,14 @@ bychas.on('submit', (e) => {
     },
   });
 })
+
+console.log('rrr')
+
+//get products from local storage
+pdcts=Storage.get().length
+console.log('fff', pdcts)
+// update cart count
+$('.mobile-indicator__counter').text(pdcts)
+
+
+
