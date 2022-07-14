@@ -95,20 +95,14 @@ byref.on('submit', (e) => {
                             <div class="product-card__footer">
                               <div class="product-card__prices">
                                 <div class="product-card__price product-card__price--current">${data.price} DH <br> <small>${data.stock} unities in stock</small></div>
-                              </div><button class="product-card__addtocart-icon add-to-cart fa fa-shopping" 
+                              </div><button class="add-to-cart bi bi-cart-plus" 
                               data-id="${data.id}"
                               data-price="${data.price}"
                               data-name="${data.name}"
                               data-img="${data.img}"
                               data-stock="${data.stock}"
                               type="button" aria-label="Add to cart"></button>
-                              <button class="product-card__addtocart-full add-to-cart bi bi-cart-plus" 
-                              data-id="${data.id}"
-                              data-price="${data.price}"
-                              data-name="${data.name}"
-                              data-img="${data.img}"
-                              data-stock="${data.stock}" type="button">Add
-                                to cart</button>
+                              
                             </div>
                           </div>
                         </div>
@@ -129,6 +123,9 @@ byref.on('submit', (e) => {
                 Storage.add(pdct)
                 console.log("displaying")
                 Ui.addtocart(pdct)
+                console.log("done")
+                //update cart count
+                Ui.updatecartcount()
 
             })
                 
@@ -219,19 +216,14 @@ bychas.on('submit', (e) => {
                             </div>
                             <div class="product-card__footer">
                               <div class="product-card__prices">
-                                <div class="product-card__price product-card__price--current">${e.price} DH<br> <small>${e.stock} unities in stock</small></div>
-                              </div><button class="product-card__addtocart-icon add-to-cart bi bi-cart-plus" 
-                              type="button" aria-label="Add to cart">
-                              </button>
-                              <button class="product-card__addtocart-full" 
-                              type="button"
-                              data-id="${data.id}"
-                              data-price="${data.price}"
-                              data-name="${data.name}"
-                              data-img="${data.img}"
-                              data-stock="${data.stock}"
-                              >
-                              </button>
+                                <div class="product-card__price product-card__price--current">${e.price} DH <br> <small>${e.stock} unities in stock</small></div>
+                              </div><button class="add-to-cart bi bi-cart-plus" 
+                              data-id="${e.id}"
+                              data-price="${e.price}"
+                              data-name="${e.name}"
+                              data-img="${e.img}"
+                              data-stock="${e.stock}"
+                              type="button" aria-label="Add to cart"></button>
                             </div>
                           </div>
                         </div>
@@ -253,6 +245,7 @@ bychas.on('submit', (e) => {
                 Storage.add(pdct)
                 console.log("displaying")
                 Ui.addtocart(pdct)
+                Ui.updatecartcount()
 
             })
           })

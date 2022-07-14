@@ -14,8 +14,7 @@ class Ui{
         products.forEach(product=>{
             Ui.addtocart(product)
         })
-        // update cart count
-        Ui.updatecartcount()
+        
     }
     static addtocart(product){
         const cart=document.querySelector('.cart')
@@ -32,11 +31,12 @@ class Ui{
         </div>
         `
         cart.appendChild(div)
+        ui.updatecartcount()
     }
     // update cart count
     static updatecartcount(){
-        cartcount=$('.cart-count')
-        pdcts=Storage.get()
+        const cartcount=$('.cart-count')
+        const pdcts=Storage.get()
         cartcount.text(pdcts.length)
     }
 }
