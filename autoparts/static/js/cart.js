@@ -16,14 +16,13 @@ class Ui{
         })
         
     }
-    static addtocart(product){
+  static addtocart(product){
         const cart=document.querySelector('.cart')
         const cartbody=$('.cart-table__body')
-        console.log(cartbody)
         cartbody.append(`
-        <tr class="cart-table__row">
+        <tr class="cart-table__row" data-id=${product.id}>
               <td class="cart-table__column cart-table__column--image">
-                <div class="image image--type--product"><a href="product-full.html" class="image__body"><img class="image__tag" src="=${product.img}" alt=""></a></div>
+                <div class="image image--type--product"><a href="product-full.html" class="image__body"><img class="image__tag" src="${product.img}" alt=""></a></div>
               </td>
               <td class="cart-table__column cart-table__column--product"><a href="" class="cart-table__product-name">${product.name}</a>
                 <ul class="cart-table__options">
@@ -40,28 +39,25 @@ class Ui{
                 </div>
               </td>
               <td class="cart-table__column cart-table__column--total" data-title="Total">$<span class="total">${product.price}</span></td>
-              <td class="cart-table__column cart-table__column--remove"><button type="button" class="cart-table__remove btn btn-sm btn-icon btn-muted"><svg width="12" height="12">
-                    <path d="M10.8,10.8L10.8,10.8c-0.4,0.4-1,0.4-1.4,0L6,7.4l-3.4,3.4c-0.4,0.4-1,0.4-1.4,0l0,0c-0.4-0.4-0.4-1,0-1.4L4.6,6L1.2,2.6
-            c-0.4-0.4-0.4-1,0-1.4l0,0c0.4-0.4,1-0.4,1.4,0L6,4.6l3.4-3.4c0.4-0.4,1-0.4,1.4,0l0,0c0.4,0.4,0.4,1,0,1.4L7.4,6l3.4,3.4
-            C11.2,9.8,11.2,10.4,10.8,10.8z"></path>
-                  </svg></button></td>
+              <td class="cart-table__column cart-table__column--remove"><button type="button" class="cart-table__remove btn btn-sm btn-icon btn-muted bi bi-x"></button></td>
             </tr>
         `)
-        const div=document.createElement('div')
-        div.classList.add('product')
-        div.innerHTML=`
-        <div class="product-img">
-            <img src="${product.img}" alt="">
-        </div>
-        <div class="product-info">
-            <h4>${product.name}</h4>
-            <p>$${product.price}</p>
-            <p>In Stock: ${product.stock}</p>
-        </div>
-        `
-        cart.appendChild(div)
+        // const div=document.createElement('div')
+        // div.classList.add('product')
+        // div.innerHTML=`
+        // <div class="product-img">
+        //     <img src="${product.img}" alt="">
+        // </div>
+        // <div class="product-info">
+        //     <h4>${product.name}</h4>
+        //     <p>$${product.price}</p>
+        //     <p>In Stock: ${product.stock}</p>
+        // </div>
+        // `
+        // cart.appendChild(div)
         Ui.updatecartcount()
         Ui.updatetotal()
+        $('.input-number').customNumber();
     }
     // update cart count
     static updatecartcount(){
@@ -69,39 +65,62 @@ class Ui{
         const pdcts=Storage.get()
         cartcount.text(pdcts.length)
     }
+    // upadate total in cart
+    static updatecarttotal(t){
+      let totalincart=$('.totalincart')
+      totalincart.text(t)
+    }  
     // update total
     static updatetotal(){
+      console.log('updating total')
         // get all inputs with name qty
-        const qtys = $('input[name="qty"]')
-  let bigtotal=$('.bigtotal')
-  let tax=$('.tax')
-  let shipping=$('.shipping')
-  let subtotal = 0
-  for (let i of qtys) {
-    subtotal += parseFloat(i.dataset.price)
-  }
-  $('.subtotal').text(subtotal)
-  bigtotal.text((parseFloat(subtotal)+parseFloat(shipping.text())+parseFloat(tax.text())).toFixed(2))
-  for (let i of qtys){
-    
-    i.addEventListener('change', function(){
-      let parent = i.parentElement.parentElement.parentElement
-      let price = parseFloat(this.dataset.price)
-      let total = parent.querySelector('.cart-table__column--total').querySelector('.total')
-      let qty = parseFloat(i.value)
-      // update total text
-      let newTotal = (price * qty).toFixed(2)
-      total.innerText = newTotal
-      // total.contentText(price * qty)
+      const qtys = $('input[name="qty"]')
+      let bigtotal=$('.bigtotal')
+      let tax=$('.tax')
+      let shipping=$('.shipping')
       let subtotal = 0
-      for (let i of $('.total')) {
-        subtotal += parseFloat($(i).text())
+      for (let i of qtys) {
+        subtotal += parseFloat(i.dataset.price)
       }
-      
-      $('.subtotal').text((subtotal).toFixed(2))
-      bigtotal.text((parseFloat(subtotal) + parseFloat(shipping.text()) + parseFloat(tax.text())).toFixed(2))
-    })
-  }
+      $('.subtotal').text(subtotal)
+      bigtotal.text((parseFloat(subtotal)+parseFloat(shipping.text())+parseFloat(tax.text())).toFixed(2))
+      for (let i of qtys){
+        
+        i.addEventListener('change', function(){
+          console.log('changing')
+          let parent = i.parentElement.parentElement.parentElement
+          let price = parseFloat(this.dataset.price)
+          let total = parent.querySelector('.cart-table__column--total').querySelector('.total')
+          let qty = parseFloat(i.value)
+          // update total text
+          let newTotal = (price * qty).toFixed(2)
+          total.innerText = newTotal
+          // total.contentText(price * qty)
+          let subtotal = 0
+          for (let i of $('.total')) {
+            subtotal += parseFloat($(i).text())
+          }
+          
+          $('.subtotal').text((subtotal).toFixed(2))
+          let bt=(parseFloat(subtotal) + parseFloat(shipping.text()) + parseFloat(tax.text())).toFixed(2)
+          bigtotal.text(bt)
+          Ui.updatecarttotal(bt)
+        })
+      }
+      let t=parseFloat($('.bigtotal').text())
+      Ui.updatecarttotal(t)
+    }
+    // remove product from cart
+    static removeproduct(e){
+        if(e.target.classList.contains('cart-table__remove')){
+          let parent=e.target.parentElement.parentElement
+          parent.remove()
+          Ui.updatecartcount()
+          Ui.updatetotal()
+          Storage.remove(parent.dataset.id)
+          Ui.displayprdcts()
+          Ui.updatecartcount()
+        }
     }
 }
 
@@ -116,10 +135,34 @@ class Storage{
     }
     static add(product){
         const products=Storage.get()
+        var r = products.some((element, index) => {
+          return element.id == product.id;
+        });
+        if (r) {
+          alert('Product already in cart')
+          return}
         products.push(product)
         localStorage.setItem('products', JSON.stringify(products))
+        console.log('displaying products')
+        Ui.displayprdcts()
+        Ui.addtocart()
+        console.log('added')
+        Ui.updatecartcount()
+        console.log('updated')
+        Ui.updatetotal()
+        console.log('total updated')
+
     }
-    
+    // remove product from cart
+    static remove(id){
+      const products=Storage.get()
+      products.forEach((product, index)=>{
+          if(product.id===id){
+              products.splice(index, 1)
+          }
+      })
+      localStorage.setItem('products', JSON.stringify(products))
+    }
 }
 
 

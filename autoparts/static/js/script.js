@@ -122,10 +122,7 @@ byref.on('submit', (e) => {
                 console.log('saving')
                 Storage.add(pdct)
                 console.log("displaying")
-                Ui.addtocart(pdct)
-                console.log("done")
-                //update cart count
-                Ui.updatecartcount()
+                
 
             })
                 
@@ -150,13 +147,16 @@ bychas.on('submit', (e) => {
   searchchas.addClass('btn-loading').text('')
   e.preventDefault();
   const nchas=chas.val()
+  const fff=$("[name=csrfmiddlewaretoken]").val()
+  console.log(fff)
   $.ajax({
     type: "POST",
     url: "/bychas",
     data: {
       chas: nchas,
       catg:catg.val(),
-      csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val(),
+      csrfmiddlewaretoken: fff
+      
     },
     success: (data) => {
       if (data.valid) {
@@ -167,12 +167,7 @@ bychas.on('submit', (e) => {
             "slow"
           );
         $(".pdctsholder").html('')
-        $("html,body").animate(
-          {
-            scrollTop: $(".selectproducts").offset().top,
-          },
-          "slow"
-        );
+        
         data.pdcts.map((e) => {
           $(".pdctsholder").append(`
         <div class="products-list__item">
@@ -243,9 +238,6 @@ bychas.on('submit', (e) => {
                 pdct=new Product(id, name, price, img, stock)
                 console.log('saving')
                 Storage.add(pdct)
-                console.log("displaying")
-                Ui.addtocart(pdct)
-                Ui.updatecartcount()
 
             })
           })
@@ -265,13 +257,16 @@ bychas.on('submit', (e) => {
   });
 })
 
-console.log('rrr')
 
 //get products from local storage
 pdcts=Storage.get().length
-console.log('fff', pdcts)
 // update cart count
 $('.mobile-indicator__counter').text(pdcts)
+$('.cart-table__body').on('click', (e) => {
+  console.log(e.target)
+  // remove product from ui
+  Ui.removeproduct(e)
+})
 
 
 
