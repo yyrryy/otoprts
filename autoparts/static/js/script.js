@@ -229,7 +229,7 @@ bychas.on('submit', (e) => {
             bts_addtocat.addEventListener('click', (e)=>{
                 // disable this button
                 bts_addtocat.disabled=true;
-
+                bts_addtocat.removeClass('bi-cart-plus').addClass('bi-cart-check')
                 const id=e.target.dataset.id
                 const name=e.target.dataset.name
                 const price=e.target.dataset.price

@@ -11,37 +11,41 @@ class Product{
 class Ui{
     static displayprdcts(){
         const products=Storage.get()
-        products.forEach(product=>{
-            Ui.addtocart(product)
-        })
+        
+        Ui.addtocart(products)
+        
         
     }
-  static addtocart(product){
-        const cart=document.querySelector('.cart')
+  static addtocart(products){
         const cartbody=$('.cart-table__body')
-        cartbody.append(`
-        <tr class="cart-table__row" data-id=${product.id}>
+        let trs=''
+        for (let i of products){
+          trs+=`
+          <tr class="cart-table__row" data-id=${i.id}>
               <td class="cart-table__column cart-table__column--image">
-                <div class="image image--type--product"><a href="product-full.html" class="image__body"><img class="image__tag" src="${product.img}" alt=""></a></div>
+                <div class="image image--type--product"><a href="product-full.html" class="image__body"><img class="image__tag" src="${i.img}" alt=""></a></div>
               </td>
-              <td class="cart-table__column cart-table__column--product"><a href="" class="cart-table__product-name">${product.name}</a>
+              <td class="cart-table__column cart-table__column--product"><a href="" class="cart-table__product-name">${i.name}</a>
                 <ul class="cart-table__options">
                   <li>Color: Yellow</li>
                   <li>Material: Aluminium</li>
                 </ul>
               </td>
-              <td class="cart-table__column cart-table__column--price" data-title="Price">${product.price}</td>
+              <td class="cart-table__column cart-table__column--price" data-title="Price">${i.price}</td>
               <td class="cart-table__column cart-table__column--quantity" data-title="Quantity">
                 <div class="cart-table__quantity input-number">
-                  <input class="form-control input-number__input" name="qty" data-price="${product.price}" type="number" min="1" value="1">
+                  <input class="form-control input-number__input" name="qty" data-price="${i.price}" type="number" min="1" value="1">
                   <div class="input-number__add"></div>
                   <div class="input-number__sub"></div>
                 </div>
               </td>
-              <td class="cart-table__column cart-table__column--total" data-title="Total">$<span class="total">${product.price}</span></td>
+              <td class="cart-table__column cart-table__column--total" data-title="Total">$<span class="total">${i.price}</span></td>
               <td class="cart-table__column cart-table__column--remove"><button type="button" class="cart-table__remove btn btn-sm btn-icon btn-muted bi bi-x"></button></td>
             </tr>
-        `)
+          `
+        }
+        console.log(trs)
+        cartbody.html(trs)
         // const div=document.createElement('div')
         // div.classList.add('product')
         // div.innerHTML=`
@@ -145,7 +149,6 @@ class Storage{
         localStorage.setItem('products', JSON.stringify(products))
         console.log('displaying products')
         Ui.displayprdcts()
-        Ui.addtocart()
         console.log('added')
         Ui.updatecartcount()
         console.log('updated')
