@@ -1,3 +1,4 @@
 disable debuging before deploying
 https://red-parts.html.themeforest.scompiler.ru/
 read onlt qty inputs
+convert sucsess ajax to jquery

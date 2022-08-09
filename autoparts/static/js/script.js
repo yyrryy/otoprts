@@ -34,7 +34,7 @@ byref.on("input", () => {
 byref.on('submit', (e) => {
   searchref.addClass("btn-loading").text("");
   e.preventDefault();
-  const nref=ref.val();
+  const nref=ref.val().toLowerCase();
   $.ajax({
     type: "POST",
     url: "/byref",
@@ -107,9 +107,10 @@ byref.on('submit', (e) => {
                           </div>
                         </div>
         `);
-        bts_addtocats=document.querySelectorAll('.add-to-cart')
-        bts_addtocats.forEach(bts_addtocat=>{
-            bts_addtocat.addEventListener('click', (e)=>{
+        console.log('by ref')
+        bts_addtocats=$('.add-to-cart')
+        bts_addtocats.each(()=>{
+            this.addEventListener('click', (e)=>{
                 // disable this button
                 bts_addtocat.disabled=true;
 
@@ -146,7 +147,9 @@ byref.on('submit', (e) => {
 bychas.on('submit', (e) => {
   searchchas.addClass('btn-loading').text('')
   e.preventDefault();
-  const nchas=chas.val()
+  const nchas=chas.val().toLowerCase();
+  // lowercase the string
+
   const fff=$("[name=csrfmiddlewaretoken]").val()
   console.log(fff)
   $.ajax({
@@ -224,9 +227,12 @@ bychas.on('submit', (e) => {
                         </div>
         `);
         });
-        bts_addtocats=document.querySelectorAll('.add-to-cart')
-        bts_addtocats.forEach(bts_addtocat=>{
-            bts_addtocat.addEventListener('click', (e)=>{
+        console.log('by chas')
+        bts_addtocats=$('.add-to-cart')
+        console.log(bts_addtocats)
+        // convert code above to jquery
+        bts_addtocats.each((add)=>{
+            add.on('click', (e)=>{
                 // disable this button
                 bts_addtocat.disabled=true;
                 bts_addtocat.removeClass('bi-cart-plus').addClass('bi-cart-check')
@@ -241,6 +247,21 @@ bychas.on('submit', (e) => {
 
             })
           })
+        // convert the coded above to jquery
+        // $(".add-to-cart").on('click', (e)=>{
+        //     // disable this button
+        //     $(e.target).attr('disabled', true)
+        //     $(e.target).removeClass('bi-cart-plus').addClass('bi-cart-check')
+        //     const id=e.target.dataset.id
+        //     const name=e.target.dataset.name
+        //     const price=e.target.dataset.price
+        //     const img=e.target.dataset.img
+        //     const stock=e.target.dataset.stock
+        //     pdct=new Product(id, name, price, img, stock)
+        //     console.log('saving')
+        //     Storage.add(pdct)
+        // })
+
         searchchas.removeClass("btn-loading").text("Search");
       }
       else {

@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-wwc%l%l#o)#u@lhc7gwe5@ldnmwdx(0yf*yg@9*5(w7jkg-7jr
 # development environment
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
