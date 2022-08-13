@@ -1,4 +1,5 @@
 from email.policy import default
+from itertools import product
 from django.db import models
 from cloudinary.models import CloudinaryField
 # Create your models here.
@@ -46,13 +47,37 @@ class Produit(models.Model):
 
     Categorie=models.ForeignKey(Categories, on_delete=models.CASCADE, default=1)
 
-
     
     
 class Orders(models.Model):
     pdct=models.ForeignKey(Produit, on_delete=models.CASCADE)
-    stts=models.CharField(max_length=50)
     isconfirmed = models.BooleanField(default=False)
+    isdelivered=models.BooleanField(default=False)
+    # product well be one to many with order
+    product=models.onetomany(Produit, on_delete=models.CASCADE)
 
-class Deliveredorders(models.Model):
-    order=models.ForeignKey(Orders, on_delete=models.CASCADE)
+
+class Customer(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    phone = models.CharField(max_length=10)
+    email = models.EmailField()
+    password = models.CharField(max_length=100)
+    adress = models.CharField(max_length=500)
+  
+    # to save the data
+    def register(self):
+        self.save()
+  
+    @staticmethod
+    def get_customer_by_email(email):
+        try:
+            return Customer.objects.get(email=email)
+        except:
+            return False
+  
+    def isExists(self):
+        if Customer.objects.filter(email=self.email):
+            return True
+  
+        return False

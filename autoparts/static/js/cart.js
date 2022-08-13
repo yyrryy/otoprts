@@ -44,7 +44,6 @@ class Ui{
             </tr>
           `
         }
-        console.log(trs)
         cartbody.html(trs)
         // const div=document.createElement('div')
         // div.classList.add('product')
@@ -76,7 +75,6 @@ class Ui{
     }  
     // update total
     static updatetotal(){
-      console.log('updating total')
         // get all inputs with name qty
       const qtys = $('input[name="qty"]')
       let bigtotal=$('.bigtotal')
@@ -91,7 +89,6 @@ class Ui{
       for (let i of qtys){
         
         i.addEventListener('change', function(){
-          console.log('changing')
           let parent = i.parentElement.parentElement.parentElement
           let price = parseFloat(this.dataset.price)
           let total = parent.querySelector('.cart-table__column--total').querySelector('.total')
@@ -147,13 +144,9 @@ class Storage{
           return}
         products.push(product)
         localStorage.setItem('products', JSON.stringify(products))
-        console.log('displaying products')
         Ui.displayprdcts()
-        console.log('added')
         Ui.updatecartcount()
-        console.log('updated')
         Ui.updatetotal()
-        console.log('total updated')
 
     }
     // remove product from cart

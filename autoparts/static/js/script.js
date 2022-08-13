@@ -109,11 +109,11 @@ byref.on('submit', (e) => {
         `);
         console.log('by ref')
         bts_addtocats=$('.add-to-cart')
-        bts_addtocats.each(()=>{
-            this.addEventListener('click', (e)=>{
+        bts_addtocats.each((i, el)=>{
+            $(el).addEventListener('click', (e)=>{
                 // disable this button
-                bts_addtocat.disabled=true;
-
+                $(el).attr('disabled', true)
+                $(el).removeClass('bi-cart-plus').addClass('bi-cart-check')
                 const id=e.target.dataset.id
                 const name=e.target.dataset.name
                 const price=e.target.dataset.price
@@ -151,7 +151,6 @@ bychas.on('submit', (e) => {
   // lowercase the string
 
   const fff=$("[name=csrfmiddlewaretoken]").val()
-  console.log(fff)
   $.ajax({
     type: "POST",
     url: "/bychas",
@@ -231,11 +230,11 @@ bychas.on('submit', (e) => {
         bts_addtocats=$('.add-to-cart')
         console.log(bts_addtocats)
         // convert code above to jquery
-        bts_addtocats.each((add)=>{
-            add.on('click', (e)=>{
+        bts_addtocats.each((i, el)=>{
+            $(el).on('click', (e)=>{
                 // disable this button
-                bts_addtocat.disabled=true;
-                bts_addtocat.removeClass('bi-cart-plus').addClass('bi-cart-check')
+                $(el).attr('disabled', true)
+                $(el).removeClass('bi-cart-plus').addClass('bi-cart-check')
                 const id=e.target.dataset.id
                 const name=e.target.dataset.name
                 const price=e.target.dataset.price
