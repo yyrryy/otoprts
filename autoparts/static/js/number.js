@@ -52,7 +52,7 @@
 
      */
 
-    function CustomNumber(input, sub, add) {
+function CustomNumber(input, sub, add) {
 
         const self = this;
 

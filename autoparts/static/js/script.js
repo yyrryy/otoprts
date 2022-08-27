@@ -110,7 +110,7 @@ byref.on('submit', (e) => {
         console.log('by ref')
         bts_addtocats=$('.add-to-cart')
         bts_addtocats.each((i, el)=>{
-            $(el).addEventListener('click', (e)=>{
+            $(el).on('click', (e)=>{
                 // disable this button
                 $(el).attr('disabled', true)
                 $(el).removeClass('bi-cart-plus').addClass('bi-cart-check')

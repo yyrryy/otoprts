@@ -34,7 +34,7 @@ class Ui{
               <td class="cart-table__column cart-table__column--price" data-title="Price">${i.price}</td>
               <td class="cart-table__column cart-table__column--quantity" data-title="Quantity">
                 <div class="cart-table__quantity input-number">
-                  <input class="form-control input-number__input" name="qty" data-price="${i.price}" type="number" min="1" value="1">
+                  <input class="form-control input-number__input" name="qty" data-price="${i.price}" type="number" min="1" value="1" max="${i.stock}">
                   <div class="input-number__add"></div>
                   <div class="input-number__sub"></div>
                 </div>
@@ -79,13 +79,14 @@ class Ui{
       const qtys = $('input[name="qty"]')
       let bigtotal=$('.bigtotal')
       let tax=$('.tax')
-      let shipping=$('.shipping')
+      
+      let discount=$('.discount')
       let subtotal = 0
       for (let i of qtys) {
         subtotal += parseFloat(i.dataset.price)
       }
       $('.subtotal').text(subtotal)
-      bigtotal.text((parseFloat(subtotal)+parseFloat(shipping.text())+parseFloat(tax.text())).toFixed(2))
+      bigtotal.text((parseFloat(subtotal)+parseFloat(tax.text())-parseFloat(discount.text())).toFixed(2))
       for (let i of qtys){
         
         i.addEventListener('change', function(){
@@ -103,7 +104,7 @@ class Ui{
           }
           
           $('.subtotal').text((subtotal).toFixed(2))
-          let bt=(parseFloat(subtotal) + parseFloat(shipping.text()) + parseFloat(tax.text())).toFixed(2)
+          let bt=(parseFloat(subtotal) +  parseFloat(tax.text())- parseFloat(discount.text())).toFixed(2)
           bigtotal.text(bt)
           Ui.updatecarttotal(bt)
         })
@@ -162,5 +163,43 @@ class Storage{
 }
 
 
+const showcart=()=>{
+    console.log('show cart');
+    let cartholder=$('.cartholder');
+    cartholder.toggleClass('clicked');
+    console.log('unsided');
+    $('.site').toggleClass('overflow-initial');
+  }
+  let attempts=1
 
+  const cpn=()=>{
+    if (attempts===5){
+      $('.cart-table__coupon-form').remove();
+      return
+    }
+
+    let cpn=$('input[name=cpn]').val();
+    // ajax call to coupon endpint
+    $.ajax({
+      url:'/coupon',
+      type:'POST',
+      data:{
+        csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val(),        
+        'coupon':cpn
+      },
+      success:function(data){
+        if(data.valid){
+          $('.discount').text(parseFloat($('.discount').text()) + data.amount);
+          $('.cart-table__coupon-form').remove();
+          Ui.updatetotal();
+        }
+        else{
+          console.log(attempts);
+          $('.wrongcpn').text('Wrong Coupon, try again')
+          attempts+=1
+        }
+      }
+    });
+  }
+  $('.cpnbtn').on('click',cpn);
 

@@ -1,6 +1,6 @@
 from django.http import JsonResponse, response
 from django.shortcuts import render
-from .models import Categories, Produit
+from .models import Categories, Produit, Coupon
 
 
 
@@ -70,3 +70,20 @@ def bysach(request):
     res['pdcts']=artcls
     return JsonResponse(res, safe=False)
 
+
+def coupon(request):
+    # get cupon from the request
+    coupon=request.POST.get('coupon')
+    print('coupon', coupon)
+    # check if cupon exist in db
+    cpn=Coupon.objects.filter(code=coupon).first()
+    if not(cpn):
+        # return a json response with value False
+        return JsonResponse({
+            'valid':False
+        })
+    # return a json response with value True
+    return JsonResponse({
+        'valid':True,
+        'amount':cpn.amount
+    })

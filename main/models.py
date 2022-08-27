@@ -47,14 +47,7 @@ class Produit(models.Model):
 
     Categorie=models.ForeignKey(Categories, on_delete=models.CASCADE, default=1)
 
-    
-    
-class Orders(models.Model):
-    pdct=models.ForeignKey(Produit, on_delete=models.CASCADE)
-    isconfirmed = models.BooleanField(default=False)
-    isdelivered=models.BooleanField(default=False)
-    # product well be one to many with order
-    product=models.onetomany(Produit, on_delete=models.CASCADE)
+
 
 
 class Customer(models.Model):
@@ -70,14 +63,50 @@ class Customer(models.Model):
         self.save()
   
     @staticmethod
-    def get_customer_by_email(email):
-        try:
-            return Customer.objects.get(email=email)
-        except:
-            return False
-  
-    def isExists(self):
-        if Customer.objects.filter(email=self.email):
+    def isExists(username):
+        if Customer.objects.filter(username=username):
             return True
-  
         return False
+
+
+# cupppon codes table
+class Coupon(models.Model):
+    code = models.CharField(max_length=50)
+    amount = models.FloatField()
+
+class Pairingcode(models.Model):
+    code = models.CharField(max_length=50)
+    amount = models.FloatField()
+
+# orders table
+class Ordersguest(models.Model):
+    date = models.DateTimeField(auto_now_add=True)
+    product= models.ForeignKey(Produit, on_delete=models.CASCADE)
+    amount=models.IntegerField(default=0)
+    # name will be a string
+    name=models.CharField(max_length=50)
+    # email will be a string and not requuired
+    email=models.EmailField(max_length=50, default=None, null=True)
+    phone=models.IntegerField()
+    adress=models.CharField(max_length=500)
+
+    isconfirmed=models.BooleanField(default=False)
+    isdelivered = models.BooleanField(default=False)
+
+
+class Orderscostumer(models.Model):
+    date = models.DateTimeField(auto_now_add=True)
+    product= models.ForeignKey(Produit, on_delete=models.CASCADE)
+    # customer column
+    customer=models.ForeignKey(Customer, on_delete=models.CASCADE)
+    amount=models.IntegerField(default=0)
+    # name will be a string
+    name=models.CharField(max_length=50)
+    # email will be a string and not requuired
+    email=models.EmailField(max_length=50, default=None, null=True)
+    phone=models.IntegerField()
+    adress=models.CharField(max_length=500)
+
+    isconfirmed=models.BooleanField(default=False)
+    isdelivered = models.BooleanField(default=False)
+
