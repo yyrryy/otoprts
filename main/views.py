@@ -1,13 +1,13 @@
+from unicodedata import name
 from django.http import JsonResponse, response
 from django.shortcuts import render
-from .models import Categories, Produit, Coupon
-
+from .models import Categories, Produit, Coupon, Ordersguest
+import json
 
 
 # Create your views here.
 def home(request):
-    cts= Categories.objects.all()
-
+    cts= Categories.objects.all()   
     return render(request, 'main/main.html', {'cc':cts})
 
 
@@ -17,8 +17,7 @@ def about(request):
 
 
 
-def proccess(request):
-    return render(request, 'main/choose.html')
+
 
 def byref(request):
     
@@ -86,4 +85,45 @@ def coupon(request):
     return JsonResponse({
         'valid':True,
         'amount':cpn.amount
+    })
+
+# process the order
+def guestorder(request):
+    # get the data from the request
+    data=request.POST.get('data')
+    # convert the data to json
+    data=json.loads(data)
+    # create a new order
+    order=Ordersguest(data['name'], data['phone'], data['email'], data['address'], data['city'])
+    # save the order
+    order.save()
+    # get the products from the data
+    products=data['products']
+    # loop through the products
+    for i in products:
+        # get the product from the db
+        pd=Produit.objects.filter(id=i['id']).first()
+        # check if the product exist
+        if pd:
+            # check if the product is in stock
+            if pd.stock>=i['quantity']:
+                # add the product to the order
+                order.products.add(pd)
+                # update the stock
+                pd.stock-=i['quantity']
+                # save the product
+                pd.save()
+            else:
+                # return a json response with value False
+                return JsonResponse({
+                    'valid':False
+                })
+        else:
+            # return a json response with value False
+            return JsonResponse({
+                'valid':False
+            })
+    # return a json response with value True
+    return JsonResponse({
+        'valid':True
     })

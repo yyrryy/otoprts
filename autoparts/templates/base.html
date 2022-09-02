@@ -149,7 +149,7 @@ transition: all 0.8s;
                                         <span class="mobile-indicator__counter cart-count">0
                                         </span>
                                     </span>
-                                    <small class="totalincart"></small>
+                                    <small class="bigtotal"></small>
                                 </a>
                             </div>
                         </div>
@@ -532,7 +532,7 @@ transition: all 0.8s;
                     	l3.4,14.3c0.1,0.2,0.3,0.4,0.5,0.4h15.2c0.2,0,0.4-0.1,0.5-0.4l3.1-10c0.1-0.2,0-0.4-0.1-0.4C29.8,8.1,29.7,8,29.5,8H14
                     	c-0.6,0-1-0.4-1-1s0.4-1,1-1h15.5c0.8,0,1.5,0.4,2,1c0.5,0.6,0.6,1.5,0.4,2.2l-3.1,10C28.5,20.3,27.5,21,26.4,21z"></path>
                             </svg> <span class="indicator__counter cart-count"></span> </span><span class="indicator__title">Shopping Cart</span>
-                        <span class="indicator__value"><span class="totalincart"></span></span></a>
+                        <span class="indicator__value"><span class="bigtotal"></span></span></a>
 
 
                 </div>
@@ -543,295 +543,24 @@ transition: all 0.8s;
         
             {% block content %}
             {% endblock %}
-            <div class="cartholder">
-                <div class="block-header block-header--has-breadcrumb block-header--has-title">
-                    <div class="container">
-                        <div class="block-header__body">
             
-                            <h1 class="">
-                                <a href="#" class="btn btn-sm btn-primary bi bi-arrow-left" onclick="showcart()"></a>
-                                Cart
-                            </h1>
-                        </div>
-                    </div>
-                </div>
-
-                
-                <!-- cart -->
-                <div class="block">
-                    <div class="container">
-                        <div class="cart">
-                            <div class="cart__table cart-table">
-                                <table class="cart-table__table">
-                                    <thead class="cart-table__head">
-                                        <tr class="cart-table__row">
-                                            <th class="cart-table__column cart-table__column--image">Image</th>
-                                            <th class="cart-table__column cart-table__column--product">Product</th>
-                                            <th class="cart-table__column cart-table__column--price">Price</th>
-                                            <th class="cart-table__column cart-table__column--quantity">Quantity</th>
-                                            <th class="cart-table__column cart-table__column--total">Total</th>
-                                            <th class="cart-table__column cart-table__column--remove"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="cart-table__body">
-                                    </tbody>
-                                    <tfoot class="cart-table__foot">
-                                        <tr>
-                                            <td colspan="6">
-                                                <div class="cart-table__actions">
-                                                    <small class="text-danger pl-3 wrongcpn">gfhd</small>
-                                                    <form class="cart-table__coupon-form form-row">
-                                                        <div class="form-group mb-0 col flex-grow-1"><input type="text" name="cpn"
-                                                                class="form-control form-control-sm" placeholder="Coupon Code">
-                                                        </div>
-                                                        <div class="form-group mb-0 col-auto"><button type="button"
-                                                                class="btn btn-sm btn-primary cpnbtn">Apply
-                                                                Coupon</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                            <div class="cart__totals">
-                                <div class="card">
-                                    <div class="card-body card-body--padding--2">
-                                        <h3 class="card-title">Cart Totals</h3>
-                                        <table class="cart__totals-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Subtotal</th>
-                                                    <td><span class="subtotal"></span>Dh</td>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-            
-                                                <tr class="text-info">
-                                                    <th>Discount</th>
-                                                    <td><span class="discount">0.00</span>Dh
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Tax</th>
-                                                    <td><span class="tax">5.00</span>Dh</td>
-                                                </tr>
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>Total</th>
-                                                    <td><span class="bigtotal"></span></td>
-                                                </tr>
-                                            </tfoot>
-                                        </table><a class="btn btn-primary btn-xl btn-block" href="">Proceed to checkout</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- checkout -->
-                <div class="row">
-                    <div class="col-12 mb-3">
-                        <div class="alert alert-lg alert-primary">Returning customer? <a href="">Click here to login</a></div>
-                    </div>
-                    <div class="col-12 col-lg-6 col-xl-7">
-                        <div class="card mb-lg-0">
-                            <div class="card-body card-body--padding--2">
-                                <h3 class="card-title">Billing details</h3>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6"><label for="checkout-first-name">First Name</label> <input
-                                            type="text" class="form-control" id="checkout-first-name" placeholder="First Name"></div>
-                                    <div class="form-group col-md-6"><label for="checkout-last-name">Last Name</label> <input
-                                            type="text" class="form-control" id="checkout-last-name" placeholder="Last Name"></div>
-                                </div>
-                                <div class="form-group"><label for="checkout-company-name">Company Name <span
-                                            class="text-muted">(Optional)</span></label> <input type="text" class="form-control"
-                                        id="checkout-company-name" placeholder="Company Name"></div>
-                                <div class="form-group"><label for="checkout-country">Country</label> <select id="checkout-country"
-                                        class="form-control form-control-select2 select2-hidden-accessible"
-                                        data-select2-id="checkout-country" tabindex="-1" aria-hidden="true">
-                                        <option data-select2-id="14">Select a country...</option>
-                                        <option>United States</option>
-                                        <option>Russia</option>
-                                        <option>Italy</option>
-                                        <option>France</option>
-                                        <option>Ukraine</option>
-                                        <option>Germany</option>
-                                        <option>Australia</option>
-                                    </select><span class="select2 select2-container select2-container--default" dir="ltr"
-                                        data-select2-id="13"><span class="selection"><span
-                                                class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true"
-                                                aria-expanded="false" tabindex="0" aria-disabled="false"
-                                                aria-labelledby="select2-checkout-country-container"><span
-                                                    class="select2-selection__rendered" id="select2-checkout-country-container"
-                                                    role="textbox" aria-readonly="true" title="Select a country...">Select a
-                                                    country...</span><span class="select2-selection__arrow" role="presentation"><b
-                                                        role="presentation"></b></span></span></span><span class="dropdown-wrapper"
-                                            aria-hidden="true"></span></span></div>
-                                <div class="form-group"><label for="checkout-street-address">Street Address</label> <input type="text"
-                                        class="form-control" id="checkout-street-address" placeholder="Street Address"></div>
-                                <div class="form-group"><label for="checkout-address">Apartment, suite, unit etc. <span
-                                            class="text-muted">(Optional)</span></label> <input type="text" class="form-control"
-                                        id="checkout-address"></div>
-                                <div class="form-group"><label for="checkout-city">Town / City</label> <input type="text"
-                                        class="form-control" id="checkout-city"></div>
-                                <div class="form-group"><label for="checkout-state">State / County</label> <input type="text"
-                                        class="form-control" id="checkout-state"></div>
-                                <div class="form-group"><label for="checkout-postcode">Postcode / ZIP</label> <input type="text"
-                                        class="form-control" id="checkout-postcode"></div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6"><label for="checkout-email">Email address</label> <input
-                                            type="email" class="form-control" id="checkout-email" placeholder="Email address"></div>
-                                    <div class="form-group col-md-6"><label for="checkout-phone">Phone</label> <input type="text"
-                                            class="form-control" id="checkout-phone" placeholder="Phone"></div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="form-check"><span class="input-check form-check-input"><span
-                                                class="input-check__body"><input class="input-check__input" type="checkbox"
-                                                    id="checkout-create-account"> <span class="input-check__box"></span> <span
-                                                    class="input-check__icon"><svg width="9px" height="7px">
-                                                        <path d="M9,1.395L3.46,7L0,3.5L1.383,2.095L3.46,4.2L7.617,0L9,1.395Z"></path>
-                                                    </svg> </span></span></span><label class="form-check-label"
-                                            for="checkout-create-account">Create an account?</label></div>
-                                </div>
-                            </div>
-                            <div class="card-divider"></div>
-                            <div class="card-body card-body--padding--2">
-                                <h3 class="card-title">Shipping Details</h3>
-                                <div class="form-group">
-                                    <div class="form-check"><span class="input-check form-check-input"><span
-                                                class="input-check__body"><input class="input-check__input" type="checkbox"
-                                                    id="checkout-different-address"> <span class="input-check__box"></span> <span
-                                                    class="input-check__icon"><svg width="9px" height="7px">
-                                                        <path d="M9,1.395L3.46,7L0,3.5L1.383,2.095L3.46,4.2L7.617,0L9,1.395Z"></path>
-                                                    </svg> </span></span></span><label class="form-check-label"
-                                            for="checkout-different-address">Ship to a different address?</label></div>
-                                </div>
-                                <div class="form-group"><label for="checkout-comment">Order notes <span
-                                            class="text-muted">(Optional)</span></label> <textarea id="checkout-comment"
-                                        class="form-control" rows="4"></textarea></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
-                        <div class="card mb-0">
-                            <div class="card-body card-body--padding--2">
-                                <h3 class="card-title">Your Order</h3>
-                                <table class="checkout__totals">
-                                    <thead class="checkout__totals-header">
-                                        <tr>
-                                            <th>Product</th>
-                                            <th>Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="checkout__totals-products">
-                                        <tr>
-                                            <td>Glossy Gray 19" Aluminium Wheel AR-19 × 2</td>
-                                            <td>$1398.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Brandix Brake Kit BDX-750Z370-S × 1</td>
-                                            <td>$849.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Twin Exhaust Pipe From Brandix Z54 × 3</td>
-                                            <td>$3630.00</td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody class="checkout__totals-subtotals">
-                                        <tr>
-                                            <th>Subtotal</th>
-                                            <td>$5877.00</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Store Credit</th>
-                                            <td>$-20.00</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Shipping</th>
-                                            <td>$25.00</td>
-                                        </tr>
-                                    </tbody>
-                                    <tfoot class="checkout__totals-footer">
-                                        <tr>
-                                            <th>Total</th>
-                                            <td>$5882.00</td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                                <div class="checkout__payment-methods payment-methods">
-                                    <ul class="payment-methods__list">
-                                        <li class="payment-methods__item payment-methods__item--active"><label
-                                                class="payment-methods__item-header"><span
-                                                    class="payment-methods__item-radio input-radio"><span
-                                                        class="input-radio__body"><input class="input-radio__input"
-                                                            name="checkout_payment_method" type="radio" checked="checked"> <span
-                                                            class="input-radio__circle"></span> </span></span><span
-                                                    class="payment-methods__item-title">Direct bank transfer</span></label>
-                                            <div class="payment-methods__item-container">
-                                                <div class="payment-methods__item-details text-muted">Make your payment directly into
-                                                    our bank account. Please use your Order ID as the payment reference. Your order will
-                                                    not be shipped until the funds have cleared in our account.</div>
-                                            </div>
-                                        </li>
-                                        <li class="payment-methods__item"><label class="payment-methods__item-header"><span
-                                                    class="payment-methods__item-radio input-radio"><span
-                                                        class="input-radio__body"><input class="input-radio__input"
-                                                            name="checkout_payment_method" type="radio"> <span
-                                                            class="input-radio__circle"></span> </span></span><span
-                                                    class="payment-methods__item-title">Check payments</span></label>
-                                            <div class="payment-methods__item-container">
-                                                <div class="payment-methods__item-details text-muted">Please send a check to Store Name,
-                                                    Store Street, Store Town, Store State / County, Store Postcode.</div>
-                                            </div>
-                                        </li>
-                                        <li class="payment-methods__item"><label class="payment-methods__item-header"><span
-                                                    class="payment-methods__item-radio input-radio"><span
-                                                        class="input-radio__body"><input class="input-radio__input"
-                                                            name="checkout_payment_method" type="radio"> <span
-                                                            class="input-radio__circle"></span> </span></span><span
-                                                    class="payment-methods__item-title">Cash on delivery</span></label>
-                                            <div class="payment-methods__item-container">
-                                                <div class="payment-methods__item-details text-muted">Pay with cash upon delivery.</div>
-                                            </div>
-                                        </li>
-                                        <li class="payment-methods__item"><label class="payment-methods__item-header"><span
-                                                    class="payment-methods__item-radio input-radio"><span
-                                                        class="input-radio__body"><input class="input-radio__input"
-                                                            name="checkout_payment_method" type="radio"> <span
-                                                            class="input-radio__circle"></span> </span></span><span
-                                                    class="payment-methods__item-title">PayPal</span></label>
-                                            <div class="payment-methods__item-container">
-                                                <div class="payment-methods__item-details text-muted">Pay via PayPal; you can pay with
-                                                    your credit card if you don’t have a PayPal account.</div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="checkout__agree form-group">
-                                    <div class="form-check"><span class="input-check form-check-input"><span
-                                                class="input-check__body"><input class="input-check__input" type="checkbox"
-                                                    id="checkout-terms"> <span class="input-check__box"></span> <span
-                                                    class="input-check__icon"><svg width="9px" height="7px">
-                                                        <path d="M9,1.395L3.46,7L0,3.5L1.383,2.095L3.46,4.2L7.617,0L9,1.395Z"></path>
-                                                    </svg> </span></span></span><label class="form-check-label" for="checkout-terms">I
-                                            have read and agree to the website <a target="_blank" href="terms.html">terms and
-                                                conditions</a></label></div>
-                                </div><button type="submit" class="btn btn-primary btn-xl btn-block">Place Order</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <section>
+            <section class="cartholder">
                 <!-- container -->
                 <div class="container">
+                    
                     <!-- main content -->
                     <div class="main-content">
+                        <div class="block-header block-header--has-breadcrumb block-header--has-title">
+                            <div class="container">
+                                <div class="block-header__body">
+                        
+                                    <h1 class="">
+                                        <a href="#" class="btn btn-sm btn-primary bi bi-arrow-left" onclick="showcart()"></a>
+                                        Cart
+                                    </h1>
+                                </div>
+                            </div>
+                        </div>
                         <!-- alert box -->
                         <div class="row justify-content-center">
                             <div class="col-md-10">
@@ -866,8 +595,9 @@ transition: all 0.8s;
                                         <li id="progressList-1"
                                             class="d-inline-block fw-bold w-25 position-relative text-center float-start progressbar-list active">
                                             Step 1</li>
-                                        <li id="progressList-2"
-                                            class="d-inline-block fw-bold w-25 position-relative text-center float-start progressbar-list">
+                                        <li id="progressList-2" class="d-inline-block fw-bold w-25 position-relative text-center float-start progressbar-list">
+                                            Step 2</li>
+                                        <li id="progressList-3" class="d-inline-block fw-bold w-25 position-relative text-center float-start progressbar-list">
                                             Step 2</li>
                                         
                                     </ul>
@@ -901,11 +631,11 @@ transition: all 0.8s;
                                                     </thead>
                                                     <tbody class="cart-table__body">
                                                     </tbody>
-                                                    <tfoot class="cart-table__foot">
+                                                    <tfoot class="cart-table__foot cpnholder">
                                                         <tr>
                                                             <td colspan="6">
                                                                 <div class="cart-table__actions">
-                                                                    <small class="text-danger pl-3 wrongcpn">gfhd</small>
+                                                                    <small class="text-danger pl-3 wrongcpn"></small>
                                                                     <form class="cart-table__coupon-form form-row">
                                                                         <div class="form-group mb-0 col flex-grow-1"><input type="text" name="cpn"
                                                                                 class="form-control form-control-sm" placeholder="Coupon Code">
@@ -966,8 +696,7 @@ transition: all 0.8s;
                         <div class="row justify-content-center form-business">
                             <!-- col -->
                             <div class="col-md-10">
-                                <h3 class="fw-bold pt-5">Select Card</h3>
-                                <p class="small pb-5">Please select at least one card</p>
+                                
                                 
                                 <!-- checkout -->
                                 
@@ -979,53 +708,54 @@ transition: all 0.8s;
                                 <div class="card mb-lg-0">
                                     <div class="card-body card-body--padding--2">
                                         <h3 class="card-title">Billing details</h3>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6"><label for="checkout-first-name">First Name</label> <input
-                                                    type="text" class="form-control" id="checkout-first-name" placeholder="First Name"></div>
-                                            <div class="form-group col-md-6"><label for="checkout-last-name">Last Name</label> <input
-                                                    type="text" class="form-control" id="checkout-last-name" placeholder="Last Name"></div>
+                                        
+                                        <!-- INPUT FOR NAME -->
+                                        <div class="form-group shippingname">
+                                            <input 
+                                            type="text"
+                                            name="name"
+                                            class="form-control"
+                                            placeholder="Name"
+                                            >
                                         </div>
-                                        <div class="form-group"><label for="checkout-company-name">Company Name <span
-                                                    class="text-muted">(Optional)</span></label> <input type="text" class="form-control"
-                                                id="checkout-company-name" placeholder="Company Name"></div>
-                                        <div class="form-group"><label for="checkout-country">Country</label> <select id="checkout-country"
-                                                class="form-control form-control-select2 select2-hidden-accessible"
-                                                data-select2-id="checkout-country" tabindex="-1" aria-hidden="true">
-                                                <option data-select2-id="14">Select a country...</option>
-                                                <option>United States</option>
-                                                <option>Russia</option>
-                                                <option>Italy</option>
-                                                <option>France</option>
-                                                <option>Ukraine</option>
-                                                <option>Germany</option>
-                                                <option>Australia</option>
-                                            </select><span class="select2 select2-container select2-container--default" dir="ltr"
-                                                data-select2-id="13"><span class="selection"><span
-                                                        class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true"
-                                                        aria-expanded="false" tabindex="0" aria-disabled="false"
-                                                        aria-labelledby="select2-checkout-country-container"><span
-                                                            class="select2-selection__rendered" id="select2-checkout-country-container"
-                                                            role="textbox" aria-readonly="true" title="Select a country...">Select a
-                                                            country...</span><span class="select2-selection__arrow" role="presentation"><b
-                                                                role="presentation"></b></span></span></span><span class="dropdown-wrapper"
-                                                    aria-hidden="true"></span></span></div>
-                                        <div class="form-group"><label for="checkout-street-address">Street Address</label> <input type="text"
-                                                class="form-control" id="checkout-street-address" placeholder="Street Address"></div>
-                                        <div class="form-group"><label for="checkout-address">Apartment, suite, unit etc. <span
-                                                    class="text-muted">(Optional)</span></label> <input type="text" class="form-control"
-                                                id="checkout-address"></div>
-                                        <div class="form-group"><label for="checkout-city">Town / City</label> <input type="text"
-                                                class="form-control" id="checkout-city"></div>
-                                        <div class="form-group"><label for="checkout-state">State / County</label> <input type="text"
-                                                class="form-control" id="checkout-state"></div>
-                                        <div class="form-group"><label for="checkout-postcode">Postcode / ZIP</label> <input type="text"
-                                                class="form-control" id="checkout-postcode"></div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6"><label for="checkout-email">Email address</label> <input
-                                                    type="email" class="form-control" id="checkout-email" placeholder="Email address"></div>
-                                            <div class="form-group col-md-6"><label for="checkout-phone">Phone</label> <input type="text"
-                                                    class="form-control" id="checkout-phone" placeholder="Phone"></div>
+                                        <!-- INPUT FOR EMAIL -->
+                                        <div class="form-group shippingemail">
+                                            <input 
+                                            type="email"
+                                            name="email"
+                                            class="form-control"
+                                            placeholder="Email"
+                                        >
                                         </div>
+                                        <!-- INPUT FOR PHONE -->
+                                        <div class="form-group shippingphone">
+                                            <input 
+                                            type="text"
+                                            name="phone"
+                                            class="form-control"
+                                            placeholder="Phone"
+                                        >
+                                        </div>
+                                        <!-- select FOR CITY -->
+                                        <div class="block-finder__form-control block-finder__form-control--select w-100">
+                                        
+                                            <select name="city" class="shippingcity from-control form-control-select2">
+                                                <option value="0">--City--</option>
+                                                {% for i in cities %}
+                                                <option value="{{i.shippingfee}}">{{i.city}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <!-- INPUT FOR ADDRESS -->
+                                        <div class="form-group shippingadress">
+                                            <input 
+                                            type="text"
+                                            name="address"
+                                            class="form-control"
+                                            placeholder="Address"
+                                        >
+                                        </div>
+                                        
                                         <div class="form-group">
                                             <div class="form-check"><span class="input-check form-check-input"><span
                                                         class="input-check__body"><input class="input-check__input" type="checkbox"
@@ -1037,21 +767,7 @@ transition: all 0.8s;
                                         </div>
                                     </div>
                                     <div class="card-divider"></div>
-                                    <div class="card-body card-body--padding--2">
-                                        <h3 class="card-title">Shipping Details</h3>
-                                        <div class="form-group">
-                                            <div class="form-check"><span class="input-check form-check-input"><span
-                                                        class="input-check__body"><input class="input-check__input" type="checkbox"
-                                                            id="checkout-different-address"> <span class="input-check__box"></span> <span
-                                                            class="input-check__icon"><svg width="9px" height="7px">
-                                                                <path d="M9,1.395L3.46,7L0,3.5L1.383,2.095L3.46,4.2L7.617,0L9,1.395Z"></path>
-                                                            </svg> </span></span></span><label class="form-check-label"
-                                                    for="checkout-different-address">Ship to a different address?</label></div>
-                                        </div>
-                                        <div class="form-group"><label for="checkout-comment">Order notes <span
-                                                    class="text-muted">(Optional)</span></label> <textarea id="checkout-comment"
-                                                class="form-control" rows="4"></textarea></div>
-                                    </div>
+                                    
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
@@ -1065,38 +781,25 @@ transition: all 0.8s;
                                                     <th>Total</th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="checkout__totals-products">
-                                                <tr>
-                                                    <td>Glossy Gray 19" Aluminium Wheel AR-19 × 2</td>
-                                                    <td>$1398.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Brandix Brake Kit BDX-750Z370-S × 1</td>
-                                                    <td>$849.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Twin Exhaust Pipe From Brandix Z54 × 3</td>
-                                                    <td>$3630.00</td>
-                                                </tr>
-                                            </tbody>
+                                            
                                             <tbody class="checkout__totals-subtotals">
                                                 <tr>
                                                     <th>Subtotal</th>
-                                                    <td>$5877.00</td>
+                                                    <td><span class="subtotal"></span>Dh</td>
                                                 </tr>
-                                                <tr>
+                                                <tr class="text-info">
                                                     <th>Store Credit</th>
-                                                    <td>$-20.00</td>
+                                                    <td>-<span class="discount">0.00</span></td>
                                                 </tr>
                                                 <tr>
                                                     <th>Shipping</th>
-                                                    <td>$25.00</td>
+                                                    <td><span class="shipping">0.00</span></td>
                                                 </tr>
                                             </tbody>
                                             <tfoot class="checkout__totals-footer">
                                                 <tr>
                                                     <th>Total</th>
-                                                    <td>$5882.00</td>
+                                                    <td><span class="bigtotal"></span></td>
                                                 </tr>
                                             </tfoot>
                                         </table>
@@ -1161,7 +864,7 @@ transition: all 0.8s;
                                         </div>
                                         <div class="d-flex justify-content-center">
 
-                                            <button type="submit" class="btn btn-primary btn-xl btn-block">Place Order</button>
+                                            <button type="submit" class="btn btn-primary btn-xl btn-block next">Place Order</button>
 
                                             <button class="back btn btn-dark">back</button>
                                         </div>
@@ -1169,6 +872,10 @@ transition: all 0.8s;
                                 </div>
                             </div>
                             <!-- /col -->
+                        </div>
+
+                        <div class="row form-business">
+                            test
                         </div>
                         
                     </div>
@@ -1823,6 +1530,8 @@ transition: all 0.8s;
     <!-- scripts -->
     <script>
         $(document).ready(function () {
+            console.log($('.shippingcity'))
+            
                 // hidden things
                 $(".form-business").hide();
                 $("#successMessage").hide();

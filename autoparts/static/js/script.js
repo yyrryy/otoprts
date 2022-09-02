@@ -119,7 +119,7 @@ byref.on('submit', (e) => {
                 const price=e.target.dataset.price
                 const img=e.target.dataset.img
                 const stock=e.target.dataset.stock
-                pdct=new Product(id, name, price, img, stock)
+              pdct=new Product(id, name, price, img, stock)
                 console.log('saving')
                 Storage.add(pdct)
                 console.log("displaying")

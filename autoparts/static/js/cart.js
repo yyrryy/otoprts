@@ -69,24 +69,24 @@ class Ui{
         cartcount.text(pdcts.length)
     }
     // upadate total in cart
-    static updatecarttotal(t){
-      let totalincart=$('.totalincart')
-      totalincart.text(t)
-    }  
+    // static updatecarttotal(t){
+    //   let totalincart=$('.totalincart')
+    //   totalincart.text(t)
+    // }  
     // update total
     static updatetotal(){
         // get all inputs with name qty
       const qtys = $('input[name="qty"]')
       let bigtotal=$('.bigtotal')
       let tax=$('.tax')
-      
+      let shipping=$('.shipping')
       let discount=$('.discount')
       let subtotal = 0
-      for (let i of qtys) {
-        subtotal += parseFloat(i.dataset.price)
+      for (let i of $('.total')) {
+        subtotal += parseFloat($(i).text())
       }
       $('.subtotal').text(subtotal)
-      bigtotal.text((parseFloat(subtotal)+parseFloat(tax.text())-parseFloat(discount.text())).toFixed(2))
+      bigtotal.text((parseFloat(subtotal)+parseFloat(tax.text()) + parseFloat(shipping.text()) - parseFloat(discount.text())).toFixed(2))
       for (let i of qtys){
         
         i.addEventListener('change', function(){
@@ -104,20 +104,19 @@ class Ui{
           }
           
           $('.subtotal').text((subtotal).toFixed(2))
-          let bt=(parseFloat(subtotal) +  parseFloat(tax.text())- parseFloat(discount.text())).toFixed(2)
+          let bt=(parseFloat(subtotal) +  parseFloat(tax.text()) + parseFloat(shipping.text()) - parseFloat(discount.text())).toFixed(2)
           bigtotal.text(bt)
-          Ui.updatecarttotal(bt)
+          // Ui.updatecarttotal(bt)
         })
       }
-      let t=parseFloat($('.bigtotal').text())
-      Ui.updatecarttotal(t)
+      // let t=parseFloat($('.bigtotal').text())
+      // Ui.updatecarttotal(t)
     }
     // remove product from cart
     static removeproduct(e){
         if(e.target.classList.contains('cart-table__remove')){
           let parent=e.target.parentElement.parentElement
           parent.remove()
-          Ui.updatecartcount()
           Ui.updatetotal()
           Storage.remove(parent.dataset.id)
           Ui.displayprdcts()
@@ -160,6 +159,8 @@ class Storage{
       })
       localStorage.setItem('products', JSON.stringify(products))
     }
+
+    
 }
 
 
@@ -170,36 +171,39 @@ const showcart=()=>{
     console.log('unsided');
     $('.site').toggleClass('overflow-initial');
   }
-  let attempts=1
+let attempts=1
 
-  const cpn=()=>{
-    if (attempts===5){
-      $('.cart-table__coupon-form').remove();
-      return
-    }
-
-    let cpn=$('input[name=cpn]').val();
-    // ajax call to coupon endpint
-    $.ajax({
-      url:'/coupon',
-      type:'POST',
-      data:{
-        csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val(),        
-        'coupon':cpn
-      },
-      success:function(data){
-        if(data.valid){
-          $('.discount').text(parseFloat($('.discount').text()) + data.amount);
-          $('.cart-table__coupon-form').remove();
-          Ui.updatetotal();
-        }
-        else{
-          console.log(attempts);
-          $('.wrongcpn').text('Wrong Coupon, try again')
-          attempts+=1
-        }
-      }
-    });
+const cpn=()=>{
+  if (attempts===5){
+    $('.cart-table__coupon-form').remove();
+    return
   }
-  $('.cpnbtn').on('click',cpn);
 
+  let cpn=$('input[name=cpn]').val();
+  // ajax call to coupon endpint
+  $.ajax({
+    url:'/coupon',
+    type:'POST',
+    data:{
+      csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val(),        
+      'coupon':cpn
+    },
+    success:function(data){
+      if(data.valid){
+        $('.discount').text(parseFloat(data.amount).toFixed(2));
+        $('.cpnholder').remove();
+        Ui.updatetotal();
+      }
+      else{
+        console.log(attempts);
+        $('.wrongcpn').text('Wrong Coupon, try again')
+        attempts+=1
+      }
+    }
+  });
+}
+$('.cpnbtn').on('click',cpn);
+$('.shippingcity').on('change', ()=>{
+  $('.shipping').text(parseFloat($('.shippingcity').val()))
+  Ui.updatetotal()
+})
