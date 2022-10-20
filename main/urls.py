@@ -9,5 +9,14 @@ urlpatterns = [
     path('about', views.about, name='about'),
     path('byref', views.byref, name='by_ref'),
     path('bychas', views.bysach, name='by_chas'),
-    path('coupon', views.coupon, name='coupon')
+    path('coupon', views.coupon, name='coupon'),
+    path('filters', views.filters, name='filters'),
+    path('create', views.create, name='create'),
+    path('addcategory', views.addcategory, name='addcategory'),
+    path('addbrand', views.addbrand, name='addbrand'),
+    path('addmark', views.addmark, name='addmark'),
+    path('addbulkfltrair', views.addbulkfltrair, name='addbulkfltrair'),
+    path('addbulkfltrhuile', views.addbulkfltrhuile, name='addbulkfltrhuile'),
+    path('addbulkrlmnt', views.addbulkrlmnt, name='addbulkrlmnt'),
+    path('addbulkcroi', views.addbulkcroi, name='addbulkcroi'),
 ]

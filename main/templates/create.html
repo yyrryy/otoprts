@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+
+<html dir="ltr" lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="utf-8" />
+    <meta content="width=device-width,initial-scale=1" name="viewport" />
+    <meta content="telephone=no" name="format-detection" />
+    
+    <title>Autoparts</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i" rel="stylesheet" />
+    <!-- css -->
+    <link href="{% static 'css/bootstrap.css' %} " rel="stylesheet" />
+    <link href="{% static 'css/default-skin.css'%} " rel="stylesheet" />
+    <link href="{% static 'css/select2.min.css'%} " rel="stylesheet" />
+    <link href="{% static 'css/style.css'%} " rel="stylesheet" />
+    <link href="{% static 'css/style.header-spaceship-variant-one.css'%} " rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap-icons.css'%}">
+    <link href="{% static 'css/style.mobile-header-variant-one.css'%} " rel="stylesheet" />
+    <script src="{% static 'js/jquery.min.js'%}"></script>
+</head>
+<body>
+    <div class="container bg-white">
+        <br>
+        <div class="row">
+            <form class="mb-3 col-md-4" action="/addcategory" method="POST">
+                {% csrf_token %}
+                <p>Add category</p>
+                <div class="form-group d-flex">
+                    <input required type="text" class="form-control" placeholder="Category" name="category">
+                    <button class="btn btn-primary addcategory">Add</button>
+                </div>
+            </form>
+    
+            <form class="mb-3 col-md-4" action="/addbrand" method="POST">
+                {% csrf_token %}
+                <p>Add Brand</p>
+                <div class="form-group d-flex">
+                    <input required type="text" class="form-control" placeholder="Brand" name="brand">
+                    <button class="btn btn-primary addcategory">Add</button>
+                </div>
+            </form>
+
+            <form class="mb-3 col-md-4" action="/addmark" method="POST">
+                {% csrf_token %}
+                <p>Add Mark</p>
+                <div class="form-group d-flex">
+                    <input required type="text" class="form-control" placeholder="Brand" name="brand">
+                    <button class="btn btn-primary addcategory">Add</button>
+                </div>
+            </form>
+        </div>
+
+
+        <p>Add product</p>
+        <form action="/addproduct" method="POST" class="row">
+            {% csrf_token %}
+            
+            <div class="form-group col-md-4">
+              <select name="category" id="" class="form-control  form-control-select2">
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.title }}</option>
+                {% endfor %}
+            </select>
+            </div>
+            <div class="form-group col-md-4">
+                <select name="brand" id="" class="form-control  form-control-select2">
+                  {% for brand in brands %}
+                      <option value="{{ brand.id }}">{{ brand.name }}</option>
+                  {% endfor %}
+              </select>
+              </div>
+              <div class="form-group col-md-4">
+                <select name="mark" id="" class="form-control  form-control-select2">
+                  {% for mark in marks %}
+                      <option value="{{ brand.id }}">{{ mark.name }}</option>
+                  {% endfor %}
+              </select>
+              </div>
+            <div class="form-group col-md-4">
+                <input required type="number" class="form-control" id="exampleFormControlInput1" placeholder="Price" name="price">
+            </div>
+            <div class="form-group col-md-4">
+                <input required type="text" class="form-control" id="exampleFormControlInput1" placeholder="Ref" name="ref">
+            </div>
+            <div class="form-group col-md-4">
+                <button class="btn btn-primary addproduct">
+                    Add
+                </button>
+            </div>
+            
+        </form>
+        <br>
+        <p>
+        add filtre air
+        </p>
+        <form action="/addbulkfltrair" method="POST" class="row" enctype="multipart/form-data">
+            {% csrf_token %}
+        
+            <div class="form-group">
+                {% csrf_token %}
+                <input 
+                required 
+                type="file" 
+                name="file">
+                <button class="btn btn-primary addbulk" type="submit">
+                    Add
+                </button>
+            </div>
+        </form>
+        <p>
+        add filtre huile
+        </p>
+        <form action="/addbulkfltrhuile" method="POST" class="row" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                {% csrf_token %}
+                <input 
+                required 
+                type="file" 
+                name="file">
+                <button class="btn btn-primary addbulk" type="submit">
+                    Add
+                </button>
+            </div>
+        </form>
+
+        <p>
+            add roulement
+        </p>
+        <form action="/addbulkrlmnt" method="POST" class="row" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                {% csrf_token %}
+                <input 
+                required 
+                type="file" 
+                name="file">
+                <button class="btn btn-primary addbulk" type="submit">
+                    Add
+                </button>
+            </div>
+        </form>
+
+        <p>
+            add couroie
+        </p>
+
+        <form action="/addbulkcroi" method="POST" class="row" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            {% csrf_token %}
+            <input 
+            required 
+            type="file" 
+            name="file">
+            <button class="btn btn-primary addbulk" type="submit">
+                Add
+            </button>
+        </div>
+        </form>
+        
+
+        
+    </div>
+
+    <script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
+
+    <script src="{% static 'js/select2.min.js'%}"></script>
+    <script>
+        $('.form-control-select2').select2({
+        });
+    </script>
+</body>
+</html>

@@ -72,7 +72,7 @@ INSTALLED_APPS = [
     'main',
     'blog',
     'customers',
-    'cloudinary'
+    'cloudinary',
 ]
 
 MIDDLEWARE = [

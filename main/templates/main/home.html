@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- add csfr token -->
+{% csrf_token %}
+<div class="mt-5 ">
+	<div class="container">
+		<table class="table table-striped">
+			<thead>
+			  <tr>
+				<th scope="col">#</th>
+				<th scope="col">First</th>
+				<th scope="col">Last</th>
+				<th scope="col">Handle</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  
+			</tbody>
+		  </table>
+	   <div class="">
+		  
+
+
+		  <div class="block-split__item block-split__item-content col-auto">
+			 <div class="block">
+				<div class="products-view">
+				   <div class="products-view__options view-options view-options--offcanvas--mobile">
+					  <div class="view-options__body">
+						<div class="row pb-3">
+							<div class="col-3">
+							   <div class="filter-vehicle">
+								   <select name="category" id="" class="form-control form-control-select2">
+									   <option value="0">Category</option>
+									   {% for i in categories %}
+									   <option value="{{i.id}}">{{i.title.capitalize}}</option>
+									   {% endfor %}
+								   </select>
+								  
+							   </div>
+							</div>
+
+							<div class="col-3">
+								<div class="filter-vehicle">
+									<input type="text" name="brand" class="form-control" placeholder="brand">
+									<!-- <select name="brand" id="" class="form-control form-control-select2">
+										<option value="0">Car brand</option>
+										{% for i in brands %}
+										<option value="{{i.id}}">{{i.name.capitalize}}</option>
+										{% endfor %}
+
+									</select> -->
+								   
+								</div>
+							</div>
+								
+							<div class="col-3">
+								<div class="filter-vehicle">
+									<input type="text" name="model" class="form-control" placeholder="model">
+									<!-- <select name="model" id="" class="form-control form-control-select2">
+										<option value="0">Car model</option>
+										{% for i in models %}
+										<option value="{{i.id}}">{{i.name.capitalize}}</option>
+										{% endfor %}
+									</select> -->
+								   
+								</div>
+							</div>
+
+							<div class="col-3">
+								<div class="filter-vehicle">
+									<input type="text" name="mark" class="form-control" placeholder="mark">
+									<!-- <select name="model" id="" class="form-control form-control-select2">
+										<option value="0">Mark</option>
+										{% for i in models %}
+										<option value="{{i.id}}">{{i.name.capitalize}}</option>
+										{% endfor %}
+									</select> -->
+								   
+								</div>
+							</div>
+						</div>
+
+						<button class="btn btn-primary btn-sm filterbtn w-100">Filter</button>
+						 <!-- <button type="button" class="view-options__filters-button filters-button">
+							<span class="filters-button__icon">
+							   <svg width="16" height="16">
+								  <path d="M7,14v-2h9v2H7z M14,7h2v2h-2V7z M12.5,6C12.8,6,13,6.2,13,6.5v3c0,0.3-0.2,0.5-0.5,0.5h-2
+									 C10.2,10,10,9.8,10,9.5v-3C10,6.2,10.2,6,10.5,6H12.5z M7,2h9v2H7V2z M5.5,5h-2C3.2,5,3,4.8,3,4.5v-3C3,1.2,3.2,1,3.5,1h2
+									 C5.8,1,6,1.2,6,1.5v3C6,4.8,5.8,5,5.5,5z M0,2h2v2H0V2z M9,9H0V7h9V9z M2,14H0v-2h2V14z M3.5,11h2C5.8,11,6,11.2,6,11.5v3
+									 C6,14.8,5.8,15,5.5,15h-2C3.2,15,3,14.8,3,14.5v-3C3,11.2,3.2,11,3.5,11z"></path>
+							   </svg>
+							</span>
+							<span class="filters-button__title">Filters</span> <span class="filters-button__counter">3</span>
+						 </button> -->
+
+					  </div>
+				   </div>
+				   <div class="products-view__list products-list products-list--grid--4" data-layout="table" data-with-features="false">
+					  <!-- <div class="products-list__head">
+						 <div class="products-list__column products-list__column--image">Image</div>
+						 <div class="products-list__column products-list__column--meta">Ref</div>
+						 <div class="products-list__column products-list__column--product">Product</div>
+						 <div class="products-list__column products-list__column--price">Price</div>
+					  </div>
+					  <div class="products-list__content">
+						 
+					  </div> -->
+					  <table class="table table-striped table-borded">
+						<thead>
+						  <tr>
+							<th style="width: 15%">#</th>
+							<th >Name</th>
+							<th style="width: 10%;">Price</th>
+						  </tr>
+						</thead>
+						<tbody class="prdctslist">
+							
+						</tbody>
+					  </table>
+				   </div>
+				   
+				</div>
+			 </div>
+		  </div>
+	   </div>
+	   <div class="block-space block-space--layout--before-footer"></div>
+	</div>
+ </div>
+{% endblock %}
+
+{% block js %}
+<script>
+	const close = function() {
+
+		$('body').css({
+			'overflow': 'auto',
+			'paddingRight': ''
+		});
+
+        const mobileMenu = $('.mobile-menu');
+
+        const mobileMenuBody = mobileMenu.children('.mobile-menu__body');
+
+
+		$('.sidebar--open').removeClass('sidebar--open')
+
+		mobileMenu.removeClass('mobile-menu--open');
+
+	};
+	$('.filterbtn').on('click',() => {
+        
+                let filters= {
+                    csrfmiddlewaretoken:$("[name=csrfmiddlewaretoken]").val(),
+                    category:$('select[name=category]').val(),
+                    brand:$('input[name="brand"]').val(),
+                    model:$('input[name="model"]').val(),
+                    mark:$('input[name="mark"]').val()
+                }
+        
+                console.log(filters.csrfmiddlewaretoken)
+                $.ajax({
+                    method:'Post',
+                    url:'/filters',
+                    data:{
+                    csrfmiddlewaretoken:$("[name=csrfmiddlewaretoken]").val(),
+                    category:$('select[name=category]').val()=='0'?null:+$('select[name=category]').val(),
+                    brand:$('input[name="brand"]').val()=='0'?null:$('input[name="brand"]').val(),
+                    model:$('input[name="model"]').val()=='0'?null:$('input[name="model"]').val(),
+                    mark:$('input[name="mark"]').val()=='0'?null:$('input[name="mark"]').val()
+                },
+                    success:(data)=>{
+                        $('.prdctslist').html(data.data)
+                    },
+                    Error:(error)=>{
+                        console.log(error)
+                    }
+        
+                })
+        
+        
+            })
+</script>
+{% endblock %}

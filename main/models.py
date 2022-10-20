@@ -1,50 +1,54 @@
+from email.policy import default
+from unittest.util import _MAX_LENGTH
 from django.db import models
 from cloudinary.models import CloudinaryField
 # Create your models here.
 
-class Voiture(models.Model):
-    marque=models.CharField(max_length=50)
-    
-    date=models.IntegerField()
-
-    model=models.CharField(max_length=50)
-
-    carburant=models.CharField(max_length=50)
-    def __str__(self) -> str:
-        return f'{self.date}-{self.marque} {self.model} {self.carburant}'
-
-class Categories(models.Model):
+class Category(models.Model):
     title=models.CharField(max_length=150)
     def __str__(self) -> str:
-        return self.title
+        return self.title+'-'+str(self.id)
+class Brand(models.Model):
+    name=models.CharField(max_length=20)
+    def __str__(self) -> str:
+        return self.name+'-'+str(self.id)
+class Model(models.Model):
+    name=models.CharField(max_length=20)
+    def __str__(self) -> str:
+        return self.name+'-'+str(self.id)
+    
+class Mark(models.Model):
+    name=models.CharField(max_length=20)
+    def __str__(self) -> str:
+        return self.name+'-'+str(self.id)
+
+
 
 class Produit(models.Model):
-    #title
-    nom=models.CharField(max_length=100)
-
+    name=models.CharField(max_length=500, null=True)
     #price
-    prix= models.FloatField()
+    price= models.FloatField()
 
     #stock
-    stock=models.IntegerField(default=1)	
+    # stock=models.IntegerField(default=1)	
 
-    #brand
-    marque=models.CharField(max_length=50, null=True)
 
-    #country
-    pays=models.CharField(max_length=50, null=True)
 
     #ref
     ref=models.CharField(max_length=50)
 
     #image
-    image = CloudinaryField('image', folder='autoparts/', default=None, null=True)
+    # image = CloudinaryField('image', folder='autoparts/', default=None, null=True)
 
     #cartgrise
-    n_chasis=models.CharField(max_length=50, null=True)
+    # n_chasis=models.CharField(max_length=50, null=True)
 
-    Categorie=models.ForeignKey(Categories, on_delete=models.CASCADE, default=1)
-
+    category=models.ForeignKey(Category,on_delete=models.CASCADE, default=None)
+    brand=models.CharField(max_length=25, default=None)
+    model=models.CharField(max_length=25, default=None)
+    mark=models.CharField(max_length=25, default=None)
+    def __str__(self) -> str:
+        return f'{self.category} {self.brand}'
 # cupppon codes table
 class Coupon(models.Model):
     code = models.CharField(max_length=50)
@@ -98,4 +102,6 @@ class Ordersguest(models.Model):
 class Shippingfees(models.Model):
     city=models.CharField(max_length=20)
     shippingfee=models.FloatField()
+    def __str__(self) -> str:
+        return f'{self.city} - {self.shippingfee}'
 

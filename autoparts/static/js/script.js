@@ -132,7 +132,7 @@ byref.on('submit', (e) => {
       else {
         console.log('here')
         searchref.removeClass("btn-loading").text("Search");
-        alert("N° ref " + nref + " Nt founf");
+        alertify.error('Success message');
         
       }
     },
@@ -270,7 +270,7 @@ bychas.on('submit', (e) => {
       }
     },
     error: (err) => {
-      console.log(err);
+      alertify.error('Success message');
       searchchas.removeClass("btn-loading").text("Search");
 
     },
