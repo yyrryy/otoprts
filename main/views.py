@@ -218,7 +218,7 @@ def addbulkfltrair(request):
     df = pd.read_excel(myfile)
     df = df.fillna('')
     for d in df.itertuples():
-        Produit.objects.create(name=d.name,category=Category.objects.get(pk=1), price=d.pr, brand=d.brand, model=d.model, mark=d.mark, ref=d.ref)
+        Produit.objects.create(name=d.n,category=Category.objects.get(pk=1), price=round(d.pr, 2), brand=d.b, model=d.mo, mark=d.ma, ref=d.ref)
     return redirect(create)
 
 def addbulkfltrhuile(request):
@@ -226,7 +226,7 @@ def addbulkfltrhuile(request):
     df = pd.read_excel(myfile)
     df = df.fillna('')
     for d in df.itertuples():
-        Produit.objects.create(name=d.name,category=Category.objects.get(pk=2), price=d.pr, brand=d.brand, model=d.model, mark=d.mark, ref=d.ref)
+        Produit.objects.create(name=d.n,category=Category.objects.get(pk=2), price=round(d.pr, 2), brand=d.b, model=d.mo, mark=d.ma, ref=d.ref)
     return redirect(create)
 
 def addbulkrlmnt(request):
@@ -234,7 +234,7 @@ def addbulkrlmnt(request):
     df = pd.read_excel(myfile)
     df = df.fillna('')
     for d in df.itertuples():
-        Produit.objects.create(name=d.name,category=Category.objects.get(pk=3), price=d.pr, brand=d.brand, model=d.model, mark=d.mark, ref=d.ref)
+        Produit.objects.create(name=d.n,category=Category.objects.get(pk=3), price=round(d.pr, 2), brand=d.b, model=d.mo, mark=d.ma, ref=d.ref)
     return redirect(create)
 
 def addbulkcroi(request):
@@ -242,6 +242,22 @@ def addbulkcroi(request):
     df = pd.read_excel(myfile)
     df = df.fillna('')
     for d in df.itertuples():
-        Produit.objects.create(name=d.name,category=Category.objects.get(pk=4), price=d.pr, brand=d.brand, model=d.model, mark=d.mark, ref=d.ref)
+        Produit.objects.create(name=d.n,category=Category.objects.get(pk=4), price=round(d.pr, 2), brand=d.b, model=d.mo, mark=d.ma, ref=d.ref)
+    return redirect(create)
+
+def addbulkah(request):
+    myfile = request.FILES['file']
+    df = pd.read_excel(myfile)
+    df = df.fillna('')
+    for d in df.itertuples():
+        Produit.objects.create(name=d.n,category=Category.objects.get(pk=5), price=round(d.pr, 2), brand=d.b, model=d.mo, mark=d.ma, ref=d.ref)
+    return redirect(create)
+
+def addbulk(request, ctg):
+    myfile = request.FILES['file']
+    df = pd.read_excel(myfile)
+    df = df.fillna('')
+    for d in df.itertuples():
+        Produit.objects.create(name=d.n,category=Category.objects.get(pk=ctg), price=round(d.pr, 2), brand=d.b, model=d.mo, mark=d.ma.lower(), ref=d.ref)
     return redirect(create)
 

@@ -19,4 +19,5 @@ urlpatterns = [
     path('addbulkfltrhuile', views.addbulkfltrhuile, name='addbulkfltrhuile'),
     path('addbulkrlmnt', views.addbulkrlmnt, name='addbulkrlmnt'),
     path('addbulkcroi', views.addbulkcroi, name='addbulkcroi'),
+    path('addbulk/<int:ctg>', views.addbulk, name='addbulk'),
 ]

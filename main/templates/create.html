@@ -92,74 +92,104 @@
             
         </form>
         <br>
-        <p>
-        add filtre air
-        </p>
-        <form action="/addbulkfltrair" method="POST" class="row" enctype="multipart/form-data">
-            {% csrf_token %}
+
+
         
-            <div class="form-group">
-                {% csrf_token %}
-                <input 
-                required 
-                type="file" 
-                name="file">
-                <button class="btn btn-primary addbulk" type="submit">
-                    Add
-                </button>
+        
+        <!--  bootstrap cards -->
+        <div class="row">
+            <div class="card col-3">
+            <div class="card-header">
+                Couroie
             </div>
-        </form>
-        <p>
-        add filtre huile
-        </p>
-        <form action="/addbulkfltrhuile" method="POST" class="row" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="form-group">
-                {% csrf_token %}
-                <input 
-                required 
-                type="file" 
-                name="file">
-                <button class="btn btn-primary addbulk" type="submit">
-                    Add
-                </button>
+            <div class="card-body">
+                <form action="/addbulk/4" method="POST" class="row" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {% csrf_token %}
+                        <input required type="file" name="file">
+                        <button class="btn btn-primary addbulk" type="submit">
+                            Add
+                        </button>
+                    </div>
+                </form>
             </div>
-        </form>
-
-        <p>
-            add roulement
-        </p>
-        <form action="/addbulkrlmnt" method="POST" class="row" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="form-group">
-                {% csrf_token %}
-                <input 
-                required 
-                type="file" 
-                name="file">
-                <button class="btn btn-primary addbulk" type="submit">
-                    Add
-                </button>
-            </div>
-        </form>
-
-        <p>
-            add couroie
-        </p>
-
-        <form action="/addbulkcroi" method="POST" class="row" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="form-group">
-            {% csrf_token %}
-            <input 
-            required 
-            type="file" 
-            name="file">
-            <button class="btn btn-primary addbulk" type="submit">
-                Add
-            </button>
         </div>
-        </form>
+
+        <div class="card col-3">
+            <div class="card-header">
+                roulement
+            </div>
+            <div class="card-body">
+            <form action="/addbulk/3" method="POST" class="row" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    {% csrf_token %}
+                    <input required type="file" name="file">
+                    <button class="btn btn-primary addbulk" type="submit">
+                        Add
+                    </button>
+                </div>
+            </form>
+            </div>
+        </div>
+
+        <div class="card col-3">
+            <div class="card-header">
+                filtre huile
+            </div>
+            <div class="card-body">
+                <form action="/addbulk/2" method="POST" class="row" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {% csrf_token %}
+                        <input required type="file" name="file">
+                        <button class="btn btn-primary addbulk" type="submit">
+                            Add
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card col-3">
+            <div class="card-header">
+                filtre air
+            </div>
+            <div class="card-body">
+                <form action="/addbulk/1" method="POST" class="row" enctype="multipart/form-data">
+                    {% csrf_token %}
+        
+                    <div class="form-group">
+                        {% csrf_token %}
+                        <input required type="file" name="file">
+                        <button class="btn btn-primary addbulk" type="submit">
+                            Add
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card col-3">
+            <div class="card-header">
+                AH
+            </div>
+            <div class="card-body">
+                <form action="/addbulk/5" method="POST" class="row" enctype="multipart/form-data">
+                    {% csrf_token %}
+        
+                    <div class="form-group">
+                        {% csrf_token %}
+                        <input required type="file" name="file">
+                        <button class="btn btn-primary addbulk" type="submit">
+                            Add
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
         
 
         

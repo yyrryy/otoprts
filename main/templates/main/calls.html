@@ -59,4 +59,8 @@
       <td>{{i.name}} - {% if i.brand %} {{i.brand}} - {% endif %} {% if i.model %} {{i.model}} - {% endif %} {% if i.mark %} {{i.mark.upper}} {% endif %} </td>
       <td>{{i.price}}</td>
    </tr>
+   {% empty %}
+   <tr>
+      <td colspan="3">No products found</td>
+   </tr>
 {% endfor %}
