@@ -1,4 +1,5 @@
 from email.policy import default
+from unicodedata import name
 from unittest.util import _MAX_LENGTH
 from django.db import models
 from cloudinary.models import CloudinaryField
@@ -7,20 +8,20 @@ from cloudinary.models import CloudinaryField
 class Category(models.Model):
     title=models.CharField(max_length=150)
     def __str__(self) -> str:
-        return self.title+'-'+str(self.id)
+        return self.title
 class Brand(models.Model):
     name=models.CharField(max_length=20)
     def __str__(self) -> str:
-        return self.name+'-'+str(self.id)
+        return self.name
 class Model(models.Model):
     name=models.CharField(max_length=20)
     def __str__(self) -> str:
-        return self.name+'-'+str(self.id)
+        return self.name
     
 class Mark(models.Model):
     name=models.CharField(max_length=20)
     def __str__(self) -> str:
-        return self.name+'-'+str(self.id)
+        return self.name
 
 
 
@@ -54,29 +55,29 @@ class Coupon(models.Model):
     code = models.CharField(max_length=50)
     amount = models.FloatField()
 
-class Pairingcode(models.Model):
-    code = models.CharField(max_length=50)
-    amount = models.FloatField()
+class Client(models.Model):
+    name=models.CharField(max_length=200)
+    city=models.CharField(max_length=200, null=True, default=None)
+    address=models.CharField(max_length=200)
+    phone=models.CharField(max_length=200)
+    def __str__(self) -> str:
+        return self.name+'-'+str(self.city)
+
+class Represent(models.Model):
+    name=models.CharField(max_length=50)
+    def __str__(self) -> str:
+        return self.name
+
+
+
 
 # orders table
-class Ordersguest(models.Model):
+class Order(models.Model):
     date = models.DateTimeField(auto_now_add=True)
-    products=models.ManyToManyField(Produit, blank=True)
     # name will be a string
-    name=models.CharField(max_length=50)
     # email will be a string and not requuired
-    email=models.EmailField(max_length=50, default=None, null=True)
-    phone=models.IntegerField()
-    # city will be a string
-    city=models.CharField(max_length=50)
 
-    adress=models.CharField(max_length=500)
-    # subtotal float column used to detect
-    subtotal=models.FloatField(default=0)
-    # total float column
-    total=models.FloatField(default=0)
-
-    isconfirmed=models.BooleanField(default=False)
+    client=models.ForeignKey(Client, on_delete=models.CASCADE, default=None)
     isdelivered = models.BooleanField(default=False)
 
     # order by date
@@ -84,20 +85,15 @@ class Ordersguest(models.Model):
         ordering = ['-date']
     # return the name and phone
     def __str__(self) -> str:
-        return f'{self.name} {self.phone}'
-    def __init__(self, name, email, phone, adress, amount) -> None:
-        self.name=name
-        self.email=email
-        self.phone=phone
-        self.adress=adress
-        self.amount=amount
+        return f'{self.id} {self.client}'
 
 
+class Orderitem(models.Model):
+    order=models.ForeignKey(Order, on_delete=models.CASCADE)
+    ref=models.CharField(max_length=100, null=True, default=None)
+    qty=models.IntegerField()
 
-    
 
-    isconfirmed=models.BooleanField(default=False)
-    isdelivered = models.BooleanField(default=False)
 
 class Shippingfees(models.Model):
     city=models.CharField(max_length=20)
@@ -105,3 +101,9 @@ class Shippingfees(models.Model):
     def __str__(self) -> str:
         return f'{self.city} - {self.shippingfee}'
 
+
+
+
+class Pairingcode(models.Model):
+    code = models.CharField(max_length=50)
+    amount = models.FloatField()

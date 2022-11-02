@@ -1,22 +1,25 @@
-from unicodedata import category
+
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from .models import Brand, Category, Produit, Coupon, Ordersguest, Model, Mark
-import json
+from .models import Brand, Category, Client, Order, Orderitem, Produit, Coupon, Model, Mark
 import pandas as pd
 from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
 def home(request):
-    categories= Category.objects.all()
-    # brands=Brand.objects.all()
-    # models=Model.objects.all()
-    return render(request, 'main/home.html', {'categories':categories})
+    ctx={
+        'categories': Category.objects.all(),
+        'brands':Brand.objects.all(),
+        'models':Model.objects.all(),
+        'clients':Client.objects.all()
+    }
+    
+    return render(request, 'home.html', ctx)
 
 
 def about(request):
-    return render(request, 'main/about.html')
+    return render(request, 'about.html')
 
 
 
@@ -92,45 +95,45 @@ def coupon(request):
     })
 
 # process the order
-def guestorder(request):
-    # get the data from the request
-    data=request.POST.get('data')
-    # convert the data to json
-    data=json.loads(data)
-    # create a new order
-    order=Ordersguest(data['name'], data['phone'], data['email'], data['address'], data['city'])
-    # save the order
-    order.save()
-    # get the products from the data
-    products=data['products']
-    # loop through the products
-    for i in products:
-        # get the product from the db
-        pd=Produit.objects.filter(id=i['id']).first()
-        # check if the product exist
-        if pd:
-            # check if the product is in stock
-            if pd.stock>=i['quantity']:
-                # add the product to the order
-                order.products.add(pd)
-                # update the stock
-                pd.stock-=i['quantity']
-                # save the product
-                pd.save()
-            else:
-                # return a json response with value False
-                return JsonResponse({
-                    'valid':False
-                })
-        else:
-            # return a json response with value False
-            return JsonResponse({
-                'valid':False
-            })
-    # return a json response with value True
-    return JsonResponse({
-        'valid':True
-    })
+# def guestorder(request):
+#     # get the data from the request
+#     data=request.POST.get('data')
+#     # convert the data to json
+#     data=json.loads(data)
+#     # create a new order
+#     order=Ordersguest(data['name'], data['phone'], data['email'], data['address'], data['city'])
+#     # save the order
+#     order.save()
+#     # get the products from the data
+#     products=data['products']
+#     # loop through the products
+#     for i in products:
+#         # get the product from the db
+#         pd=Produit.objects.filter(id=i['id']).first()
+#         # check if the product exist
+#         if pd:
+#             # check if the product is in stock
+#             if pd.stock>=i['quantity']:
+#                 # add the product to the order
+#                 order.products.add(pd)
+#                 # update the stock
+#                 pd.stock-=i['quantity']
+#                 # save the product
+#                 pd.save()
+#             else:
+#                 # return a json response with value False
+#                 return JsonResponse({
+#                     'valid':False
+#                 })
+#         else:
+#             # return a json response with value False
+#             return JsonResponse({
+#                 'valid':False
+#             })
+#     # return a json response with value True
+#     return JsonResponse({
+#         'valid':True
+#     })
 
 
 
@@ -178,7 +181,7 @@ def filters(request):
     elif mark:
         products=Produit.objects.filter(mark=mark)
     return JsonResponse({
-        'data':render(request, 'main/calls.html', {'products':products}).content.decode('utf-8')
+        'data':render(request, 'calls.html', {'products':products}).content.decode('utf-8')
     })
 
 @login_required
@@ -261,3 +264,34 @@ def addbulk(request, ctg):
         Produit.objects.create(name=d.n,category=Category.objects.get(pk=ctg), price=round(d.pr, 2), brand=d.b, model=d.mo, mark=d.ma.lower(), ref=d.ref)
     return redirect(create)
 
+
+def commande(request):
+    client=request.POST.get('client')
+    order=Order.objects.create(client=Client.objects.get(pk=client))
+    commande=request.POST.getlist('commande[]')
+    print(commande)
+    for i in commande:
+        Orderitem.objects.create(order=order, ref=i.split(':')[0], qty=int(i.split(':')[1]))
+    # return a json res
+    return JsonResponse({
+        'valid':True,
+        'message':'Commande enregistrée avec succès'
+    })
+    
+def orders(request):
+    orders=Order.objects.all()
+    return render(request, 'orders.html', {'orders':orders})
+
+def orderitems(request, id):
+    orderitems=Orderitem.objects.filter(order=id)
+    order=Order.objects.get(pk=id)
+    return JsonResponse({
+        'data':render(request, 'orderitems.html', {'orderitems':orderitems, 'order':order}).content.decode('utf-8')
+    })
+
+
+def dilevered(request, id):
+    order=Order.objects.get(pk=id)
+    order.isdelivered=True
+    order.save()
+    return redirect(orders)

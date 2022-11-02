@@ -1,0 +1,69 @@
+<div class="card">
+    <div class="order-header">
+      <div class="order-header__actions back">
+        <button class="btn btn-xs btn-secondary">Total: {{orderitems.count}}</button>
+      </div>
+      <h5 class="order-header__title">Order #{{order.id}}</h5>
+      <div class="order-header__subtitle">Was placed on <mark>{{order.date}}</mark>. </div>
+    </div>
+    <div class="card-divider"></div>
+    <div class="card-table">
+      <div class="table-responsive-sm">
+        <table>
+          <thead>
+            <tr>
+              <th>ref</th>
+              <th>qty</th>
+            </tr>
+          </thead>
+          <tbody class="card-table__body card-table__body--merge-rows">
+            {% for i in orderitems %}
+            <tr>
+                <td>
+                    {{i.ref}}
+                </td>
+                <td>
+                    {{i.qty}}
+                </td>
+                {% empty %}
+                <td>
+                    none
+                </td>
+
+            </tr>
+            {% endfor %}
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+</div>
+
+
+<div class="mt-3 no-gutters mx-n2">
+    <div class="px-2">
+      <div class="card address-card address-card--featured">
+        <div class="address-card__badge tag-badge tag-badge--theme">Shipping Address</div>
+        <div class="address-card__body">
+          <div class="address-card__name">{{order.client.name}}</div>
+          <div class="address-card__row">{{order.client.city}}<br>{{order.client.address}}</div>
+          <div class="address-card__row">
+            <div class="address-card__row-title">Phone Number</div>
+            <div class="address-card__row-content">{{order.client.phone}}</div>
+          </div>
+         
+        </div>
+        {% if not order.isdelivered %}
+        <form action="/dilevered/{{order.id}}" method="POST">
+          {%csrf_token%}
+          <button class="btn btn-primary w-100"  type="submit">Valider</button>
+        </form>
+        {% else %}
+        <button class="btn btn-primary disabled">
+          Order delivered
+        </button>
+        {% endif %}
+      </div>
+    </div>
+
+</div>

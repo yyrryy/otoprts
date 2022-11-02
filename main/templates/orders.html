@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block css %}
+<style>
+    
+</style>
+{% endblock %}
+{% block content %}
+
+<div class="container mt-5 d-flex mb-5">
+  <div class="card col-7">
+    <div class="card-header">
+      <h5>Order History</h5>
+    </div>
+    <div class="card-divider"></div>
+    <div class="card-table">
+      <div class="table-responsive-sm">
+        <table>
+          <thead>
+            <tr>
+              <th>Order</th>
+              <th>Client</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in orders %}
+            <tr class="ord {% if order.isdelivered%}bg-primary{%endif%}" orderid="{{order.id}}">
+              <td>{{ order.id }}</td>
+              <td>{{ order.client }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="3">No orders yet</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-divider"></div>
+
+  </div>
+  <div class="col-5 orderitems">
+    
+      
+  </div>
+</div>
+
+{% endblock %}
+{% block js %}
+<script>
+  const loading=()=>{
+		$('.loading').removeClass('d-none').addClass('d-flex');
+        }
+
+    const stoploading=()=>{
+        $('.loading').removeClass('d-flex').addClass('d-none');
+    }
+    $('.ord').each(function(){
+      $(this).click(function(){
+        loading()
+        
+        id=$(this).attr('orderid');
+
+          $('.orderitems').addClass('openorder');
+            $.ajax({
+                url: '/orderitems/'+id,
+                type: 'POST',
+                data:{
+                  'csrfmiddlewaretoken': '{{ csrf_token }}',
+                },
+                success: function(data){
+                  console.log($('.orderitems'))
+                  $('.orderitems').html(data.data);
+                  stoploading()
+                  $('.closeorderitems').click(function(){
+                    $('.orderitems').removeClass('openorder');
+                  })
+                }
+            });
+        });
+    })
+</script>
+{% endblock %}

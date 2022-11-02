@@ -20,4 +20,9 @@ urlpatterns = [
     path('addbulkrlmnt', views.addbulkrlmnt, name='addbulkrlmnt'),
     path('addbulkcroi', views.addbulkcroi, name='addbulkcroi'),
     path('addbulk/<int:ctg>', views.addbulk, name='addbulk'),
+    path('commande', views.commande, name='commande'),
+    path('orders', views.orders, name='orders'),
+    path('orderitems/<int:id>', views.orderitems),
+    path('dilevered/<int:id>', views.dilevered),
+
 ]
