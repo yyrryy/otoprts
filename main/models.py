@@ -1,8 +1,4 @@
-from email.policy import default
-from unicodedata import name
-from unittest.util import _MAX_LENGTH
 from django.db import models
-from cloudinary.models import CloudinaryField
 # Create your models here.
 
 class Category(models.Model):
@@ -76,14 +72,18 @@ class Order(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     # name will be a string
     # email will be a string and not requuired
-
+    salseman=models.CharField(max_length=50, null=True, default=None)
     client=models.ForeignKey(Client, on_delete=models.CASCADE, default=None)
+    total=models.DecimalField(default=0.00, decimal_places=2, max_digits=20)
     isdelivered = models.BooleanField(default=False)
 
     # order by date
     class Meta:
         ordering = ['-date']
     # return the name and phone
+
+    # methode to determine wether it's delivered or not
+    
     def __str__(self) -> str:
         return f'{self.id} {self.client}'
 
@@ -91,6 +91,7 @@ class Order(models.Model):
 class Orderitem(models.Model):
     order=models.ForeignKey(Order, on_delete=models.CASCADE)
     ref=models.CharField(max_length=100, null=True, default=None)
+    name=models.CharField(max_length=100, null=True, default=None)
     qty=models.IntegerField()
 
 

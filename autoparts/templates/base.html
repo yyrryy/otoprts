@@ -10,98 +10,46 @@
     {% block meta %}
     {% endblock %}
     {% if title %}
-    <title>Autoparts - {{title}} </title>
+    <title>{{title}} - Campio</title>
     {% else %}
     <title>Autoparts</title>
     {% endif %}
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i" rel="stylesheet" />
     <!-- css -->
+    <script src="{% static 'js/jquery.min.js'%}"></script>
     <link href="{% static 'css/bootstrap.css' %} " rel="stylesheet" />
+    <script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
     <link href="{% static 'css/default-skin.css'%} " rel="stylesheet" />
     <link href="{% static 'css/select2.min.css'%} " rel="stylesheet" />
     <link href="{% static 'css/style.css'%} " rel="stylesheet" />
     <link rel="stylesheet" href="{% static 'css/bootstrap-icons.css'%}">
-    <script src="{% static 'js/jquery.min.js'%}"></script>
-    <style>
-        .main-content .wizard-form .progressbar-list::before{
-content: " ";
-background-color: rgb(155, 155, 155);
-border: 10px solid #fff;
-border-radius: 50%;
-display: block;
-width: 30px;
-height: 30px;
-margin: 9px auto;
-box-shadow: 1px 1px 3px #606060;
-transition:all;
-}
-.main-content .wizard-form .progressbar-list::after{
-content: "";
- background-color: rgb(155, 155, 155);
-padding: 0px 0px;
-position: absolute;
-top: 14px;
-left: -50%;
-width: 100%;
-height: 2px;
-margin: 9px auto;
-z-index: -1;
-transition: all 0.8s;
-}
-.main-content .wizard-form .progressbar-list.active::after{
-    background-color: #763cb0;
-}
-.main-content .wizard-form .progressbar-list:first-child::after{
-    content: none;
-}
-.main-content .wizard-form .progressbar-list.active::before{
-    font-family: "Font Awesome 5 free";
-    content: "\f00c";
-    font-size: 11px;
-    font-weight: 600;
-    color: #fff;
-    padding: 6px;
-    background-color: #763cb0;
-    border: 1px solid #763cb0;
-    box-shadow: 0 0 0 7.5px rgb(118 60 176 / 11%);
-}
-.progressbar-list{
-    color:#6f787d;
-}
-.active{
-    color:#000;
-}
-/* card */
-.card img{
-    width: 40px;
-}
 
-.active-card{
-    color:#763cb0;
-    font-weight: bold;
-    border: 3px solid #763cb0;
-}
-.form-check-input:focus {
-    box-shadow: none;
-}
-.bg-color-info{
-    background-color:#00d69f;
-}
-.border-color{
-    border-color: #ececec;
-}
-.btn{
-    padding:16px 30px;
-}
-.back-to-wizard{
-    transform: translate(-50%, -139%) !important;
-}
-.bg-success-color{
-    background-color:#87D185;
-}
-.bg-success-color:focus{
-    box-shadow: 0 0 0 0.25rem rgb(55 197 20 / 25%);
-}
+    <style>
+        .fitscreen{
+            height: 75vh;
+            overflow-y: scroll;
+        }
+
+
+        /* width */
+        ::-webkit-scrollbar {
+        width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+        background: #f1f1f1; 
+        }
+        
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+        background: #888; 
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+        background: #555; 
+        }
     </style>
     {% block css%}
     {% endblock %}
@@ -112,351 +60,77 @@ transition: all 0.8s;
     <div class="site position-relative">
         
         <!-- site__body -->
-        <div class="site__body">
-            <div class="loading flex-column align-items-center justify-content-center w-100 vh-100  position-absolute top-0 bg-dark200 d-none" style="z-index:1199">
+        <div class="site__body d-flex flex-column">
+            <div class="loading flex-column align-items-center justify-content-center w-100 h-100 position-fixed top-0 bg-dark200 d-none" style="z-index:1199">
                 <div class="spinner-border text-light"></div>
                 <strong class="text-light">
                     Loading
                 </strong>
             </div>
-            {% block content %}
-            {% endblock %}
-            
-            <!-- <section class="cartholder">
-                <div class="container">
+            <div class="px-3">
+                <div class="mb-2 p-3 d-flex justify-content-between bg-dark text-white align-items-center">
                     
-                    <div class="main-content">
-                        <div class="block-header block-header--has-breadcrumb block-header--has-title">
-                            <div class="container">
-                                <div class="block-header__body">
+                    <ul class="navbar-nav mr-auto">
+                            
+                        <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ user.get_username }}
+                          </a>
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                            <a class="dropdown-item" href="{% url 'logoutuser' %}">Logout</a>
+                            {% if user.groups.all.0.name == 'accounting' %}
+                            <a class="dropdown-item" href="{% url 'orders' %}">Commandes</a>
+                            {% endif %}
+                            {% if user.groups.all.0.name == 'salsemen' %}
+                            <a class="dropdown-item" href="{% url 'salsemanorders' %}">Mes commande</a>
+                            {% endif %}
+                            <div class="dropdown-divider"></div>
+                          </div>
+                        </li>
                         
-                                    <h1 class="">
-                                        <a href="#" class="btn btn-sm btn-primary bi bi-arrow-left" onclick="showcart()"></a>
-                                        Cart
-                                    </h1>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row justify-content-center">
-                            <div class="col-md-10">
-                                <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-                                    <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
-                                        <path
-                                            d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                                    </symbol>
-                                </svg>
-                                <div class="alert alert-danger d-flex align-items-center mt-3 d-none mb-0" id="alertBox"
-                                    role="alert">
-                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
-                                        <use xlink:href="#exclamation-triangle-fill" />
-                                    </svg>
-                                    <div>
-                                        Please select any card , only then you can move further!
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row justify-content-center pt-0 p-4" id="wizardRow">
-                            <div class="col-md-10 text-center">
-                                <div class="wizard-form py-4 my-2">
-                                    <ul id="progressBar" class="progressbar px-lg-5 px-0 row">
-                                        <li id="progressList-1"
-                                            class="d-inline-block fw-bold w-25 position-relative text-center float-start progressbar-list active">
-                                            Step 1</li>
-                                        <li id="progressList-2" class="d-inline-block fw-bold w-25 position-relative text-center float-start progressbar-list">
-                                            Step 2</li>
-                                        <li id="progressList-3" class="d-inline-block fw-bold w-25 position-relative text-center float-start progressbar-list">
-                                            Step 2</li>
-                                        
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row justify-content-center" id="cardSection">
-                            <div class="col-md-10">
-                                <h3 class="fw-bold pt-5">Select Card</h3>
-                                <p class="small pb-5">Please select at least one card</p>
-                                <div class="block">
-                                        <div class="cart">
-                                            <div class="cart__table cart-table">
-                                                <table class="cart-table__table">
-                                                    <thead class="cart-table__head">
-                                                        <tr class="cart-table__row">
-                                                            <th class="cart-table__column cart-table__column--image">Image</th>
-                                                            <th class="cart-table__column cart-table__column--product">Product</th>
-                                                            <th class="cart-table__column cart-table__column--price">Price</th>
-                                                            <th class="cart-table__column cart-table__column--quantity">Quantity</th>
-                                                            <th class="cart-table__column cart-table__column--total">Total</th>
-                                                            <th class="cart-table__column cart-table__column--remove"></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody class="cart-table__body">
-                                                    </tbody>
-                                                    <tfoot class="cart-table__foot cpnholder">
-                                                        <tr>
-                                                            <td colspan="6">
-                                                                <div class="cart-table__actions">
-                                                                    <small class="text-danger pl-3 wrongcpn"></small>
-                                                                    <form class="cart-table__coupon-form form-row">
-                                                                        <div class="form-group mb-0 col flex-grow-1"><input type="text" name="cpn"
-                                                                                class="form-control form-control-sm" placeholder="Coupon Code">
-                                                                        </div>
-                                                                        <div class="form-group mb-0 col-auto"><button type="button"
-                                                                                class="btn btn-sm btn-primary cpnbtn">Apply
-                                                                                Coupon</button>
-                                                                        </div>
-                                                                    </form>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </tfoot>
-                                                </table>
-                                            </div>
-                                            <div class="cart__totals">
-                                                <div class="card">
-                                                    <div class="card-body card-body--padding--2">
-                                                        <h3 class="card-title">Cart Totals</h3>
-                                                        <table class="cart__totals-table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Subtotal</th>
-                                                                    <td><span class="subtotal"></span>Dh</td>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                
-                                                                <tr class="text-info">
-                                                                    <th>Discount</th>
-                                                                    <td><span class="discount">0.00</span>Dh
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>Tax</th>
-                                                                    <td><span class="tax">5.00</span>Dh</td>
-                                                                </tr>
-                                                            </tbody>
-                                                            <tfoot>
-                                                                <tr>
-                                                                    <th>Total</th>
-                                                                    <td><span class="bigtotal"></span></td>
-                                                                </tr>
-                                                            </tfoot>
-                                                        </table><button class="btn btn-primary btn-xl btn-block next" href="">Proceed to checkout</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                </div>
-
-                                
-                            </div>
-                        </div>
-                        <div class="row justify-content-center form-business">
-                            <div class="col-md-10">
-                                
-                                
-                                
-                            </div>
-                            <div class="col-12 mb-3">
-                                <div class="alert alert-lg alert-primary">Returning customer? <a href="">Click here to login</a></div>
-                            </div>
-                            <div class="col-12 col-lg-6 col-xl-7">
-                                <div class="card mb-lg-0">
-                                    <div class="card-body card-body--padding--2">
-                                        <h3 class="card-title">Billing details</h3>
-                                        
-                                        <div class="form-group shippingname">
-                                            <input 
-                                            type="text"
-                                            name="name"
-                                            class="form-control"
-                                            placeholder="Name"
-                                            >
-                                        </div>
-                                        <div class="form-group shippingemail">
-                                            <input 
-                                            type="email"
-                                            name="email"
-                                            class="form-control"
-                                            placeholder="Email"
-                                        >
-                                        </div>
-                                        <div class="form-group shippingphone">
-                                            <input 
-                                            type="text"
-                                            name="phone"
-                                            class="form-control"
-                                            placeholder="Phone"
-                                        >
-                                        </div>
-                                        <div class="block-finder__form-control block-finder__form-control--select w-100">
-                                        
-                                            <select name="city" class="shippingcity from-control form-control-select2">
-                                                <option value="0">--City--</option>
-                                                {% for i in cities %}
-                                                <option value="{{i.shippingfee}}">{{i.city}}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                        <div class="form-group shippingadress">
-                                            <input 
-                                            type="text"
-                                            name="address"
-                                            class="form-control"
-                                            placeholder="Address"
-                                        >
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <div class="form-check"><span class="input-check form-check-input"><span
-                                                        class="input-check__body"><input class="input-check__input" type="checkbox"
-                                                            id="checkout-create-account"> <span class="input-check__box"></span> <span
-                                                            class="input-check__icon"><svg width="9px" height="7px">
-                                                                <path d="M9,1.395L3.46,7L0,3.5L1.383,2.095L3.46,4.2L7.617,0L9,1.395Z"></path>
-                                                            </svg> </span></span></span><label class="form-check-label"
-                                                    for="checkout-create-account">Create an account?</label></div>
-                                        </div>
-                                    </div>
-                                    <div class="card-divider"></div>
-                                    
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
-                                <div class="card mb-0">
-                                    <div class="card-body card-body--padding--2">
-                                        <h3 class="card-title">Your Order</h3>
-                                        <table class="checkout__totals">
-                                            <thead class="checkout__totals-header">
-                                                <tr>
-                                                    <th>Product</th>
-                                                    <th>Total</th>
-                                                </tr>
-                                            </thead>
-                                            
-                                            <tbody class="checkout__totals-subtotals">
-                                                <tr>
-                                                    <th>Subtotal</th>
-                                                    <td><span class="subtotal"></span>Dh</td>
-                                                </tr>
-                                                <tr class="text-info">
-                                                    <th>Store Credit</th>
-                                                    <td>-<span class="discount">0.00</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Shipping</th>
-                                                    <td><span class="shipping">0.00</span></td>
-                                                </tr>
-                                            </tbody>
-                                            <tfoot class="checkout__totals-footer">
-                                                <tr>
-                                                    <th>Total</th>
-                                                    <td><span class="bigtotal"></span></td>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                        <div class="checkout__payment-methods payment-methods">
-                                            <ul class="payment-methods__list">
-                                                <li class="payment-methods__item payment-methods__item--active"><label
-                                                        class="payment-methods__item-header"><span
-                                                            class="payment-methods__item-radio input-radio"><span
-                                                                class="input-radio__body"><input class="input-radio__input"
-                                                                    name="checkout_payment_method" type="radio" checked="checked"> <span
-                                                                    class="input-radio__circle"></span> </span></span><span
-                                                            class="payment-methods__item-title">Direct bank transfer</span></label>
-                                                    <div class="payment-methods__item-container">
-                                                        <div class="payment-methods__item-details text-muted">Make your payment directly into
-                                                            our bank account. Please use your Order ID as the payment reference. Your order will
-                                                            not be shipped until the funds have cleared in our account.</div>
-                                                    </div>
-                                                </li>
-                                                <li class="payment-methods__item"><label class="payment-methods__item-header"><span
-                                                            class="payment-methods__item-radio input-radio"><span
-                                                                class="input-radio__body"><input class="input-radio__input"
-                                                                    name="checkout_payment_method" type="radio"> <span
-                                                                    class="input-radio__circle"></span> </span></span><span
-                                                            class="payment-methods__item-title">Check payments</span></label>
-                                                    <div class="payment-methods__item-container">
-                                                        <div class="payment-methods__item-details text-muted">Please send a check to Store Name,
-                                                            Store Street, Store Town, Store State / County, Store Postcode.</div>
-                                                    </div>
-                                                </li>
-                                                <li class="payment-methods__item"><label class="payment-methods__item-header"><span
-                                                            class="payment-methods__item-radio input-radio"><span
-                                                                class="input-radio__body"><input class="input-radio__input"
-                                                                    name="checkout_payment_method" type="radio"> <span
-                                                                    class="input-radio__circle"></span> </span></span><span
-                                                            class="payment-methods__item-title">Cash on delivery</span></label>
-                                                    <div class="payment-methods__item-container">
-                                                        <div class="payment-methods__item-details text-muted">Pay with cash upon delivery.</div>
-                                                    </div>
-                                                </li>
-                                                <li class="payment-methods__item"><label class="payment-methods__item-header"><span
-                                                            class="payment-methods__item-radio input-radio"><span
-                                                                class="input-radio__body"><input class="input-radio__input"
-                                                                    name="checkout_payment_method" type="radio"> <span
-                                                                    class="input-radio__circle"></span> </span></span><span
-                                                            class="payment-methods__item-title">PayPal</span></label>
-                                                    <div class="payment-methods__item-container">
-                                                        <div class="payment-methods__item-details text-muted">Pay via PayPal; you can pay with
-                                                            your credit card if you don’t have a PayPal account.</div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="checkout__agree form-group">
-                                            <div class="form-check"><span class="input-check form-check-input"><span
-                                                        class="input-check__body"><input class="input-check__input" type="checkbox"
-                                                            id="checkout-terms"> <span class="input-check__box"></span> <span
-                                                            class="input-check__icon"><svg width="9px" height="7px">
-                                                                <path d="M9,1.395L3.46,7L0,3.5L1.383,2.095L3.46,4.2L7.617,0L9,1.395Z"></path>
-                                                            </svg> </span></span></span><label class="form-check-label" for="checkout-terms">I
-                                                    have read and agree to the website <a target="_blank" href="terms.html">terms and
-                                                        conditions</a></label></div>
-                                        </div>
-                                        <div class="d-flex justify-content-center">
-
-                                            <button type="submit" class="btn btn-primary btn-xl btn-block next">Place Order</button>
-
-                                            <button class="back btn btn-dark">back</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row form-business">
-                            test
-                        </div>
-                        
-                    </div>
-                </div>
-            </section> -->
-        </div><!-- site__body / end -->
-        <!-- site__footer -->
-        <footer class="site__footer">
-            <div class="site-footer">
-
-                <div class="site-footer__bottom">
-                    <div class="container">
-                        <div class="site-footer__bottom-row">
-                            <div class="site-footer__copyright">
-                                <!-- copyright --> With Love by <a
-                                    href="https://abdelouahed.me" target="_blank">Yurey</a>
-                                <!-- copyright / end -->
-                            </div>
-                            <div class="site-footer__payments"><img alt="" src="" /></div>
-                        </div>
-                    </div>
-                </div>
+                    </ul>
+                    {% if not user.groups.all.0.name == 'accounting' %}
+                    
+                    <a href="/catalog" class="btn btn-primary">
+                        Catalog
+                    </a>
+                    {% endif %}
+                    {% if user.groups.all.0.name == 'accounting' %}
+                    <p>
+                        Commande non validé: <span class="nonvalider">0</span>
+                    </p>
+                    {% endif %}
+                    {% if user.groups.all.0.name == 'salsemen' %}
+                    <p>
+                        Articles comandés: <span class="commanditems">0</span>
+                    </p>
+                    {% endif %}
+                </div>      
+                {% block content %}
+                {% endblock %}
             </div>
-        </footer><!-- site__footer / end -->
+
+
+
+            <footer class="container text-muted mt-auto d-flex justify-content-between">
+                <small>
+                    Version: 1.0.0
+                </small>
+                <small>
+                    @ 2022
+                </small>
+            </footer>
+            
+            </div><!-- site__body / end -->
+        <!-- site__footer -->
+       
     </div><!-- site / end -->
     <!-- mobile-menu -->
 
     
     <!-- scripts -->
 
-    <script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
     <script src="{% static 'js/select2.min.js'%}"></script>
     <script src="{% static 'js/number.js'%}"></script>
     <script src="{% static 'js/main.js'%}"></script>

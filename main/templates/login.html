@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-center">
+    <div class="col-md-7 d-flex">
+      <div class="card flex-grow-1 mb-md-0 mr-0 mr-lg-3 ml-0 ml-lg-4">
+        <div class="card-body card-body--padding--2">
+          <h3 class="card-title">Login</h3>
+          <form action="/login" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="signin-email">Username</label>
+              <input id="signin-email" type="text" class="form-control" name="username">
+            </div>
+            <div class="form-group">
+              <label for="signin-password">Password</label>
+              <input id="signin-password" type="password" name="password" class="form-control">
+            
+            </div>
+            
+            <div class="form-group mb-0">
+              <button type="submit" class="btn btn-primary mt-3">Login</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}

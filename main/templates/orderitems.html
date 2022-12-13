@@ -1,18 +1,22 @@
-<div class="card">
+<div class="">
     <div class="order-header">
       <div class="order-header__actions back">
         <button class="btn btn-xs btn-secondary">Total: {{orderitems.count}}</button>
       </div>
       <h5 class="order-header__title">Order #{{order.id}}</h5>
-      <div class="order-header__subtitle">Was placed on <mark>{{order.date}}</mark>. </div>
+      <div class="order-header__subtitle">{{order.date|date:"d/m/Y"}}. </div>
+      <div>
+        Representant: {{ order.salseman}}
+      </div>
     </div>
     <div class="card-divider"></div>
     <div class="card-table">
       <div class="table-responsive-sm">
-        <table>
+        <table class="table table-striped table-borded">
           <thead>
             <tr>
               <th>ref</th>
+              <th>Article</th>
               <th>qty</th>
             </tr>
           </thead>
@@ -23,8 +27,11 @@
                     {{i.ref}}
                 </td>
                 <td>
-                    {{i.qty}}
-                </td>
+                  {{i.name}}
+              </td>
+              <td>
+                {{i.qty}}
+            </td>
                 {% empty %}
                 <td>
                     none
@@ -40,10 +47,9 @@
 </div>
 
 
-<div class="mt-3 no-gutters mx-n2">
-    <div class="px-2">
+<div class="mt-3 no-gutters mx-n2 sticky-bottom border-top rounded">
+    <div>
       <div class="card address-card address-card--featured">
-        <div class="address-card__badge tag-badge tag-badge--theme">Shipping Address</div>
         <div class="address-card__body">
           <div class="address-card__name">{{order.client.name}}</div>
           <div class="address-card__row">{{order.client.city}}<br>{{order.client.address}}</div>

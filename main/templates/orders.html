@@ -1,53 +1,129 @@
 {% extends 'base.html' %}
 {% block css %}
 <style>
-    
+    .fixeddetails{
+      position: fixed;
+      top: 0;
+      right: 43px;
+      width: 46%;
+      z-index: 1030;
+      margin-top: 10px;
+      background: white;
+      height: 95%;
+    }
 </style>
 {% endblock %}
 {% block content %}
+<div class="bg-white mt-2">
 
-<div class="container mt-5 d-flex mb-5">
-  <div class="card col-7">
-    <div class="card-header">
-      <h5>Order History</h5>
+
+
+  <div class="row mb-5">
+    
+    <div class="col-6 fitscreen">
+      <p class="card-header sticky-top text-white">
+        Commandes
+      </p>
+      <table class="table table-hover table-striped table-borded tablecommande">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Client</th>
+            <th>Repr</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+          <tr class="ord {% if order.isdelivered%}bg-primary text-white{%endif%}" orderid="{{order.id}}">
+            <td>{{ order.date|date:'d/m/Y' }}</td>
+            <td>{{ order.client }}</td>
+            <td>{{ order.salseman}}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="3">No orders yet</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
-    <div class="card-divider"></div>
-    <div class="card-table">
-      <div class="table-responsive-sm">
-        <table>
-          <thead>
-            <tr>
-              <th>Order</th>
-              <th>Client</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for order in orders %}
-            <tr class="ord {% if order.isdelivered%}bg-primary{%endif%}" orderid="{{order.id}}">
-              <td>{{ order.id }}</td>
-              <td>{{ order.client }}</td>
-            </tr>
-            {% empty %}
-            <tr>
-              <td colspan="3">No orders yet</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+
+    <div class="col-6 fitscreen details">
+      <p class="card-header sticky-top text-white">
+        Details
+      </p>
+      <div class="orderitems position-relative">
+      
+        
       </div>
     </div>
-    <div class="card-divider"></div>
 
-  </div>
-  <div class="col-5 orderitems">
     
-      
   </div>
+
+  <!-- deleivered -->
+  <div class="row">
+    <div class="col-6 fitscreen">
+      <p class="card-header sticky-top text-white">
+        Commandes livrées
+      </p>
+      <table class="table table-hover table-striped table-borded">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Client</th>
+            <th>Repr</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in delivered %}
+          <tr orderid="{{order.id}}" class="ord">
+            <td>{{ order.id }}</td>
+            <td>{{ order.client }}</td>
+            <td>{{ order.salseman}}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="3">No orders yet</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
 </div>
+
 
 {% endblock %}
 {% block js %}
 <script>
+  // wrap the code bellow inside document ready function
+  $(document).ready(function() {
+    // get how many rows in tablecommande table in jquery
+    var rows = $('.tablecommande tr').length;
+    // assign this value to nonvalider
+    $('.nonvalider').html(rows-1);
+  });
+  window.onscroll = function() {myFunction()};
+
+// Get the header
+  var header = document.querySelector(".details");
+
+  // Get the offset position of the navbar
+  var sticky = header.offsetTop;
+
+  // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
+  function myFunction() {
+    if (window.pageYOffset > sticky) {
+      header.classList.add("fixeddetails");
+    } else {
+      header.classList.remove("fixeddetails");
+    }
+  }
+
+
   const loading=()=>{
 		$('.loading').removeClass('d-none').addClass('d-flex');
         }

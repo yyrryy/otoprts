@@ -8,3 +8,4 @@ test.py
 *.pot
 __pycache__
 migrations
+warnings.txt

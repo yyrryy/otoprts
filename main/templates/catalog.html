@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<style>
+	.commandholder{
+		transition: all .6s ease-in;
+		z-index: 9999;
+	}
+	.opencommandholder{
+		right: 0;
+	}
+
+	.closecommandholder{
+		right: -99em;
+	}
+	
+</style>
+{% endblock %}
+{% block content %}
+
+<!-- add csfr token -->
+{% csrf_token %}
+
+	<!-- row with catalog and command divs -->
+	<div>
+
+		<div class="row mb-3">
+			<div class="col-7">
+				<div class="d-flex border-end rounded-top sticky-top bg-white align-items-center">
+				
+					<!-- category filter -->
+					<div class="d-flex col-8">
+						<div class="col-7">
+							<div class="filter-vehicle">
+								<select name="category" id="" class="form-control form-control-select2">
+									<option value="0">Category</option>
+									{% for i in categories %}
+									<option value="{{i.id}}">{{i.title.capitalize}}</option>
+									{% endfor %}
+								</select>
+								
+							</div>
+						</div>
+						<button class="btn btn-primary btn-sm filterbtn">Filter</button>	
+					</div>
+	
+					<!-- search table input -->
+					<div class="col-4">
+						<input type="search" class="form-control form-control-sm" id="myInput" placeholder="Search" onkeyup="searchtable()">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-5">
+				<div class="sticky-top card-header text-center text-white d-flex justify-content-between align-items-center">
+					<small>
+						Commande
+					</small>
+					<!-- a button to clear commande -->
+					<button class="btn btn-danger btn-sm clearcommande" onclick="clearcommande()">
+						X
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="row border bg-white p-2">
+			<div class="col-7 fitscreen border-end">
+				
+				<table class="table table-striped table-hover table-borded thistable" id="myTable">
+					<thead>
+						<tr>
+						<th style="width: 15%">#</th>
+						<th >Name</th>
+						<th style="width: 10%;">Prix</th>
+						<th style="width: 5%;">Qty</th>
+						</tr>
+					</thead>
+					<tbody class="prdctslist">
+						
+					</tbody>
+				</table>
+
+			</div>
+
+			<div class="col-5 fitscreen">
+				
+				<table class="table table-striped table-borded">
+					<thead>
+					<tr>
+						<th >ref</th>
+						<th >article</th>
+						<th style="width:10%;">Qty</th>
+						<th style="width:10%;">total</th>
+					</tr>
+					</thead>
+					<tbody class="commande-table">
+						
+					</tbody>
+				</table>
+				
+			</div>
+		</div>
+
+		<div class="row mt-2 border">
+			<div class="col-7 d-flex justify-content-between">
+				<div>
+					TOTAL: <span class="total">0</span>
+				</div>
+				<div>Client:</div>
+			</div>
+			<div class="col-5">
+				
+				<div class="d-flex justify-content-center">
+					<select class="form-control form-control-select2" name="client">
+						<option value="0">---</option>
+						{% for i in clients %}
+							<option value="{{i.id}}">{{i.name}} {{i.city}}</option>
+						{% endfor %}
+					</select>
+					
+					{% csrf_token %}
+					<button class="btn btn-primary valider" disabled>
+					Confirmer
+					</button>
+				</div>
+				<button class="btn btn-primary w-100 mt-2" data-toggle="modal" data-target="#addclientmodal">
+					<i class="bi bi-plus"></i>Nouveau client
+				</button>
+
+				<small class="text-danger d-none clienterr">
+					Choisir un client ou ajouter un nouveau
+				</small>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="addclientmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+			<form id="addclientform">
+				{% csrf_token %}
+				<div class="form-group">
+					<label for="exampleInputEmail1">Nom ou Nom commercial</label>
+					<input name="name" type="text" required class="form-control">
+				</div>
+				
+				<div class="form-group">
+					<label for="exampleInputPassword1">Phone</label>
+					<input name="phone" type="text" required class="form-control">
+				</div>
+				<div class="form-group">
+					<label for="exampleInputPassword1">Ville</label>
+					<input name="city" type="text" required class="form-control">
+				</div>
+				<div class="form-group">
+					<label for="exampleInputPassword1">Addresse</label>
+					<input name="address" type="text" required class="form-control">
+				</div>
+				<button  class="btn btn-primary addclientbtn">Submit</button>
+		  </form>
+		</div>
+	  </div>
+	</div>
+  </div>
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+	
+</script>
+<script src="{% static 'js/catalog.js' %} "></script>
+
+{% endblock %}

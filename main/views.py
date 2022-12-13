@@ -3,8 +3,9 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from .models import Brand, Category, Client, Order, Orderitem, Produit, Coupon, Model, Mark
 import pandas as pd
-from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth import authenticate, login, logout
+import json
 
 # Create your views here.
 def home(request):
@@ -23,7 +24,26 @@ def about(request):
 
 
 
-
+def loginpage(request):
+    if request.method == 'POST':
+        print('login proccess')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        print(username, password)
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            group=user.groups.all().first().name
+            if group == 'salsemen':
+                return redirect(catalog)
+            elif group=='client':
+                return redirect(catalog)
+            elif group == 'accounting':
+                return redirect(orders)
+        else:
+            return redirect(loginpage)
+    print('not post')
+    return render(request, 'login.html')
 
 
 def byref(request):
@@ -94,46 +114,22 @@ def coupon(request):
         'amount':cpn.amount
     })
 
-# process the order
-# def guestorder(request):
-#     # get the data from the request
-#     data=request.POST.get('data')
-#     # convert the data to json
-#     data=json.loads(data)
-#     # create a new order
-#     order=Ordersguest(data['name'], data['phone'], data['email'], data['address'], data['city'])
-#     # save the order
-#     order.save()
-#     # get the products from the data
-#     products=data['products']
-#     # loop through the products
-#     for i in products:
-#         # get the product from the db
-#         pd=Produit.objects.filter(id=i['id']).first()
-#         # check if the product exist
-#         if pd:
-#             # check if the product is in stock
-#             if pd.stock>=i['quantity']:
-#                 # add the product to the order
-#                 order.products.add(pd)
-#                 # update the stock
-#                 pd.stock-=i['quantity']
-#                 # save the product
-#                 pd.save()
-#             else:
-#                 # return a json response with value False
-#                 return JsonResponse({
-#                     'valid':False
-#                 })
-#         else:
-#             # return a json response with value False
-#             return JsonResponse({
-#                 'valid':False
-#             })
-#     # return a json response with value True
-#     return JsonResponse({
-#         'valid':True
-#     })
+
+# users groups
+# chack if user's group in accounting
+def isaccounting(user):
+    return user.groups.filter(name='accounting').exists()
+
+# chack if user's group in salsemen
+def issalsemen(user):
+    return user.groups.filter(name='salsemen').exists()
+
+
+
+
+
+
+
 
 
 
@@ -184,7 +180,8 @@ def filters(request):
         'data':render(request, 'calls.html', {'products':products}).content.decode('utf-8')
     })
 
-@login_required
+@user_passes_test(isaccounting, login_url='loginpage')
+@login_required(login_url='loginpage')
 def create(request):
     # get category from db
     categories=Category.objects.all()
@@ -256,31 +253,43 @@ def addbulkah(request):
         Produit.objects.create(name=d.n,category=Category.objects.get(pk=5), price=round(d.pr, 2), brand=d.b, model=d.mo, mark=d.ma, ref=d.ref)
     return redirect(create)
 
+@login_required(login_url='loginpage')
 def addbulk(request, ctg):
     myfile = request.FILES['file']
     df = pd.read_excel(myfile)
     df = df.fillna('')
     for d in df.itertuples():
-        Produit.objects.create(name=d.n,category=Category.objects.get(pk=ctg), price=round(d.pr, 2), brand=d.b, model=d.mo, mark=d.ma.lower(), ref=d.ref)
+        Produit.objects.create(name=d.n.lower(),category=Category.objects.get(pk=ctg), price=round(d.pr, 2), brand=d.b, model=d.mo, mark=d.ma.lower(), ref=d.ref)
     return redirect(create)
 
-
+@user_passes_test(issalsemen, login_url='loginpage')
+@login_required(login_url='loginpage')
 def commande(request):
     client=request.POST.get('client')
-    order=Order.objects.create(client=Client.objects.get(pk=client))
+    total=request.POST.get('total')
+    order=Order.objects.create(client=Client.objects.get(pk=client), salseman=request.user.username, total=total)
     commande=request.POST.getlist('commande[]')
     print(commande)
     for i in commande:
-        Orderitem.objects.create(order=order, ref=i.split(':')[0], qty=int(i.split(':')[1]))
+        ref, name, qty=i.split(':')
+        Orderitem.objects.create(order=order, ref=ref, name=name, qty=int(qty))
     # return a json res
     return JsonResponse({
         'valid':True,
         'message':'Commande enregistrée avec succès'
     })
-    
+
+
+
+@user_passes_test(isaccounting, login_url='loginpage')
+@login_required(login_url='loginpage')
 def orders(request):
-    orders=Order.objects.all()
-    return render(request, 'orders.html', {'orders':orders})
+    # get orders from db and order them by date ascendant
+    orders=Order.objects.all().filter(isdelivered=False).order_by('id')
+    delivered=Order.objects.all().filter(isdelivered=True)
+
+    return render(request, 'orders.html', {'orders':orders, 'delivered':delivered, 'title':'Commandes'})
+
 
 def orderitems(request, id):
     orderitems=Orderitem.objects.filter(order=id)
@@ -295,3 +304,60 @@ def dilevered(request, id):
     order.isdelivered=True
     order.save()
     return redirect(orders)
+
+@login_required(login_url='loginpage')
+def dashboard(request):
+    user=request.user
+    print(user.groups.all().first())
+    return render(request, 'dashboard.html')
+
+@user_passes_test(issalsemen, login_url='loginpage')
+@login_required(login_url='loginpage')
+def catalog(request):
+    ctx={
+            'categories': Category.objects.all(),
+            'brands':Brand.objects.all(),
+            'models':Model.objects.all(),
+            'clients':Client.objects.all(),
+            'title':'Catalog'
+        }
+    return render(request, 'catalog.html', ctx)
+
+
+
+@user_passes_test(issalsemen, login_url='loginpage')
+@login_required(login_url='loginpage')
+def salsemanorders(request):
+    orders=Order.objects.filter(salseman=request.user.username)
+    return render(request, 'salsemanorders.html', {'orders':orders})
+
+
+
+
+def clients(request):
+    clients=Client.objects.all()
+    # Convert the QuerySet to a list of dictionaries
+    data = list(clients.values())
+
+    # Serialize the list as JSON
+    json_data = json.dumps(data)
+    # return a json response with clients as clients
+    return JsonResponse({
+        'clients':json_data
+    })
+
+
+def addclient(request):
+    name=request.POST.get('name')
+    phone=request.POST.get('phone')
+    address=request.POST.get('address')
+    city=request.POST.get('city')
+    Client.objects.create(name=name, phone=phone, address=address, city=city)
+    return JsonResponse({
+        'valid':True,
+        'message':'Client ajouté avec succès'
+    })
+
+def logoutuser(request):
+    logout(request)
+    return redirect(loginpage)

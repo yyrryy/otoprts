@@ -26,7 +26,7 @@
         <div class="row">
             <form class="mb-3 col-md-4" action="/addcategory" method="POST">
                 {% csrf_token %}
-                <p>Add category</p>
+                <p>ajouter category</p>
                 <div class="form-group d-flex">
                     <input required type="text" class="form-control" placeholder="Category" name="category">
                     <button class="btn btn-primary addcategory">Add</button>
@@ -35,7 +35,7 @@
     
             <form class="mb-3 col-md-4" action="/addbrand" method="POST">
                 {% csrf_token %}
-                <p>Add Brand</p>
+                <p>ajouter Brand</p>
                 <div class="form-group d-flex">
                     <input required type="text" class="form-control" placeholder="Brand" name="brand">
                     <button class="btn btn-primary addcategory">Add</button>
@@ -44,7 +44,7 @@
 
             <form class="mb-3 col-md-4" action="/addmark" method="POST">
                 {% csrf_token %}
-                <p>Add Mark</p>
+                <p>ajouter Mark</p>
                 <div class="form-group d-flex">
                     <input required type="text" class="form-control" placeholder="Brand" name="brand">
                     <button class="btn btn-primary addcategory">Add</button>
@@ -53,57 +53,36 @@
         </div>
 
 
-        <p>Add product</p>
-        <form action="/addproduct" method="POST" class="row">
-            {% csrf_token %}
-            
-            <div class="form-group col-md-4">
-              <select name="category" id="" class="form-control  form-control-select2">
-                {% for category in categories %}
-                    <option value="{{ category.id }}">{{ category.title }}</option>
-                {% endfor %}
-            </select>
-            </div>
-            <div class="form-group col-md-4">
-                <select name="brand" id="" class="form-control  form-control-select2">
-                  {% for brand in brands %}
-                      <option value="{{ brand.id }}">{{ brand.name }}</option>
-                  {% endfor %}
-              </select>
-              </div>
-              <div class="form-group col-md-4">
-                <select name="mark" id="" class="form-control  form-control-select2">
-                  {% for mark in marks %}
-                      <option value="{{ brand.id }}">{{ mark.name }}</option>
-                  {% endfor %}
-              </select>
-              </div>
-            <div class="form-group col-md-4">
-                <input required type="number" class="form-control" id="exampleFormControlInput1" placeholder="Price" name="price">
-            </div>
-            <div class="form-group col-md-4">
-                <input required type="text" class="form-control" id="exampleFormControlInput1" placeholder="Ref" name="ref">
-            </div>
-            <div class="form-group col-md-4">
-                <button class="btn btn-primary addproduct">
-                    Add
-                </button>
-            </div>
-            
-        </form>
-        <br>
+        <hr>
+
+        <p>
+            Ajouter des excel selon les categories
+        </p>
+        <table class="table table-bordered">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">ref</th>
+                <th scope="col">n</th>
+                <th scope="col">pr</th>
+                <th scope="col">b</th>
+                <th scope="col">ma</th>
+                <th scope="col">mo</th>
+              </tr>
+            </thead>
+        </table>
 
 
         
         
         <!--  bootstrap cards -->
-        <div class="row">
+        <div class="row addforms">
+            {% for i in categories %}
             <div class="card col-3">
-            <div class="card-header">
-                Couroie
+            <div class="card-header text-white">
+                {{i}}
             </div>
             <div class="card-body">
-                <form action="/addbulk/4" method="POST" class="row" enctype="multipart/form-data">
+                <form action="/addbulk/{{i.id}}" method="POST" class="row" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="form-group">
                         {% csrf_token %}
@@ -114,81 +93,9 @@
                     </div>
                 </form>
             </div>
-        </div>
-
-        <div class="card col-3">
-            <div class="card-header">
-                roulement
             </div>
-            <div class="card-body">
-            <form action="/addbulk/3" method="POST" class="row" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="form-group">
-                    {% csrf_token %}
-                    <input required type="file" name="file">
-                    <button class="btn btn-primary addbulk" type="submit">
-                        Add
-                    </button>
-                </div>
-            </form>
-            </div>
-        </div>
-
-        <div class="card col-3">
-            <div class="card-header">
-                filtre huile
-            </div>
-            <div class="card-body">
-                <form action="/addbulk/2" method="POST" class="row" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        {% csrf_token %}
-                        <input required type="file" name="file">
-                        <button class="btn btn-primary addbulk" type="submit">
-                            Add
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="card col-3">
-            <div class="card-header">
-                filtre air
-            </div>
-            <div class="card-body">
-                <form action="/addbulk/1" method="POST" class="row" enctype="multipart/form-data">
-                    {% csrf_token %}
+            {% endfor %}
         
-                    <div class="form-group">
-                        {% csrf_token %}
-                        <input required type="file" name="file">
-                        <button class="btn btn-primary addbulk" type="submit">
-                            Add
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="card col-3">
-            <div class="card-header">
-                AH
-            </div>
-            <div class="card-body">
-                <form action="/addbulk/5" method="POST" class="row" enctype="multipart/form-data">
-                    {% csrf_token %}
-        
-                    <div class="form-group">
-                        {% csrf_token %}
-                        <input required type="file" name="file">
-                        <button class="btn btn-primary addbulk" type="submit">
-                            Add
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
         </div>
         
 
