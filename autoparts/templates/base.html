@@ -69,51 +69,52 @@
             </div>
             <div class="px-3">
                 <div class="mb-2 p-3 d-flex justify-content-between bg-dark text-white align-items-center">
-                    
-                    <ul class="navbar-nav mr-auto">
-                            
-                        <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ user.get_username }}
-                          </a>
-                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% if user.username %}
+                        <ul class="navbar-nav mr-auto">
+                                
+                            <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ user.get_username }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                            <a class="dropdown-item" href="{% url 'logoutuser' %}">Logout</a>
-                            {% if user.groups.all.0.name == 'accounting' %}
-                            <a class="dropdown-item" href="{% url 'orders' %}">Commandes</a>
-                            {% endif %}
-                            {% if user.groups.all.0.name == 'salsemen' %}
-                            <a class="dropdown-item" href="{% url 'salsemanorders' %}">Mes commande</a>
-                            {% endif %}
-                            <div class="dropdown-divider"></div>
-                          </div>
-                        </li>
+                                <a class="dropdown-item" href="{% url 'logoutuser' %}">Logout</a>
+                                {% if user.groups.all.0.name == 'accounting' %}
+                                <a class="dropdown-item" href="{% url 'orders' %}">Commandes</a>
+                                {% endif %}
+                                {% if user.groups.all.0.name == 'salsemen' %}
+                                <a class="dropdown-item" href="{% url 'salsemanorders' %}">Mes commande</a>
+                                {% endif %}
+                                <div class="dropdown-divider"></div>
+                            </div>
+                            </li>
+                            
+                        </ul>
+                        {% if not user.groups.all.0.name == 'accounting' %}
                         
-                    </ul>
-                    {% if not user.groups.all.0.name == 'accounting' %}
-                    
-                    <a href="/catalog" class="btn btn-primary">
-                        Catalog
-                    </a>
+                        <a href="/catalog" class="btn btn-primary">
+                            Catalog
+                        </a>
+                        {% endif %}
+                        {% if user.groups.all.0.name == 'accounting' %}
+                        <p>
+                            Commande non validé: <span class="nonvalider">0</span>
+                        </p>
+                        {% endif %}
+                        {% if user.groups.all.0.name == 'salsemen' %}
+                        <p>
+                            Articles comandés: <span class="commanditems">0</span>
+                        </p>
+                        {% endif %}
                     {% endif %}
-                    {% if user.groups.all.0.name == 'accounting' %}
-                    <p>
-                        Commande non validé: <span class="nonvalider">0</span>
-                    </p>
-                    {% endif %}
-                    {% if user.groups.all.0.name == 'salsemen' %}
-                    <p>
-                        Articles comandés: <span class="commanditems">0</span>
-                    </p>
-                    {% endif %}
-                </div>      
+                </div>
                 {% block content %}
                 {% endblock %}
             </div>
 
 
 
-            <footer class="container text-muted mt-auto d-flex justify-content-between">
+            <footer class="text-muted mt-auto d-flex justify-content-between">
                 <small>
                     Version: 1.0.0
                 </small>
