@@ -39,10 +39,6 @@
             <td>{{ order.client }}</td>
             <td>{{ order.salseman}}</td>
           </tr>
-          {% empty %}
-          <tr>
-            <td colspan="3">No orders yet</td>
-          </tr>
           {% endfor %}
         </tbody>
       </table>
@@ -60,7 +56,7 @@
 
     
   </div>
-
+  <hr>
   <!-- deleivered -->
   <div class="row">
     <div class="col-6 fitscreen">

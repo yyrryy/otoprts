@@ -39,7 +39,8 @@ class Produit(models.Model):
 
     #cartgrise
     # n_chasis=models.CharField(max_length=50, null=True)
-
+    min=models.CharField(max_length=500, default=None, null=True, blank=True)
+    offre=models.CharField(max_length=500, default=None, null=True, blank=True)
     category=models.ForeignKey(Category,on_delete=models.CASCADE, default=None)
     brand=models.CharField(max_length=25, default=None)
     model=models.CharField(max_length=25, default=None)

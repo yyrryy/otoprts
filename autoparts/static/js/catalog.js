@@ -42,6 +42,9 @@ const clearstorage =()=>{
     localStorage.removeItem('productsdetails')
     // clear table
     tablecmnd.empty()
+    $('.prdctslist').empty()
+    $('.commanditems').text(0)
+    updatetotal()
 }
 
 const savetostorage=(id, ref, n, qty, pr, tt)=>{
@@ -101,13 +104,15 @@ const loadpdcts=()=>{
                 }
             )})
         }
+        $('.commanditems').text(products.length)
         updatetotal()
         return
     }
 }
 
-const loading=()=>{
+const loading=(p)=>{
     $('.loading').removeClass('d-none').addClass('d-flex');
+    $('.textloading').text(p)
 }
 
 const stoploading=()=>{
@@ -177,10 +182,15 @@ const validercmnd=(clientid)=>{
         },
 
         success: function(data){
+            stoploading()
             $('.cmndholder').remove()
+            clearstorage()
             $('.valider').prop('disabled', true)
+            updateclients()
+            alertify.alert('Message', 'Commande envoyé')
         },
         error:(err)=>{
+            stoploading()
             alert(err)
         }
     })
@@ -213,7 +223,7 @@ const updateclients=()=>{
             $('[name=client]').html('<option value="0">---</option>')
             for (i of JSON.parse(data.clients)){
                 $('[name=client]').append(`
-                <option value="${i.id}">${i.name} ${i.phone}</option>
+                <option value="${i.id}">${i.name} (${i.city})</option>
                 `)
             }
         },
@@ -328,19 +338,22 @@ $('[name=category]').on('change',() => {
         })
 
 $('.valider').on('click', ()=>{
-    clientid=client.val()
-    if(clientid=='0'){
-        $('.clienterr').removeClass('d-none').addClass('d-block')
-        return
-    }
-    else{
-        $('.valider').prop('disabled', false)
-        $('.clienterr').removeClass('d-block').addClass('d-none')
-        validercmnd(clientid)
-        clearstorage()
-        // refresh window
-        window.location.reload()
+    loading('verification')
+    //     
+    client.val()==0?stoploading():validercmnd(client.val())
+    // clientid=client.val()
+    // if(clientid=='0'){
+    //     $('.clienterr').removeClass('d-none').addClass('d-block')
+    //     return
+    // }
+    // else{
+    //     loading()
+    //     $('.valider').prop('disabled', true)
+    //     $('.clienterr').removeClass('d-block').addClass('d-none')
+    //     validercmnd(clientid)
+    //     clearstorage()
+    //     stoploading()
+    //     window.location.reload()
+    // }
 
-
-    }
 })

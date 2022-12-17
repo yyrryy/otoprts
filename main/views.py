@@ -7,16 +7,29 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, login, logout
 import json
 
+# users groups
+# chack if user's group in accounting
+def isaccounting(user):
+    return user.groups.filter(name='accounting').exists()
+
+# chack if user's group in salsemen
+def issalsemen(user):
+    return user.groups.filter(name='salsemen').exists()
+
+
+
 # Create your views here.
 def home(request):
-    ctx={
-        'categories': Category.objects.all(),
-        'brands':Brand.objects.all(),
-        'models':Model.objects.all(),
-        'clients':Client.objects.all()
-    }
-    
-    return render(request, 'home.html', ctx)
+    print(request.user)
+    print(request.user.groups.first())
+    if request.user.groups.first():
+        if (request.user.groups.first().name=='salsemen'):
+            return redirect(catalog)
+        if (request.user.groups.first().name=='accounting'):
+            return redirect(orders)
+        if (request.user.groups.first().name=='admin'):
+            return redirect(orders)
+    return redirect(loginpage)
 
 
 def about(request):
@@ -26,10 +39,8 @@ def about(request):
 
 def loginpage(request):
     if request.method == 'POST':
-        print('login proccess')
         username = request.POST.get('username')
         password = request.POST.get('password')
-        print(username, password)
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
@@ -42,7 +53,6 @@ def loginpage(request):
                 return redirect(orders)
         else:
             return redirect(loginpage)
-    print('not post')
     return render(request, 'login.html')
 
 
@@ -100,7 +110,6 @@ def bysach(request):
 def coupon(request):
     # get cupon from the request
     coupon=request.POST.get('coupon')
-    print('coupon', coupon)
     # check if cupon exist in db
     cpn=Coupon.objects.filter(code=coupon).first()
     if not(cpn):
@@ -114,15 +123,6 @@ def coupon(request):
         'amount':cpn.amount
     })
 
-
-# users groups
-# chack if user's group in accounting
-def isaccounting(user):
-    return user.groups.filter(name='accounting').exists()
-
-# chack if user's group in salsemen
-def issalsemen(user):
-    return user.groups.filter(name='salsemen').exists()
 
 
 
@@ -144,7 +144,6 @@ def filters(request):
     # filter logic
 
 
-    print(category, brand, model, mark)
 
     if category and brand and model and mark:
         # get the products from the db
@@ -195,7 +194,6 @@ def create(request):
 def addcategory(request):
     # get category from request
     category=request.POST.get('category')
-    print(category)
     Category(title=category).save()
     return redirect(create)
 
