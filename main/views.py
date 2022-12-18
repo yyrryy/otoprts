@@ -217,7 +217,7 @@ def addbulk(request, ctg):
     df = pd.read_excel(myfile)
     df = df.fillna('')
     for d in df.itertuples():
-        Produit.objects.create(name=d.n.lower(),category=Category.objects.get(pk=ctg), price=round(d.pr, 2), brand=d.b, model=d.mo, mark=d.ma.lower(), ref=d.ref, min=d.min, offre=d.offre)
+        Produit.objects.create(name=d.n.lower(),category=Category.objects.get(pk=ctg), price=round(d.pr, 2), brand=d.b, model=d.mo, mark=d.ma.lower(), ref=d.ref.lower(), min=d.min, offre=d.offre)
     return redirect(create)
 
 @user_passes_test(issalsemen, login_url='loginpage')
