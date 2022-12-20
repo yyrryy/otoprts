@@ -21,7 +21,7 @@
   <div class="row mb-5">
     
     <div class="col-6 fitscreen">
-      <p class="card-header sticky-top text-white">
+      <p class="card-header sticky-top">
         Commandes
       </p>
       <table class="table table-hover table-striped table-borded tablecommande">
@@ -34,7 +34,7 @@
         </thead>
         <tbody>
           {% for order in orders %}
-          <tr class="ord {% if order.isdelivered%}bg-primary text-white{%endif%}" orderid="{{order.id}}">
+          <tr class="ord {% if order.isdelivered%}bg-primary{%endif%}" orderid="{{order.id}}">
             <td>{{ order.date|date:'d/m/Y' }}</td>
             <td>{{ order.client }}</td>
             <td>{{ order.salseman}}</td>
@@ -45,7 +45,7 @@
     </div>
 
     <div class="col-6 fitscreen details">
-      <p class="card-header sticky-top text-white">
+      <p class="card-header sticky-top">
         Details
       </p>
       <div class="orderitems position-relative">
@@ -60,7 +60,7 @@
   <!-- deleivered -->
   <div class="row">
     <div class="col-6 fitscreen">
-      <p class="card-header sticky-top text-white">
+      <p class="card-header sticky-top">
         Commandes livrées
       </p>
       <table class="table table-hover table-striped table-borded">
