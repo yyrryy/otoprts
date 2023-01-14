@@ -36,7 +36,7 @@ DEBUG = True
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1', '157.245.64.200']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
