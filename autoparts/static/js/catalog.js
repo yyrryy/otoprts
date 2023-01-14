@@ -1,5 +1,5 @@
 
-const client = $('select[name="client"]');
+const client = $('.clientid');
 const tablecmnd = $('.commande-table');
 const csrf= $("[name=csrfmiddlewaretoken]").val()
 
@@ -72,6 +72,7 @@ const loadpdcts=()=>{
     products=JSON.parse(localStorage.getItem('productsdetails'))
     if (products && products.length){
         $('.valider').prop('disabled', false)
+        $('.fromclient').prop('disabled', false)
         for (i of products){
             let [ref, n, qty, pr, tt]=i
             tablecmnd.append(`
@@ -110,21 +111,16 @@ const loadpdcts=()=>{
     }
 }
 
-const loading=(p)=>{
-    $('.loading').removeClass('d-none').addClass('d-flex');
-    $('.textloading').text(p)
-}
-
-const stoploading=()=>{
-    $('.loading').removeClass('d-flex').addClass('d-none');
-}
 
 const addcmnd=(name, ref, qty, pr, id)=>{
+    // checks local storage if the item is already there
     if(!checkstorage(id)){
         sub=(pr*qty).toFixed(2)
         savetostorage(id, ref, name, qty, pr, sub)
         $('.commanditems').text(parseInt($('.commanditems').text())+1)
         $('.valider').prop('disabled', false)
+
+        $('.fromclient').prop('disabled', false)
         tablecmnd.append(`
         <tr class="cmndholder">
         <td class="pdctcmnd" ref=${ref} name="${name}">
@@ -178,14 +174,18 @@ const validercmnd=(clientid)=>{
             'csrfmiddlewaretoken': csrf,
             'commande': commande,
             'client':clientid,
-            'total':parseFloat($('.total').text())
+            'total':parseFloat($('.total').text()),
+            'modpymnt':$('[name="modpymnt"]').val()
         },
 
         success: function(data){
+            $('select').val(0)
+            $('.modes').removeClass('border-danger')
             stoploading()
             $('.cmndholder').remove()
             clearstorage()
             $('.valider').prop('disabled', true)
+                    $('.fromclient').prop('disabled', true)
             updateclients()
             alertify.alert('Message', 'Commande envoyé')
         },
@@ -223,7 +223,7 @@ const updateclients=()=>{
             $('[name=client]').html('<option value="0">---</option>')
             for (i of JSON.parse(data.clients)){
                 $('[name=client]').append(`
-                <option value="${i.id}">${i.name} (${i.city})</option>
+                <option value="${i.id}">${i.name} (${i.address})</option>
                 `)
             }
         },
@@ -277,9 +277,15 @@ $("#addclientform").submit(function(event) {
 
 // clear commande
 const clearcommande=()=>{
-    clearstorage()
-    $('.valider').prop('disabled', true)
-    $('.total').text('0.00')
+    if (confirm('Supprimer la commande')){
+
+        clearstorage()
+        $('.valider').prop('disabled', true)
+        $('.fromclient').prop('disabled', true)
+        $('.total').text('0.00')
+        return
+    }
+    return
 }
 
 
@@ -335,12 +341,20 @@ $('[name=category]').on('change',() => {
             })
     
     
-        })
+})
 
 $('.valider').on('click', ()=>{
     loading('verification')
-    //     
-    client.val()==0?stoploading():validercmnd(client.val())
+    //
+    if (client.val()==0 || $('[name="modpymnt"]').val()==0 || $('[name="modlvrsn"]').val()==0){
+        stoploading()
+        alertify.alert('Message', 'Veuillez choisir un mode de payement ou de livraison')
+        $('.modes').addClass('border-danger')
+        console.log('error')
+        return
+    }
+    validercmnd(client.val())
+    // client.val()==0?stoploading():validercmnd(client.val())
     // clientid=client.val()
     // if(clientid=='0'){
     //     $('.clienterr').removeClass('d-none').addClass('d-block')
@@ -349,6 +363,7 @@ $('.valider').on('click', ()=>{
     // else{
     //     loading()
     //     $('.valider').prop('disabled', true)
+    //     $('.fromclient').prop('disabled', true)
     //     $('.clienterr').removeClass('d-block').addClass('d-none')
     //     validercmnd(clientid)
     //     clearstorage()
@@ -356,4 +371,9 @@ $('.valider').on('click', ()=>{
     //     window.location.reload()
     // }
 
+})
+
+$('.fromclient').on('click', ()=>{
+    loading('verification')
+    
 })

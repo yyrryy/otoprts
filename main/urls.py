@@ -27,4 +27,5 @@ urlpatterns = [
     path('logoutuser', views.logoutuser, name='logoutuser'),
     path('clients', views.clients, name='clients'),
     path('addclient', views.addclient, name='addclient'),
+    path('aboutus', views.aboutus, name='aboutus'),
 ]

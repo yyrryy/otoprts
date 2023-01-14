@@ -9,7 +9,6 @@
       z-index: 1030;
       margin-top: 10px;
       background: white;
-      height: 95%;
     }
 </style>
 {% endblock %}
@@ -120,20 +119,13 @@
   }
 
 
-  const loading=()=>{
-		$('.loading').removeClass('d-none').addClass('d-flex');
-        }
 
-    const stoploading=()=>{
-        $('.loading').removeClass('d-flex').addClass('d-none');
-    }
     $('.ord').each(function(){
       $(this).click(function(){
         loading()
         
         id=$(this).attr('orderid');
 
-          $('.orderitems').addClass('openorder');
             $.ajax({
                 url: '/orderitems/'+id,
                 type: 'POST',

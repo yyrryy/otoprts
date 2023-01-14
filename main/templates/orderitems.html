@@ -46,11 +46,11 @@
     </div>
 </div>
 
-
 <div class="mt-3 no-gutters mx-n2 sticky-bottom border-top rounded">
     <div>
       <div class="card address-card address-card--featured">
         <div class="address-card__body">
+          {{user.groups.all.0.name}}
           <div class="address-card__name">{{order.client.name}}</div>
           <div class="address-card__row">{{order.client.city}}<br>{{order.client.address}}</div>
           <div class="address-card__row">
@@ -59,17 +59,33 @@
           </div>
          
         </div>
-        {% if not order.isdelivered %}
-        <form action="/dilevered/{{order.id}}" method="POST">
-          {%csrf_token%}
-          <button class="btn btn-primary w-100"  type="submit">Valider</button>
-        </form>
-        {% else %}
-        <button class="btn btn-primary disabled">
-          Order delivered
-        </button>
+
+        {% if user.groups.all.0.name == 'accounting' or user.groups.all.0.name == 'admin' %}
+          {% if not order.isdelivered %}
+          <form action="/dilevered/{{order.id}}" method="POST">
+            {%csrf_token%}
+            <button class="btn btn-primary w-100"  type="submit">Valider</button>
+          </form>
+          {% else %}
+          <button class="btn btn-primary disabled">
+            Commande livrée
+          </button>
+          {% endif %}
+        {% endif %}
+        {% if user.groups.all.0.name == 'clients' %}
+          {% if  order.isdelivered %}
+          <button class="btn btn-primary disabled">
+            Commande livrée
+          </button>
+          {% else %}
+          <button class="btn btn-primary disabled">
+            Commande en cours de livraison ...
+          </button>
+          {% endif %}
         {% endif %}
       </div>
     </div>
 
+
 </div>
+

@@ -1,6 +1,5 @@
 vauto
 migrations
-db.sqlite3
 main/__pycache__
 test.py
 # Django stuff:

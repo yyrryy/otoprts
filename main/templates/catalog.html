@@ -25,11 +25,10 @@
 	<!-- row with catalog and command divs -->
 	<div>
 
-		<div class="row">
+		<!-- <div class="row">
 			<div class="col-7 border-end border-4">
-				<div class="d-flex border-end rounded-top sticky-top bg-white align-items-center">
+				<div class="d-flex border-end rounded-top sticky-top  align-items-center">
 				
-					<!-- category filter -->
 					<div class="d-flex col-8">
 						<div class="col-7">
 							<div class="filter-vehicle">
@@ -37,6 +36,48 @@
 									<option value="0">Category</option>
 									{% for i in categories %}
 									<option value="{{i.id}}">{{i.title.capitalize}}</option>
+									{% endfor %}
+								</select>
+								
+							</div>
+						</div>
+						<button class="btn btn-primary btn-sm filterbtn">Filter</button>
+					</div>
+	
+					<div class="col-4">
+						<input type="text" class="form-control" id="myInput" placeholder="Search" onkeyup="searchtable()">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-5">
+				<div class="sticky-top card-header text-center d-flex justify-content-between align-items-center">
+					<small>
+						Commande
+					</small>
+					<button class="btn btn-danger btn-sm clearcommande" onclick="clearcommande()">
+						X
+					</button>
+				</div>
+			</div>
+		</div> -->
+
+		<div class="row  p-2">
+			<div class="col-7 fitscreen  border-end bg-white">
+				<div class="bg-white p-2 sticky-top d-flex border-end rounded-top sticky-top  align-items-center">
+				
+					<!-- category filter -->
+					<div class="d-flex col-8">
+						<div class="col-7">
+							<div class="filter-vehicle">
+								<select name="category" id="" class="form-control form-control-select2">
+									<option value="0">Category</option>
+									{% for category in cc %}
+										{% if category.has_promotion %}
+										<option value="{{ category.id }}">{{ category.title }} (promotion)</option>
+										{% else %}
+										<option value="{{ category.id }}">{{ category.title }}</option>
+										{% endif %}
 									{% endfor %}
 								</select>
 								
@@ -50,24 +91,6 @@
 						<input type="text" class="form-control" id="myInput" placeholder="Search" onkeyup="searchtable()">
 					</div>
 				</div>
-			</div>
-
-			<div class="col-5">
-				<div class="sticky-top card-header text-center d-flex justify-content-between align-items-center">
-					<small>
-						Commande
-					</small>
-					<!-- a button to clear commande -->
-					<button class="btn btn-danger btn-sm clearcommande" onclick="clearcommande()">
-						X
-					</button>
-				</div>
-			</div>
-		</div>
-
-		<div class="row border bg-white p-2">
-			<div class="col-7 fitscreen border-end">
-				
 				<table class="table table-striped table-hover table-bordered thistable" id="myTable">
 					<thead>
 						<tr>
@@ -86,15 +109,24 @@
 
 			</div>
 
-			<div class="col-5 fitscreen">
+			<div class="col-5 fitscreen ">
+				<div class="sticky-top card-header text-center d-flex justify-content-between align-items-center">
+					<small>
+						Commande
+					</small>
+					<!-- a button to clear commande -->
+					<button class="btn clearcommande" onclick="clearcommande()">
+						X
+					</button>
+				</div>
 				
-				<table class="table table-striped table-borded">
+				<table class="table table-striped table-bordered table-hover">
 					<thead>
 					<tr>
 						<th >ref</th>
 						<th >article</th>
-						<th>Qty</th>
-						<th>total</th>
+						<th style="width: 5%;">Qty</th>
+						<th style="width: 5%;">total</th>
 					</tr>
 					</thead>
 					<tbody class="commande-table">
@@ -104,21 +136,49 @@
 				
 			</div>
 		</div>
-		<hr>
-		<div class="row mt-2 border">
-			<div class="col-7 d-flex justify-content-between">
+		<!-- confirmation option 1 -->
+		<!-- <div class="row mt-2  justify-content-end p-2">
+			
+			<div class=" col-5 d-flex justify-content-between">
 				<div>
 					TOTAL: <span class="total">0</span>
 				</div>
-				<div>Client:</div>
+				<button class="btn btn-primary" data-toggle="modal" data-target="#addclientmodal">Client
+				</button>
 			</div>
-			<div class="col-5">
-				
+		
+		</div> -->
+		<div class=" mt-2  p-2 border d-flex justify-content-between align-items-center">
+			<div>
+				TOTAL: <span class="total">0</span>
+			</div>
+
+			<div class="d-flex justify-content-between modes border p-2">
+				<!-- add a list od mod pyem -->
+				<select class="form-select mb-2" aria-label="Default select example" name="modpymnt">
+					<option selected value="0">Mode de payement</option>
+					<option value="espece">Espece (-5%/article)</option>
+					<option value="cheque">Cheque (delai 4 mois)</option>
+				  </select>
+			
+			
+				<!-- add a list od mod lvrs -->
+			
+				<select class="form-select mb-2" aria-label="Default select example" name="modlvrsn">
+					<option selected value="0">Mode de livraison</option>
+					<option value="lux">Lux</option>
+					<option value="sdtm">SDTM</option>
+					<option value="ghazala">Ghazala</option>
+					<option value="baha">Baha express</option>
+				  </select>
+			</div>
+			{% if user.groups.all.0.name == 'salsemen' %}
+			<div class="col-4">
 				<div class="d-flex justify-content-center">
-					<select class="form-control form-control-select2" name="client">
+					<select class="form-control form-control-select2 clientid" name="client" >
 						<option value="0">---</option>
 						{% for i in clients %}
-							<option value="{{i.id}}">{{i.name}} ({{i.city}})</option>
+							<option value="{{i.id}}">{{i.name}} ({{i.address}})</option>
 						{% endfor %}
 					</select>
 					
@@ -127,6 +187,7 @@
 					Confirmer
 					</button>
 				</div>
+				
 				<button class="btn btn-primary w-100 mt-2" data-toggle="modal" data-target="#addclientmodal">
 					<i class="bi bi-plus"></i>Nouveau client
 				</button>
@@ -135,13 +196,21 @@
 					Choisir un client ou ajouter un nouveau
 				</small>
 			</div>
+				
+			{% endif %}
+			{% if user.groups.all.0.name == 'clients' %}
+			<input type="hidden" class="clientid" value="{{user.client.id}}">
+			<div>{{ request.user.client.name }}</div>
+			<button class="btn btn-primary valider" disabled>confirmer</button>
+			
+			{% endif %}
+			
 		</div>
 	</div>
 	
 	<!-- Button trigger modal -->
 
-  
-  <!-- Modal -->
+	<!-- Modal -->
   <div class="modal fade" id="addclientmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 	  <div class="modal-content">
@@ -151,27 +220,41 @@
 		  </button>
 		</div>
 		<div class="modal-body">
-			<form id="addclientform">
-				{% csrf_token %}
-				<div class="form-group">
-					<label for="exampleInputEmail1">Nom ou Nom commercial</label>
-					<input name="name" type="text" required class="form-control">
+			<div class="accordion mb-2" id="accordionExample">
+				<div class="accordion-item">
+				  <h2 class="accordion-header" id="headingOne">
+					<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+					  +Ajouter
+					</button>
+				  </h2>
+				  <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+					<div class="accordion-body">
+						<form id="addclientform">
+							{% csrf_token %}
+							<div class="form-group">
+								<label for="exampleInputEmail1">Nom ou Nom commercial</label>
+								<input name="name" type="text" required class="form-control">
+							</div>
+							
+							<div class="form-group">
+								<label for="exampleInputPassword1">Phone</label>
+								<input name="phone" type="text" required class="form-control">
+							</div>
+							<div class="form-group">
+								<label for="exampleInputPassword1">Ville</label>
+								<input name="city" type="text" required class="form-control">
+							</div>
+							<div class="form-group">
+								<label for="exampleInputPassword1">Addresse</label>
+								<input name="address" type="text" required class="form-control">
+							</div>
+							<button  class="btn btn-primary addclientbtn w-100">Submit</button>
+					  </form>
+					</div>
+				  </div>
 				</div>
-				
-				<div class="form-group">
-					<label for="exampleInputPassword1">Phone</label>
-					<input name="phone" type="text" required class="form-control">
-				</div>
-				<div class="form-group">
-					<label for="exampleInputPassword1">Ville</label>
-					<input name="city" type="text" required class="form-control">
-				</div>
-				<div class="form-group">
-					<label for="exampleInputPassword1">Addresse</label>
-					<input name="address" type="text" required class="form-control">
-				</div>
-				<button  class="btn btn-primary addclientbtn">Submit</button>
-		  </form>
+			</div>
+			
 		</div>
 	  </div>
 	</div>

@@ -6,6 +6,10 @@ import pandas as pd
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, login, logout
 import json
+from django.db.models import OuterRef, Exists
+from django.core.mail import send_mail
+import threading
+
 
 # users groups
 # chack if user's group in accounting
@@ -16,8 +20,11 @@ def isaccounting(user):
 def issalsemen(user):
     return user.groups.filter(name='salsemen').exists()
 
+def isclient(user):
+    return user.groups.filter(name='clients').exists()
 
-
+def tocatalog(user):
+    return (user.groups.filter(name='salsemen').exists() or user.groups.filter(name='clients').exists())
 # Create your views here.
 def home(request):
     print(request.user)
@@ -38,16 +45,27 @@ def about(request):
 
 
 def loginpage(request):
+    print(request.user.groups.all())
+    if request.user.groups.all():
+        if (request.user.groups.first().name=='salsemen'):
+            return redirect(catalog)
+        if (request.user.groups.first().name=='accounting'):
+            return redirect(orders)
+        if (request.user.groups.first().name=='admin'):
+            return redirect(orders)
+        if (request.user.groups.first().name=='clients'):
+            return redirect(catalog)
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
+        print('user', user)
         if user is not None:
             login(request, user)
             group=user.groups.all().first().name
             if group == 'salsemen':
                 return redirect(catalog)
-            elif group=='client':
+            elif group=='clients':
                 return redirect(catalog)
             elif group == 'accounting':
                 return redirect(orders)
@@ -217,25 +235,31 @@ def addbulk(request, ctg):
     df = pd.read_excel(myfile)
     df = df.fillna('')
     for d in df.itertuples():
-        Produit.objects.create(name=d.n.lower(),category=Category.objects.get(pk=ctg), price=round(d.pr, 2), brand=d.b, model=d.mo, mark=d.ma.lower(), ref=d.ref.lower(), min=d.min, offre=d.offre)
+        Produit.objects.create(name=d.n.lower(),category=Category.objects.get(pk=ctg), price=round(d.pr, 2), ref=str(d.ref).lower(), min=d.min, offre=d.offre)
     return redirect(create)
 
-@user_passes_test(issalsemen, login_url='loginpage')
+@user_passes_test(tocatalog, login_url='loginpage')
 @login_required(login_url='loginpage')
 def commande(request):
     client=request.POST.get('client')
-    total=request.POST.get('total')
-    order=Order.objects.create(client=Client.objects.get(pk=client), salseman=request.user.username, total=total)
+    total=request.POST.get('total') 
+    modpymnt=request.POST.get('modpymnt')
+    modlvrsn=request.POST.get('modlvrsn')
+    order=Order.objects.create(client=Client.objects.get(pk=client), salseman=request.user.username, total=total, modpymnt=modpymnt, modlvrsn=modlvrsn)
     commande=request.POST.getlist('commande[]')
-    print(commande)
     for i in commande:
         ref, name, qty=i.split(':')
         Orderitem.objects.create(order=order, ref=ref, name=name, qty=int(qty))
     # return a json res
+    
+    # send_mail(message='Nouveau commande.', subject=f'Nouveau commande. #{order.id}')
+    #threading.Thread(target=send_mail, args=('Nouveau commande.', f'Nouveau commande. #{order.id}', 'abdelwahedaitali@gmail.com', ['aitaliabdelwahed@gmail.com'], False)).start()
     return JsonResponse({
         'valid':True,
         'message':'Commande enregistrée avec succès'
     })
+
+
 
 
 
@@ -269,23 +293,28 @@ def dashboard(request):
     print(user.groups.all().first())
     return render(request, 'dashboard.html')
 
-@user_passes_test(issalsemen, login_url='loginpage')
+@user_passes_test(tocatalog, login_url='loginpage')
 @login_required(login_url='loginpage')
 def catalog(request):
+    categories = Category.objects.annotate(
+        has_promotion=Exists(Produit.objects.filter(category_id=OuterRef('pk'), offre__istartswith='|'))
+    )
     ctx={
             'categories': Category.objects.all(),
             'brands':Brand.objects.all(),
             'models':Model.objects.all(),
             'clients':Client.objects.all(),
-            'title':'Catalog'
+            'title':'Catalog',
+            'cc':categories,
         }
     return render(request, 'catalog.html', ctx)
 
 
 
-@user_passes_test(issalsemen, login_url='loginpage')
+@user_passes_test(tocatalog, login_url='loginpage')
 @login_required(login_url='loginpage')
 def salsemanorders(request):
+    print(request.user)
     orders=Order.objects.filter(salseman=request.user.username)
     return render(request, 'salsemanorders.html', {'orders':orders})
 
@@ -319,3 +348,10 @@ def addclient(request):
 def logoutuser(request):
     logout(request)
     return redirect(loginpage)
+
+
+def aboutus(request):
+    return render(request, 'aboutus.html', {'title':'A propos de nous'})
+
+
+

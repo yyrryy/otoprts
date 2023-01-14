@@ -1,4 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import User
+
+
+
 # Create your models here.
 
 class Category(models.Model):
@@ -13,7 +17,7 @@ class Model(models.Model):
     name=models.CharField(max_length=20)
     def __str__(self) -> str:
         return self.name
-    
+
 class Mark(models.Model):
     name=models.CharField(max_length=20)
     def __str__(self) -> str:
@@ -27,7 +31,7 @@ class Produit(models.Model):
     price= models.FloatField()
 
     #stock
-    # stock=models.IntegerField(default=1)	
+    # stock=models.IntegerField(default=1)
 
 
 
@@ -42,17 +46,18 @@ class Produit(models.Model):
     min=models.CharField(max_length=500, default=None, null=True, blank=True)
     offre=models.CharField(max_length=500, default=None, null=True, blank=True)
     category=models.ForeignKey(Category,on_delete=models.CASCADE, default=None)
-    brand=models.CharField(max_length=25, default=None)
-    model=models.CharField(max_length=25, default=None)
-    mark=models.CharField(max_length=25, default=None)
+    # brand=models.CharField(max_length=25, default=None)
+    # model=models.CharField(max_length=25, default=None)
+    # mark=models.CharField(max_length=25, default=None)
     def __str__(self) -> str:
-        return f'{self.category} {self.brand}'
+        return f'{self.category}'
 # cupppon codes table
 class Coupon(models.Model):
     code = models.CharField(max_length=50)
     amount = models.FloatField()
 
 class Client(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, default=None, null=True)
     name=models.CharField(max_length=200)
     city=models.CharField(max_length=200, null=True, default=None)
     address=models.CharField(max_length=200)
@@ -74,8 +79,11 @@ class Order(models.Model):
     # name will be a string
     # email will be a string and not requuired
     salseman=models.CharField(max_length=50, null=True, default=None)
+    modpymnt=models.CharField(max_length=50, null=True, default=None)
+    modlvrsn=models.CharField(max_length=50, null=True, default=None)
     client=models.ForeignKey(Client, on_delete=models.CASCADE, default=None)
     total=models.DecimalField(default=0.00, decimal_places=2, max_digits=20)
+    
     isdelivered = models.BooleanField(default=False)
 
     # order by date
@@ -84,7 +92,7 @@ class Order(models.Model):
     # return the name and phone
 
     # methode to determine wether it's delivered or not
-    
+
     def __str__(self) -> str:
         return f'{self.id} {self.client}'
 

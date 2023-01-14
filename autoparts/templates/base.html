@@ -34,14 +34,10 @@
 
         /* width */
         ::-webkit-scrollbar {
-        width: 10px;
+        width: 5px;
         }
 
-        /* Track */
-        ::-webkit-scrollbar-track {
-        background: #f1f1f1; 
-        }
-        
+ 
         /* Handle */
         ::-webkit-scrollbar-thumb {
         background: #888; 
@@ -83,7 +79,7 @@
                                 {% if user.groups.all.0.name == 'accounting' %}
                                 <a class="dropdown-item" href="{% url 'orders' %}">Commandes</a>
                                 {% endif %}
-                                {% if user.groups.all.0.name == 'salsemen' %}
+                                {% if user.groups.all.0.name == 'salsemen' or user.groups.all.0.name == 'clients'%}
                                 <a class="dropdown-item" href="{% url 'salsemanorders' %}">Mes commande</a>
                                 {% endif %}
                                 <div class="dropdown-divider"></div>
@@ -102,7 +98,7 @@
                             Commande non validé: <span class="nonvalider">0</span>
                         </small>
                         {% endif %}
-                        {% if user.groups.all.0.name == 'salsemen' %}
+                        {% if user.groups.all.0.name == 'salsemen' or user.groups.all.0.name == 'clients'%}
                         <small>
                             Articles comandés: <span class="commanditems">0</span>
                         </small>
@@ -114,13 +110,18 @@
             </div>
 
 
-
-            <footer class="text-muted mt-auto d-flex justify-content-between">
+            <hr>
+            <footer class="text-muted mt-auto d-flex justify-content-between p-3 align-items-center">
                 <small>
                     Version: 1.0.0
                 </small>
+                <div class="text-center">
+                    <a href="/aboutus" target="_blank">
+                        <img src="/static/images/logo.jpg" width="160" height="60">
+                    </a>
+                </div>
                 <small>
-                    @ 2022
+                    @ 2022  - developpé par <a href="https://abdelouahed.me" target="_blank">Abdelouahed</a>
                 </small>
             </footer>
             
@@ -137,6 +138,15 @@
     <script src="{% static 'js/number.js'%}"></script>
     <script src="{% static 'js/main.js'%}"></script>
     <script src="{% static 'js/alertify.min.js'%}"></script>
+    <script>
+          const loading=()=>{
+		$('.loading').removeClass('d-none').addClass('d-flex');
+        }
+
+    const stoploading=()=>{
+        $('.loading').removeClass('d-flex').addClass('d-none');
+    }
+    </script>
     {% block js %}
     {% endblock %}
 </body>
