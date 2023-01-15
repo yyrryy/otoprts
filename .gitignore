@@ -7,4 +7,5 @@ test.py
 *.pot
 __pycache__
 migrations
+db.sqlite3
 warnings.txt

@@ -175,7 +175,8 @@ const validercmnd=(clientid)=>{
             'commande': commande,
             'client':clientid,
             'total':parseFloat($('.total').text()),
-            'modpymnt':$('[name="modpymnt"]').val()
+            'modpymnt':$('[name="modpymnt"]').val(),
+            'modlvrsn':$('[name="modlvrsn"]').val()
         },
 
         success: function(data){

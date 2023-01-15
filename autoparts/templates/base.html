@@ -7,6 +7,8 @@
     <meta charset="utf-8" />
     <meta content="width=device-width,initial-scale=1" name="viewport" />
     <meta content="telephone=no" name="format-detection" />
+    <!-- favicon -->
+    <link href="{% static 'images/favicon.jpg'%}" rel="icon" />
     {% block meta %}
     {% endblock %}
     {% if title %}
@@ -75,7 +77,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                                <a class="dropdown-item" href="{% url 'logoutuser' %}">Logout</a>
+                                <a class="dropdown-item" href="{% url 'logoutuser' %}">Deconnexion</a>
                                 {% if user.groups.all.0.name == 'accounting' %}
                                 <a class="dropdown-item" href="{% url 'orders' %}">Commandes</a>
                                 {% endif %}
