@@ -25,45 +25,10 @@
 	<!-- row with catalog and command divs -->
 	<div>
 
-		<!-- <div class="row">
-			<div class="col-7 border-end border-4">
-				<div class="d-flex border-end rounded-top sticky-top  align-items-center">
-				
-					<div class="d-flex col-8">
-						<div class="col-7">
-							<div class="filter-vehicle">
-								<select name="category" id="" class="form-control form-control-select2">
-									<option value="0">Category</option>
-									{% for i in categories %}
-									<option value="{{i.id}}">{{i.title.capitalize}}</option>
-									{% endfor %}
-								</select>
-								
-							</div>
-						</div>
-						<button class="btn btn-primary btn-sm filterbtn">Filter</button>
-					</div>
-	
-					<div class="col-4">
-						<input type="text" class="form-control" id="myInput" placeholder="Search" onkeyup="searchtable()">
-					</div>
-				</div>
-			</div>
+		
 
-			<div class="col-5">
-				<div class="sticky-top card-header text-center d-flex justify-content-between align-items-center">
-					<small>
-						Commande
-					</small>
-					<button class="btn btn-danger btn-sm clearcommande" onclick="clearcommande()">
-						X
-					</button>
-				</div>
-			</div>
-		</div> -->
-
-		<div class="row  p-2">
-			<div class="col-7 fitscreen  border-end bg-white">
+		<div class="d-flex justify-content-between">
+			<div class="fitscreen bg-white shadow rounded px-2" style="width: 57%;">
 				<div class="bg-white p-2 sticky-top d-flex border-end rounded-top sticky-top  align-items-center">
 				
 					<!-- category filter -->
@@ -109,7 +74,7 @@
 
 			</div>
 
-			<div class="col-5 fitscreen ">
+			<div class="col-5 fitscreen bg-white shadow rounded px-2">
 				<div class="sticky-top card-header text-center d-flex justify-content-between align-items-center">
 					<small>
 						Commande
@@ -148,7 +113,7 @@
 			</div>
 		
 		</div> -->
-		<div class=" mt-2  p-2 border d-flex justify-content-between align-items-center">
+		<div class=" mt-3  p-2 bg-white rpunded shadow d-flex justify-content-between align-items-center">
 			<div>
 				TOTAL: <span class="total">0</span>
 			</div>

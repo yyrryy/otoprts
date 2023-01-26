@@ -1,477 +1,311 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'mainlyt.html' %}
 
 {% block css %}
-<style>
-.clicked{
-  right: 0;
-}
-.tabs {
-  padding: 15px;
-  width: 70vw;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-  border-radius: 5px;
-  min-width: 240px;
-}
-.tabs input[name=tab-control] {
-  display: none;
-}
-.tabs .content section h2,
-.tabs ul li label {
-  font-weight: bold;
-  font-size: 18px;
-  color: #ffff;
-}
-.tabs ul {
-  list-style-type: none;
-  padding-left: 0;
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 0px;
-  justify-content: space-between;
-  align-items: flex-end;
-  flex-wrap: wrap;
-}
-.tabs ul li {
-  box-sizing: border-box;
-  flex: 1;
-  width: 25%;
-  text-align: center;
-}
-.tabs ul li label {
-  margin-bottom: 0px;
-  transition: all 0.3s ease-in-out;
-  color: #929daf;
-  padding: 5px auto;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: block;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  white-space: nowrap;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-.tabs ul li label br {
-  display: none;
-}
-.tabs ul li label svg {
-  fill: #929daf;
-  height: 1.2em;
-  vertical-align: bottom;
-  margin-right: 0.2em;
-  transition: all 0.2s ease-in-out;
-}
-.tabs ul li label:hover, .tabs ul li label:focus, .tabs ul li label:active {
-  outline: 0;
-  color: #bec5cf;
-}
-.tabs ul li label:hover svg, .tabs ul li label:focus svg, .tabs ul li label:active svg {
-  fill: #bec5cf;
-}
-.tabs .slider {
-  position: relative;
-  width: 25%;
-  transition: all 0.33s cubic-bezier(0.38, 0.8, 0.32, 1.07);
-}
-.tabs .slider .indicator {
-  position: relative;
-  width: 50px;
-  max-width: 100%;
-  margin: 0 auto;
-  height: 4px;
-  background: #ffff;
-  border-radius: 1px;
-}
-.tabs .content {
-    background: #464645;
-    padding: 20px;
-}
-.tabs .content section {
-  display: none;
-  -webkit-animation-name: content;
-          animation-name: content;
-  -webkit-animation-direction: normal;
-          animation-direction: normal;
-  -webkit-animation-duration: 0.3s;
-          animation-duration: 0.3s;
-  -webkit-animation-timing-function: ease-in-out;
-          animation-timing-function: ease-in-out;
-  -webkit-animation-iteration-count: 1;
-          animation-iteration-count: 1;
-  line-height: 1.4;
-}
-.tabs .content section h2 {
-  color: #ffff;
-  display: none;
-}
-.tabs .content section h2::after {
-  content: "";
-  position: relative;
-  display: block;
-  width: 30px;
-  height: 3px;
-  background: #ffff;
-  margin-top: 5px;
-  left: 1px;
-}
-.tabs input[name=tab-control]:nth-of-type(1):checked ~ ul > li:nth-child(1) > label {
-  background: #464645;
-  color: #ffff;
-  padding: 5px;
-  border-radius: 50px 0 0 0;
-
-
-}
-
-@media (max-width: 600px) {
-  .tabs input[name=tab-control]:nth-of-type(1):checked ~ ul > li:nth-child(1) > label {
-      background: #464645;
-      color: #ffff;
-      padding: 5px;
-      border-radius: 20px 0 0 0;
-
-  }
-}
-.tabs input[name=tab-control]:nth-of-type(1):checked ~ .slider {
-  transform: translateX(0%);
-}
-.tabs input[name=tab-control]:nth-of-type(1):checked ~ .content > section:nth-child(1) {
-  display: block;
-}
-.tabs input[name=tab-control]:nth-of-type(2):checked ~ ul > li:nth-child(2) > label {
-  color: #ffff;
-  background: #464645;
-  padding: 5px;
-  border-radius: 0 50px 0 0;
-}
-
-@media (max-width: 600px) {
-  .tabs input[name=tab-control]:nth-of-type(2):checked ~ ul > li:nth-child(2) > label {
-      background: #464645;
-  border-radius: 0 20px 0 0;
-
-  }
-}
-.tabs input[name=tab-control]:nth-of-type(2):checked ~ .slider {
-  transform: translateX(100%);
-}
-.tabs input[name=tab-control]:nth-of-type(2):checked ~ .content > section:nth-child(2) {
-  display: block;
-}
-@-webkit-keyframes content {
-  from {
-    opacity: 0;
-    transform: translateY(5%);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0%);
-  }
-}
-@keyframes content {
-  from {
-    opacity: 0;
-    transform: translateY(5%);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0%);
-  }
-}
-@media (max-width: 1000px) {
-  .tabs{
-    width: 100%;
-  }
-  .tabs ul li label {
-    white-space: initial;
-  }
-  .tabs ul li label br {
-    display: initial;
-  }
-  .tabs ul li label svg {
-    height: 1.5em;
-  }
-}
-@media (max-width: 600px) {
-  .tabs ul li label {
-    padding: 5px;
-  }
-  .tabs .content section h2 {
-    display: block;
-  }
-}
-</style>
 {% endblock %}
-
 
 {% block content %}
-<div class="block-finder block">
-    <div class="decor block-finder__decor decor--type--bottom">
-        <div class="decor__body">
-            <div class="decor__start"></div>
-            <div class="decor__end"></div>
-            <div class="decor__center"></div>
-        </div>
-    </div>
-    <div class="block-finder__body container container--max--xl">
-        <div class="block-finder__title">Trouvez des pièces pour votre véhicule</div>
-        <div class="block-finder__subtitle">Plus de centaines de marques et des dizaines de milliers de pièces</div>
 
+<div>
+  <a href="tel:+212 5 000 000 00" class="uk-button uk-button-primary uk-position-fixed appeller">
+      Appeller
+  </a>
+  <div class="in-slide-container uk-section uk-padding-remove-vertical uk-margin-medium-bottom" style="height: 70vh;"
+      data-uk-scrollspy="cls:uk-animation-fade; delay: 200">
+      <div class="">
+          <!-- slideshow begin -->
+          <div class="uk-position-relative uk-visible-toggle in-slideshow">
+              <ul class="uk-slideshow-items">
+                  <li>
+                      <div class="uk-position-center uk-width-1-1 uk-width-1-2@m uk-text-center ">
+                          <h1 class="whitetext">LA QUALITE AVANT TOUS</h1>
+                          <a href="#contactus"
+                              class="uk-button uk-button-secondary uk-button-large uk-border-pill uk-margin-small-left ">Contactez
+                              nous</a>
 
-        <!-- tabs -->
-        <div class="tabs">
-        
-            <input type="radio" id="tab1" name="tab-control" checked>
-            <input type="radio" id="tab2" name="tab-control">
-            <ul>
-                <li title="Features"><label for="tab1" role="button"><span>Reference</span></label></li>
-                <li title="N° chasis"><label for="tab2" role="button"><span>N° chasis</span></label></li>
-            </ul>
-
-            <div class="content">
-                <section class="text-start">
-                  <form action="/byref" method="post" class="byref">
-                    {% csrf_token %}
-                    <div class="row">
-
-                      <div class="mb-2 col-md-8">
-                        <input 
-                        name="ref"
-                        type="text" 
-                        class="form-control ref" 
-                        placeholder="N° reference">
                       </div>
-                      <div class="col-md-4">
-  
-                        <button type="submit" class="btn btn-danger w-100 searchref btn-lg">
-                          Search
-                        </button>
+
+                  </li>
+                  <li>
+                      <div class="uk-position-center uk-flex uk-flex-center" data-uk-grid>
+                          <div class="uk-width-1-1 uk-width-3-4@m uk-text-center">
+                              <h1 class="whitetext">REJOIGNEZ PLUS DE 3200 CLIENTS<br> QUI FONT CONFIANCE A NOS
+                                  PRODUITS</h1>
+
+
+                          </div>
                       </div>
-                    </div>
-
-
-
-                  </form>
-                </section>
-                <section>
-                  <form action="/bych" method="post" class="bychas">
-                    {% csrf_token %}
-                    <div class="row">
-
-                      <div class="mb-2 col-md-4">
-  
-                        <input type="text" class="form-control chas" placeholder="N° de chasis">
+                  </li>
+              </ul>
+              <div class="uk-slidenav-container uk-position-bottom-right">
+                  <a href="#" data-uk-slideshow-item="previous"
+                      data-uk-icon="icon: fa-chevron-left; ratio: .028"></a>
+                  <a href="#" data-uk-slideshow-item="next"
+                      data-uk-icon="icon: fa-chevron-right; ratio: .028"></a>
+              </div>
+          </div>
+          <!-- slideshow end -->
+      </div>
+  </div>
+  <div class="uk-section uk-padding-remove-top">
+      <div class="uk-container">
+          <!-- grid content begin -->
+          <div class="presentation">
+              <div class="">
+                  <h2>
+                      CAMPION
+                  </h2>
+                  <div class="">
+                      <div class="">
+                          <p>
+                              On est leader de l'importation et de la distribution de pièces automobiles
+                          </p>
+                          <a href="/aboutus"
+                              class="uk-button uk-button-primary uk-button-large uk-border-pill">Qui sommes nous
+                              <span data-uk-icon="icon: fa-arrow-right; ratio: .028"></span></a>
                       </div>
-                      <div class="mb-2 col-md-4">
-  
-                        <select class="form-control catg">
-                          <option value="0">----</option>
 
-                          {% for i in cc %}
-                          <option value="{{i.id}}">{{i.title}}</option>
-                          {% endfor %}
-                        </select>
-                      </div>
-                      <div class="col-md-4">
-                      
-                        <button type="submit" class="btn btn-danger w-100 searchchas btn-lg" disabled>
-                          Search
-                        </button>
-                      </div>
-                    </div>
+                  </div>
+              </div>
+
+
+
+          </div>
+
+          <hr id="marques">
+
+          <section class="partenaires_" >
+              <h2>Nos partenaires</h2>
+              <div class="partenaires">
+                  <div class="cartmark">
+                      <img src="static/images/airtex.jpg" alt="airtex">
+                      <p>Airtex</p>
+                  </div>
+
+                  <div class="cartmark">
+                      <img src="static/images/energizer.jpg" alt="airtex">
+
+                      <p>Energizer</p>
+
+
+                  </div>
+
+                  <div class="cartmark">
+                      <img src="static/images/pressgom.jpg" alt="airtex">
+                      <p>Pressgom</p>
+                  </div>
+
+                  <div class="cartmark">
+                      <img src="static/images/gatzcourrois.jpg" alt="Gatescourrois">
+                      <p>Gatescourrois</p>
+                  </div>
+
+                  <div class="cartmark">
+                      <img src="static/images/fareauto.jpg" alt="Fare automotive">
+                      <p>Fare automotive</p>
+                  </div>
+
+                  <div class="cartmark">
+                      <img src="static/images/beseka.jpg" alt="Beseka">
+                      <p>Beseka</p>
+                  </div>
+
+                  <div class="cartmark">
+                      <img src="static/images/braxis.jpg" alt="Braxis">
+                      <p>Braxis</p>
+                  </div>
+
+                  <div class="cartmark">
+                      <img src="static/images/muleroil.jpg" alt="muleroil">
+                      <p>Muleroil</p>
+                  </div>
+
+                  
+
                   
                   
-                  </form>
-                </section>
-            </div>
-        </div>
+              </div>
+              <div class="uk-nav-center uk-padding">
+                  <a href="/partners" class="uk-button uk-button-primary uk-border-pill">
+                     Tous nos marques <span data-uk-icon="icon: fa-arrow-right; ratio: .028"></span>
+                  </a>
+              </div>
+
+          </section>
+
+          <section class="statistics">
+              <h2>Nos chiffres</h2>
+              <div class="partenaires">
+                  <div class="cartmark statscard">
+                      <div class="icon" data-uk-icon="icon:fa-barcode; ratio: .15;">
+
+                      </div>
+                      <div class="count">
+                          <h1>+4000</h1>
+                          <p>Refferences</p>
+                      </div>
+
+                  </div>
+
+                  <div class="cartmark statscard">
+                      <div class="icon" data-uk-icon="icon:fa-users; ratio: .15;">
+
+                      </div>
+                      <div class="count">
+                          <h1>+1000</h1>
+                          <p>clients</p>
+                      </div>
+
+                  </div>
+
+                  <div class="cartmark statscard">
+                      <div class="icon" data-uk-icon="icon:fa-people-carry; ratio: .15;">
+
+                      </div>
+                      <div class="count">
+                          <h1>+20</h1>
+                          <p>stuff</p>
+                      </div>
+
+                  </div>
+
+                  <div class="cartmark statscard">
+                      <div class="icon" data-uk-icon="icon:fa-map-marker-alt; ratio: .15;">
+
+                      </div>
+                      <div class="count">
+                          <h1>+100</h1>
+                          <p>villes</p>
+                      </div>
+
+                  </div>
 
 
+              </div>
+          </section>
+          <hr id="contactus"/>
 
-        <!-- tabs -->
-        <!-- <div class="tab-container tabsholder">
 
-            <div class="tab-menu ">
-                <ul class="d-flex justify-content-sm-between">
-                    <li class="animate mr-2">
-                        <a href="#" class="tab-a active-a chasis" data-id="tab1">
-                            N° de chasis
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="tab-a reference" data-id="tab2">
-                            Reference
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            end of tab-men
-            <div class="tab tab-active" data-id="tab1">
-                <div class="mt-5 formch block-finder__form">
-                    <div class="form-group">
-                        <input type="text" name="nchasis" class="form-control border" placeholder="N° de chasis">
+          <!-- grid content end -->
+          <!-- grid content begin -->
+          <!---
+
+          <div class="uk-grid">
+              <div class="uk-width-expand">
+                  <img class="in-img-shadow in-margin-large-bottom@s uk-margin-small-top uk-align-center uk-align-left@m" src="img/minerva-img-sample1.jpg" data-src="img/minerva-img-sample1.jpg" alt="image-sample1" data-width data-height data-uk-img>
+              </div>
+              <div class="uk-width-1-1 uk-width-2-3@m uk-flex uk-flex-middle">
+                  <div class="uk-margin-medium-left in-margin-remove-left@s">
+                      <h2 class="uk-margin-remove-bottom">Discover even more possibilities</h2>
+                      <p class="uk-text-lead uk-margin-small-top">We’ve built a full stack of social media tools to help modern brands grow their sales.</p>
+                      <hr class="uk-margin-medium-top uk-margin-medium-bottom">
+                      <div class="uk-child-width-1-1 uk-child-width-1-2@m" data-uk-grid>
+                          <div class="uk-flex">
+                              <div class="in-icon-decor small">
+                                  <img src="img/minerva-content-icon4.svg" data-src="img/minerva-content-icon4.svg" alt="minerva-icon4" data-width data-height data-uk-img>
+                              </div>
+                              <div class="uk-margin-left">
+                                  <h4>Build your Business Kingdom</h4>
+                                  <p>Facilis este expedita distinctio libero tempore soluta nobis eligendi cumque nihil impedit</p>
+                              </div>
+                          </div>
+                          <div class="uk-flex">
+                              <div class="in-icon-decor small">
+                                  <img src="img/minerva-content-icon5.svg" data-src="img/minerva-content-icon5.svg" alt="minerva-icon5" data-width data-height data-uk-img>
+                              </div>
+                              <div class="uk-margin-left">
+                                  <h4>Monitor Entire your Business</h4>
+                                  <p>Facilis este expedita distinctio libero tempore soluta nobis eligendi cumque nihil impedit</p>
+                              </div>
+                          </div>
+                      </div>
+                      <a href="#" class="uk-button uk-button-link uk-margin-small-top uk-margin-right">Explore features <span data-uk-icon="icon: fa-arrow-right; ratio: .028"></span></a>
+                  </div>
+              </div>
+          </div>-->
+
+          <!-- grid content end -->
+          <!-- grid content begin -->
+
+          <!-- grid content end -->
+
+      </div>
+  </div>
+  <div class="uk-section uk-padding-remove-top" >
+    <div class="uk-container">
+        <!-- grid content begin -->
+        <div class="uk-grid">
+            <div class="uk-width-1-1 uk-width-3-5@m">
+                <p>
+                    Si vous avez des questions concernant notre produit, n'hésitez pas à nous contacter. <br>
+                    Remplissez simplement le formulaire
+                    de contact ici et nous nous assurerons de vous répondre le plus rapidement possible.
+                </p>
+                <div class="uk-grid-divider uk-child-width-1-1 uk-child-width-1-2@m uk-margin-medium-top uk-margin-bottom" data-uk-grid>
+                    
+                    <div>
+                        <h4>Contact information</h4>
+                        <div class="uk-flex">
+                            <div class="in-custom-icon-button small">
+                                <span class="uk-icon-button" data-uk-icon="icon:fa-envelope; ratio: 0.028"></span>
+                            </div>
+                            <div class="uk-margin-small-left">
+                                <p>business@company.com</p>
+                            </div>
+                        </div>
+                        <div class="uk-flex">
+                            <div class="in-custom-icon-button small">
+                                <span class="uk-icon-button" data-uk-icon="icon:fa-phone; ratio: 0.028"></span>
+                            </div>
+                            <div class="uk-margin-small-left">
+                                <p>(888)234-5686</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-flex">
+                    <div class="in-custom-icon-button small">
+                        <span class="uk-icon-button" data-uk-icon="icon:fa-map-marker-alt; ratio: 0.028"></span>
+                    </div>
+                    <div class="uk-margin-small-left" data-uk-lightbox>
+                        <p>Adress 1550 rue 01 N° 152 
+                            
+                        </p>
                     </div>
                     
-                    <div class="block-finder__form-control--select">
-                        <select class="category" name="category">
-                            <option value="none">Select Categorie</option>
-                            <option value="freinage">freinage</option>
-                            <option value="volant">volant</option>
-                            <option value="janta">janta</option>
-                        </select>
-                    </div>
-
-
-                </div>
-
-            </div>
-            end of tab one
-
-            <div class="tab" data-id="tab2">
-                <div class="mt-5 formch block-finder__form">
-                    <input type="text" name="nref" class="form-control" placeholder="N° de reference">  
-                
                     
+                </div>
+                <div class="mapouter"><div class="gmap_canvas"><iframe width="600" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=chhdia&t=&z=17&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://123movies-to.org"></a><br><style>.mapouter{position:relative;text-align:right;height:500px;width:600px;}</style><a href="https://www.embedgooglemap.net">google map coding</a><style>.gmap_canvas {overflow:hidden;background:none!important;height:500px;width:600px;}</style></div></div>
                 
-                
-                </div>
-
-
             </div>
-
-            <div class="searchholder mt-3">
-                <button disabled="disabled" class="block-finder__form-control--button form-control searchchas">Search
-                </button>
-            </div>
-        </div> -->
-    </div>
-</div>
-<!-- features -->
-<div class="bg-white block-features block block-features--layout--top-strip">
-    <div class="container">
-        <ul class="block-features__list">
-            <li class="block-features__item">
-                <div class="block-features__item-icon">
-                </div>
-                <div class="block-features__item-info">
-                    <div class="block-features__item-title">Livraison gratuite</div>
-                    <div class="block-features__item-subtitle"></div>
-                </div>
-            </li>
-            <li class="block-features__item">
-                <div class="block-features__item-icon">
-                </div>
-                <div class="block-features__item-info">
-                    <div class="block-features__item-title">Support 24/7</div>
-                    <div class="block-features__item-subtitle">Appelez-nous à tout moment</div>
-                </div>
-            </li>
-            <li class="block-features__item">
-                <div class="block-features__item-icon">
-                </div>
-                <div class="block-features__item-info">
-                    <div class="block-features__item-title">100% Sécurité</div>
-                    <div class="block-features__item-subtitle">Paiements sécurisés uniquement</div>
-                </div>
-            </li>
-            <li class="block-features__item">
-                <div class="block-features__item-icon">
-                </div>
-                <div class="block-features__item-info">
-                    <div class="block-features__item-title">Offres chaudes</div>
-                    <div class="block-features__item-subtitle">Réductions jusqu'à 30%</div>
-                </div>
-            </li>
-        </ul>
-    </div>
-</div>
-
-
-<div class="container-fluid px-1 px-md-4 py-5 mx-auto">
-    
-</div>
-
-
-<div class="block-split__row row no-gutters selectproducts">
-    <div class="block-split__item block-split__item-content col-12">
-        <div class="block container">
-            <div class="products-view">
-
-                <div class="products-view__list products-list products-list--grid--4" data-layout="table"
-                    data-with-features="false">
-
-                    <div class="products-list__content pdctsholder">
-                        
-
-                        
-
+            <div class="uk-width-1-1 uk-width-expand@m">
+                <div class="in-colored-card grey">
+                    <div class="uk-card uk-card-default">
+                        <div class="uk-card-body">
+                            <form id="contact-form" class="uk-form">
+                                <div class="uk-margin uk-width-1-1">
+                                    <input class="uk-input" id="name" value="" type="text" placeholder="Full name">
+                                </div>
+                                <div class="uk-margin uk-width-1-1">
+                                    <input class="uk-input" id="email" value="" type="email" placeholder="Email">
+                                </div>
+                                <div class="uk-margin uk-width-1-1">
+                                    <input class="uk-input" id="subject" value="" type="text" placeholder="Subject">
+                                </div>
+                                <div class="uk-margin uk-width-1-1">
+                                    <textarea class="uk-textarea" id="message" rows="5" placeholder="Message"></textarea>
+                                </div>
+                                <div>
+                                    <button class="uk-width-1-1 uk-button uk-button-primary uk-border-pill uk-float-left" id="buttonsend" type="submit" name="submit">Envoyer</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-
-                
-
             </div>
         </div>
+        <!-- grid content end -->
     </div>
 </div>
-<div class="block-space block-space--layout--before-footer"></div>
-
-<!-- build a a section that has tow steps first step is the cart the checkout -->
-
-<div class="block-space block-space--layout--before-footer"></div>
-
-
-
-
-{% endblock %}
-
-{% block js %}
-<script src="{% static 'js/cart.js' %} "></script>
-<script src="{% static 'js/script.js' %} "></script>
-<script>
-  
-  // const qtys = $('input[name="qty"]')
-  // let bigtotal=$('.bigtotal')
-  // let tax=$('.tax')
-  // let shipping=$('.shipping')
-  // let subtotal = 0
-  // for (let i of qtys) {
-  //   subtotal += parseFloat(i.dataset.price)
-  // }
-  // $('.subtotal').text(subtotal)
-  // bigtotal.text((parseFloat(subtotal)+parseFloat(shipping.text())+parseFloat(tax.text())).toFixed(2))
-  // for (let i of qtys){
-    
-  //   i.addEventListener('change', function(){
-  //     let parent = i.parentElement.parentElement.parentElement
-  //     let price = parseFloat(this.dataset.price)
-  //     let total = parent.querySelector('.cart-table__column--total').querySelector('.total')
-  //     let qty = parseFloat(i.value)
-  //     // update total text
-  //     let newTotal = (price * qty).toFixed(2)
-  //     total.innerText = newTotal
-  //     // total.contentText(price * qty)
-  //     let subtotal = 0
-  //     for (let i of $('.total')) {
-  //       subtotal += parseFloat($(i).text())
-  //     }
-      
-  //     $('.subtotal').text((subtotal).toFixed(2))
-  //     bigtotal.text((parseFloat(subtotal) + parseFloat(shipping.text()) + parseFloat(tax.text())).toFixed(2))
-  //   })
-  // }
-    // qtys.forEach(i => {
-    //   $(i).on('change', function () {
-    //     let parent = i.parentElement.parentElement.parentElement
-    //     let price = parseFloat(parent.querySelector('.itemprice'))
-    //     let total = parseFloat(parent.querySelector('.total'))
-    //     let qty = i.value
-    //     total.text(price * qty)
-    //   })
-    // });
-</script>
+</div>
+<!-- content end -->
 {% endblock %}

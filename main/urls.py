@@ -6,10 +6,6 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('about', views.about, name='about'),
-    path('byref', views.byref, name='by_ref'),
-    path('bychas', views.bysach, name='by_chas'),
-    path('coupon', views.coupon, name='coupon'),
     path('filters', views.filters, name='filters'),
     path('create', views.create, name='create'),
     path('addcategory', views.addcategory, name='addcategory'),
@@ -28,4 +24,8 @@ urlpatterns = [
     path('clients', views.clients, name='clients'),
     path('addclient', views.addclient, name='addclient'),
     path('aboutus', views.aboutus, name='aboutus'),
+    path('partners', views.partners, name='marques'),
+    path('profile', views.profile, name='profile'),
+    path('editinfoclient', views.editinfoclient, name='editinfoclient'),
+    path('updatepassword', views.updatepassword, name='updatepassword'),
 ]

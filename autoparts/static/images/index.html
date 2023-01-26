@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Standard Meta -->
+    <meta charset="utf-8">
+    <meta name="description" content="ste compion">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6c342" />
+    <!-- Site Properties -->
+    <title>Accueill - ste compion</title>
+    <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
+    <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png">
+    <!-- Google Fonts -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,700%7cLibre+Franklin&display=swap">
+    <!-- CSS -->
+    <link rel="stylesheet" href="./assets/css/uikit.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+
+</head>
+
+<body>
+    <header data-uk-sticky="top: 400; cls-active: in-sticky">
+        <div class="uk-section uk-padding-remove-vertical">
+            <div class="uk-container">
+                <div class="uk-grid">
+                    <div class="uk-width-1-2 uk-width-auto@m uk-flex uk-flex-middle">
+                        <!-- header logo begin -->
+                        <div class="uk-grid-medium" data-uk-grid>
+                            <div class="in-header-logo">
+                                <a class="uk-logo" href="/"><img src="assets/images/logo.png" alt="logo"
+                                        data-uk-img></a>
+                            </div>
+                            <div class="uk-flex uk-flex-middle uk-visible@m">
+                                <p class="uk-text-small">Autoparts leader</p>
+                            </div>
+                        </div>
+                        <!-- header logo end -->
+                    </div>
+                    <div class="uk-width-1-2 uk-width-expand@m uk-inline">
+                        <div class="in-header-info uk-float-right uk-text-small uk-visible@m info-address">
+                            <span data-uk-icon="icon:fa-phone; ratio: .028"></span>+212 5 555 654 22
+                        </div>
+                        <!-- main navigation begin -->
+                        <nav class="uk-navbar-container uk-navbar-transparent uk-float-right uk-position-bottom uk-visible@m"
+                            data-uk-navbar>
+                            <div class="uk-navbar-right">
+                                <ul class="uk-navbar-nav">
+                                    <li>
+                                        <a href="/"><span data-uk-icon="icon: fa-home; ratio: 0.029"></span></a>
+                                    </li>
+                                    <li>
+                                        <a href="./pages/about.html">A propos</a>
+                                    </li>
+                                    <!--
+                                        <li>
+                                            <a href="./pages/#" data-uk-icon="icon: fa-sort-down; ratio: 0.023">Company</a>
+                                            <div class="uk-navbar-dropdown">
+                                                <ul class="uk-nav uk-navbar-dropdown-nav">
+                                                    <li><a href="./pages/about.html">About</a></li>
+                                                    <li><a href="./pages/blog.html">Blog</a></li>
+                                                    <li><a href="./pages/careers.html">Careers</a></li>
+                                                    <li><a href="./pages/contact.html">Contact</a></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    -->
+                                    <li>
+                                        <a href="./pages/pricing.html">Contactez-nous</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="./pages/marks.html">Les marques</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="./pages/stuff.html">Le stuff</a>
+                                    </li>
+                                    <li>
+                                        <a href=".pages//history.html">Histoire</a>
+                                    </li>
+                                    <!---
+                                        <li>
+                                            <a href="#" data-uk-icon="icon: fa-sort-down; ratio: 0.023">Resources</a>
+                                            <div class="uk-navbar-dropdown uk-navbar-dropdown-width-2">
+                                                <div class="uk-navbar-dropdown-grid uk-child-width-1-2" data-uk-grid>
+                                                    <div>
+                                                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                                                            <li><a href="https://getuikit.com/docs/">Documentation<span data-uk-icon="icon:fa-external-link-alt; ratio: 0.024"></span></a></li>
+                                                            <li><a href="#">Help Center</a></li>
+                                                            <li><a href="customers.html">Customers</a></li>
+                                                            <li><a href="roadmap.html">Roadmap</a></li>
+                                                            <li><a href="#">White Paper<span data-uk-icon="icon:fa-file-pdf; ratio: 0.024"></span></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div>
+                                                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                                                            <li><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    -->
+                                </ul>
+                            </div>
+                        </nav>
+                        <!-- main navigation end -->
+                        <!-- mobile navigation begin -->
+                        <div class="in-mobile-nav uk-height-1-1 uk-flex uk-flex-right uk-flex-middle uk-hidden@m">
+                            <a class="uk-button" href="#mobile-nav-modal" data-uk-toggle><span
+                                    data-uk-icon="icon: fa-bars; ratio: 0.040"></span></a>
+                        </div>
+                        <div id="mobile-nav-modal" class="uk-modal-full" data-uk-modal>
+                            <div class="uk-modal-dialog uk-flex uk-flex-center uk-flex-middle" data-uk-height-viewport>
+                                <button class="uk-modal-close-full uk-close-large" type="button"
+                                    data-uk-icon="icon: fa-times; ratio: 0.040"></button>
+                                <div class="uk-width-large uk-padding-large">
+                                    <ul class="uk-nav-primary uk-nav-parent-icon in-margin-negative-top@s" data-uk-nav>
+                                        <li>
+                                            <a href="/"><span data-uk-icon="icon: fa-home; ratio: 0.029"></span></a>
+                                        </li>
+                                        <li>
+                                            <a href="./pages/about.html">A propos</a>
+                                        </li>
+                                        <!--
+                                                                            <li>
+                                                                                <a href="./pages/#" data-uk-icon="icon: fa-sort-down; ratio: 0.023">Company</a>
+                                                                                <div class="uk-navbar-dropdown">
+                                                                                    <ul class="uk-nav uk-navbar-dropdown-nav">
+                                                                                        <li><a href="./pages/about.html">About</a></li>
+                                                                                        <li><a href="./pages/blog.html">Blog</a></li>
+                                                                                        <li><a href="./pages/careers.html">Careers</a></li>
+                                                                                        <li><a href="./pages/contact.html">Contact</a></li>
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </li>
+                                                                        -->
+                                        <li>
+                                            <a href="./pages/pricing.html">Contactez-nous</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="./pages/marks.html">Les marques</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="./pages/stuff.html">Le stuff</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="./pages/history.html">Histoire</a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- mobile navigation end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <a href="tel:0662835329" class="uk-button uk-button-primary uk-position-fixed appeller">
+            Appeller
+        </a>
+        <div class="in-slide-container uk-section uk-padding-remove-vertical uk-margin-medium-bottom"
+            data-uk-scrollspy="cls:uk-animation-fade; delay: 200">
+            <div class="">
+                <!-- slideshow begin -->
+                <div class="uk-position-relative uk-visible-toggle in-slideshow">
+                    <ul class="uk-slideshow-items">
+                        <li>
+                            <div class="uk-position-center uk-width-1-1 uk-width-1-2@m uk-text-center ">
+                                <h1 class="whitetext">LA QUALITE AVANT TOUS</h1>
+                                <a href="./pages/contact.html"
+                                    class="uk-button uk-button-secondary uk-button-large uk-border-pill uk-margin-small-left ">Contactez
+                                    nous</a>
+
+                            </div>
+
+                        </li>
+                        <li>
+                            <div class="uk-position-center uk-flex uk-flex-center" data-uk-grid>
+                                <div class="uk-width-1-1 uk-width-3-4@m uk-text-center">
+                                    <h1 class="whitetext">REJOIGNEZ PLUS DE 3200 CLIENTS<br> QUI FONT CONFIANCE A NOS
+                                        PRODUITS</h1>
+
+                                    <form class="uk-grid-small uk-flex-center uk-visible@s" data-uk-grid>
+                                        <div class="uk-width-1-2 uk-inline">
+                                            <span class="uk-form-icon uk-form-icon-flip uk-margin-small-right"
+                                                data-uk-icon="icon: fa-envelope; ratio: 0.028"></span>
+                                            <input class="uk-input uk-form-large uk-border-pill" type="text"
+                                                placeholder="Enter your email">
+                                        </div>
+                                        <div class="uk-width-auto">
+                                            <button
+                                                class="uk-button uk-button-primary uk-button-large uk-border-pill uk-float-left"
+                                                type="submit" name="submit">Get started</button>
+                                        </div>
+                                    </form>
+
+
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="uk-slidenav-container uk-position-bottom-right">
+                        <a href="#" data-uk-slideshow-item="previous"
+                            data-uk-icon="icon: fa-chevron-left; ratio: .028"></a>
+                        <a href="#" data-uk-slideshow-item="next"
+                            data-uk-icon="icon: fa-chevron-right; ratio: .028"></a>
+                    </div>
+                </div>
+                <!-- slideshow end -->
+            </div>
+        </div>
+        <div class="uk-section uk-padding-remove-top">
+            <div class="uk-container">
+                <!-- grid content begin -->
+                <div class="presentation">
+                    <div class="">
+                        <h2>
+                            CAMPION
+                        </h2>
+                        <div class="">
+                            <div class="">
+                                <p>
+                                    On est leader de l'importation et de la distribution de pièces automobiles
+                                </p>
+                                <a href="pages/about.html"
+                                    class="uk-button uk-button-primary uk-button-large uk-border-pill">Qui sommes nous
+                                    <span data-uk-icon="icon: fa-arrow-right; ratio: .028"></span></a>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+                <section class="partenaires_">
+                    <h2>Nos partenaires</h2>
+                    <div class="partenaires">
+                        <div class="cartmark">
+                            <img src="assets/images/airtex.png" alt="airtex">
+                            <p>Airtex</p>
+                        </div>
+
+                        <div class="cartmark">
+                            <img src="assets/images/energizer.png" alt="airtex">
+
+                            <p>Energizer</p>
+
+
+                        </div>
+
+                        <div class="cartmark">
+                            <img src="assets/images/pressgom.png" alt="airtex">
+                            <p>Pressgom</p>
+                        </div>
+
+                        <div class="cartmark">
+                            <img src="assets/images/gatzcourrois.png" alt="Gatescourrois">
+                            <p>Gatescourrois</p>
+                        </div>
+
+                        <div class="cartmark">
+                            <img src="assets/images/fareauto.png" alt="Fare automotive">
+                            <p>Fare automotive</p>
+                        </div>
+
+                        <div class="cartmark">
+                            <img src="assets/images/beseka.jpg" alt="Beseka">
+                            <p>Beseka</p>
+                        </div>
+
+                        <div class="cartmark">
+                            <img src="assets/images/braxis.png" alt="Braxis">
+                            <p>Braxis</p>
+                        </div>
+
+                        <div class="cartmark">
+                            <img src="assets/images/muleroil.png" alt="muleroil">
+                            <p>Muleroil</p>
+                        </div>
+
+                        
+
+                        
+                        
+                    </div>
+                    <div class="uk-nav-center uk-padding">
+                        <a href="/pages/marks.html" class="uk-button uk-button-primary uk-border-pill">
+                           Tous nos marques <span data-uk-icon="icon: fa-arrow-right; ratio: .028"></span>
+                        </a>
+                    </div>
+
+                </section>
+
+                <section class="statistics">
+                    <h2>Nos chiffres</h2>
+                    <div class="partenaires">
+                        <div class="cartmark statscard">
+                            <div class="icon" data-uk-icon="icon:fa-barcode; ratio: .15;">
+
+                            </div>
+                            <div class="count">
+                                <h1>+5000</h1>
+                                <p>Refferences</p>
+                            </div>
+
+                        </div>
+
+                        <div class="cartmark statscard">
+                            <div class="icon" data-uk-icon="icon:fa-users; ratio: .15;">
+
+                            </div>
+                            <div class="count">
+                                <h1>+5000</h1>
+                                <p>clients</p>
+                            </div>
+
+                        </div>
+
+                        <div class="cartmark statscard">
+                            <div class="icon" data-uk-icon="icon:fa-people-carry; ratio: .15;">
+
+                            </div>
+                            <div class="count">
+                                <h1>+5000</h1>
+                                <p>stuff</p>
+                            </div>
+
+                        </div>
+
+                        <div class="cartmark statscard">
+                            <div class="icon" data-uk-icon="icon:fa-map-marker-alt; ratio: .15;">
+
+                            </div>
+                            <div class="count">
+                                <h1>+100</h1>
+                                <p>villes</p>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </section>
+                <hr />
+                <!-- <section class="caracteristics">
+                    <div class="cars">
+                        <div class=" carac">
+                            <div class="icon sat" data-uk-icon="icon:fa-shipping-fast; ratio: .15;">
+                        
+                            </div>
+                            <p>
+                                Livraison
+                            </p>
+                        
+                        </div>
+
+                        <div class=" carac">
+                            <div class="icon sat" data-uk-icon="icon:fa-shield-alt ; ratio: .15;">
+                        
+                            </div>
+                            <p>
+                                QUALITE
+                            </p>
+                        
+                        </div>
+                        <div class=" carac">
+                            <div class="icon sat" data-uk-icon="icon:fa-check ; ratio: .15;">
+                        
+                            </div>
+                            <p>
+                                SATISFACTION
+                            </p>
+                        
+                        </div>
+                
+                
+                
+                    </div>
+                </section> -->
+
+
+                <!-- grid content end -->
+                <!-- grid content begin -->
+                <!---
+
+                <div class="uk-grid">
+                    <div class="uk-width-expand">
+                        <img class="in-img-shadow in-margin-large-bottom@s uk-margin-small-top uk-align-center uk-align-left@m" src="img/minerva-img-sample1.jpg" data-src="img/minerva-img-sample1.jpg" alt="image-sample1" data-width data-height data-uk-img>
+                    </div>
+                    <div class="uk-width-1-1 uk-width-2-3@m uk-flex uk-flex-middle">
+                        <div class="uk-margin-medium-left in-margin-remove-left@s">
+                            <h2 class="uk-margin-remove-bottom">Discover even more possibilities</h2>
+                            <p class="uk-text-lead uk-margin-small-top">We’ve built a full stack of social media tools to help modern brands grow their sales.</p>
+                            <hr class="uk-margin-medium-top uk-margin-medium-bottom">
+                            <div class="uk-child-width-1-1 uk-child-width-1-2@m" data-uk-grid>
+                                <div class="uk-flex">
+                                    <div class="in-icon-decor small">
+                                        <img src="img/minerva-content-icon4.svg" data-src="img/minerva-content-icon4.svg" alt="minerva-icon4" data-width data-height data-uk-img>
+                                    </div>
+                                    <div class="uk-margin-left">
+                                        <h4>Build your Business Kingdom</h4>
+                                        <p>Facilis este expedita distinctio libero tempore soluta nobis eligendi cumque nihil impedit</p>
+                                    </div>
+                                </div>
+                                <div class="uk-flex">
+                                    <div class="in-icon-decor small">
+                                        <img src="img/minerva-content-icon5.svg" data-src="img/minerva-content-icon5.svg" alt="minerva-icon5" data-width data-height data-uk-img>
+                                    </div>
+                                    <div class="uk-margin-left">
+                                        <h4>Monitor Entire your Business</h4>
+                                        <p>Facilis este expedita distinctio libero tempore soluta nobis eligendi cumque nihil impedit</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#" class="uk-button uk-button-link uk-margin-small-top uk-margin-right">Explore features <span data-uk-icon="icon: fa-arrow-right; ratio: .028"></span></a>
+                        </div>
+                    </div>
+                </div>-->
+
+                <!-- grid content end -->
+                <!-- grid content begin -->
+
+                <!-- grid content end -->
+
+            </div>
+        </div>
+    </main>
+
+    <footer>
+
+        <div class="uk-section uk-padding">
+            <div class="uk-container">
+                <!-- footer content begin -->
+                <div class="uk-child-width-1-1 uk-child-width-1-5@m uk-text-small" data-uk-grid>
+                    <div class="uk-width-expand">
+                        <a class="uk-logo" href="/"><img src="assets/images/logo.png" data-src="assets/images/logo.png"
+                                alt="logo" data-uk-img></a>
+                        <p>
+                            Addresse 155 route 152
+                            <br>
+                            Oulfa, casablanca
+                        </p>
+                    </div>
+
+                    <div>
+
+                        <ul class="uk-list uk-link-text">
+                            <li><a href="/pages/about.html">A props</a></li>
+                            <li><a href="/pages/contact.html">Contactez nous</a></li>
+                            <li><a href="/pages/policy.html">Privacy</a></li>
+                            <li><a href="/pages/terms.html">Terms</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Nos medias</h4>
+                        <div class="uk-flex uk-flex-left">
+                            <a href="" class="uk-icon-button uk-margin-small-right" data-uk-icon="icon: facebook">
+                            </a>
+
+                            <a href="" class="uk-icon-button uk-margin-small-right" data-uk-icon="icon: twitter">
+                            </a>
+
+                            <a href="" class="uk-icon-button" data-uk-icon="icon: linkedin">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="uk-width-1-1 uk-text-left uk-text-center@m">
+                        <p>Ste Compion &copy;<span id="thisyear"></span> Tous les droits sont réservés
+                        </p>
+                    </div>
+                </div>
+                <!-- footer content end -->
+            </div>
+        </div>
+        <div class="uk-flex uk-flex-right uk-visible@m">
+            <a href="#" class="in-totop" data-uk-scroll data-uk-icon="icon: fa-chevron-up; ratio: .032"></a>
+        </div>
+    </footer>
+
+    <!-- Javascript -->
+
+    <script src="./assets/js/jquery.min.js"></script>
+    <script>
+        $('#thisyear').text(new Date().getFullYear())
+    </script>
+    <script src="./assets/js/uikit.min.js"></script>
+    <script src="./assets/js/uikit-icons.min.js"></script>
+    <script src="./assets/js/config.js"></script>
+    <script src="./assets/js/vendor.js"></script>
+
+</body>
+
+</html>

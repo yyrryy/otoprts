@@ -14,7 +14,7 @@
     {% if title %}
     <title>{{title}} - Campio</title>
     {% else %}
-    <title>Autoparts</title>
+    <title>Catalog</title>
     {% endif %}
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i" rel="stylesheet" />
     <!-- css -->
@@ -76,13 +76,15 @@
                                 {{ user.get_username }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-
-                                <a class="dropdown-item" href="{% url 'logoutuser' %}">Deconnexion</a>
+                                <a class="dropdown-item" href="{% url 'logoutuser' %}">Deconnexion <i class="bi bi-skip-end-btn bg-danger"></i></a>
                                 {% if user.groups.all.0.name == 'accounting' %}
                                 <a class="dropdown-item" href="{% url 'orders' %}">Commandes</a>
                                 {% endif %}
                                 {% if user.groups.all.0.name == 'salsemen' or user.groups.all.0.name == 'clients'%}
                                 <a class="dropdown-item" href="{% url 'salsemanorders' %}">Mes commande</a>
+                                {% endif %}
+                                {% if  user.groups.all.0.name == 'clients'%}
+                                <a class="dropdown-item" href="{% url 'profile' %}">Modifier les informations</a>
                                 {% endif %}
                                 <div class="dropdown-divider"></div>
                             </div>
@@ -111,9 +113,8 @@
                 {% endblock %}
             </div>
 
-
-            <hr>
-            <footer class="text-muted mt-auto d-flex justify-content-between p-3 align-items-center">
+            <br>
+            <footer class="bg-white text-muted mt-auto d-flex justify-content-between p-3 align-items-center">
                 <small>
                     Version: 1.0.0
                 </small>

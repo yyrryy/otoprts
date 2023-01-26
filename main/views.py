@@ -7,9 +7,10 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, login, logout
 import json
 from django.db.models import OuterRef, Exists
-from django.core.mail import send_mail
 import threading
-
+# import csrf_exampt
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import User
 
 # users groups
 # chack if user's group in accounting
@@ -27,22 +28,26 @@ def tocatalog(user):
     return (user.groups.filter(name='salsemen').exists() or user.groups.filter(name='clients').exists())
 # Create your views here.
 def home(request):
-    print(request.user)
-    print(request.user.groups.first())
-    if request.user.groups.first():
-        if (request.user.groups.first().name=='salsemen'):
-            return redirect(catalog)
-        if (request.user.groups.first().name=='accounting'):
-            return redirect(orders)
-        if (request.user.groups.first().name=='admin'):
-            return redirect(orders)
-    return redirect(loginpage)
+    # print(request.user)
+    # print(request.user.groups.first())
+    # if request.user.groups.first():
+    #     if (request.user.groups.first().name=='salsemen'):
+    #         return redirect(catalog)
+    #     if (request.user.groups.first().name=='accounting'):
+    #         return redirect(orders)
+    #     if (request.user.groups.first().name=='admin'):
+    #         return redirect(orders)
+    # return redirect(loginpage)
+    return render(request, 'main.html')
 
 
 def about(request):
     return render(request, 'about.html')
+def partners(request):
+    return render(request, 'marques.html')
 
-
+def profile(request):
+    return render(request, 'profile.html')
 
 def loginpage(request):
     print(request.user.groups.all())
@@ -74,77 +79,26 @@ def loginpage(request):
     return render(request, 'login.html')
 
 
-def byref(request):
-    
-    ref=request.POST.get('ref')
-    pds=Produit.objects.filter(ref=ref).first()
-    if not(pds):
-        return JsonResponse({
-            'valid':False
-        })
-    pd={
-        'valid':True,
-        'id':pds.id,
-        'name':pds.nom,
-        'ref':pds.ref,
-        'price':pds.prix,
-        'stock':pds.stock,
-        'mark':pds.marque,
-        'country':pds.pays,
-        'img':pds.image.url
-    }
+@csrf_exempt
+def editinfoclient(request):
+    client=Client.objects.get(user_id=request.user.id)
+    print(client.name)
+    client.name=request.POST.get('name').strip()
+    client.phone=request.POST.get('phone').strip()
+    client.address=request.POST.get('address').strip()
+    client.city=request.POST.get('city').strip()
+    client.save()
+    return redirect(profile)
 
-    return JsonResponse(pd, safe=False)
-
-
-def bysach(request):
-    
-    chas=request.POST.get('chas')
-    catg=request.POST.get('catg')
-    pds=Produit.objects.filter(n_chasis=chas, Categorie=int(catg))
-    res={'valid':True, 'pdcts':[]}
-    if not(pds):
-        res['valid']=False
-        return JsonResponse(
-            res, safe=False
-        )
-    artcls=[]
-    for i in pds:
-        pd={
-            'id':i.id,
-            'name':i.nom,
-            'ref':i.ref,
-            'price':i.prix,
-            'stock':i.stock,
-            'mark':i.marque,
-            'country':i.pays,
-            'img':i.image.url
-        }
-        artcls.append(pd)
-    res['pdcts']=artcls
-    return JsonResponse(res, safe=False)
-
-
-def coupon(request):
-    # get cupon from the request
-    coupon=request.POST.get('coupon')
-    # check if cupon exist in db
-    cpn=Coupon.objects.filter(code=coupon).first()
-    if not(cpn):
-        # return a json response with value False
-        return JsonResponse({
-            'valid':False
-        })
-    # return a json response with value True
-    return JsonResponse({
-        'valid':True,
-        'amount':cpn.amount
-    })
-
-
-
-
-
+@login_required(login_url='/login')
+@csrf_exempt
+def updatepassword(request):
+    user=User.objects.get(pk=request.user.id)
+    print(request.user.id)
+    user.set_password(request.POST.get('cpass'))
+    user.save()
+    login(request, user)
+    return redirect(profile)
 
 
 

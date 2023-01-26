@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap');
+
+
+*{
+    padding: 0;
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+body{
+    font-family: 'Roboto', sans-serif; 
+    background: aliceblue; 
+}
+
+
+
+.container{
+    padding: 0 6rem;
+}
+
+section{
+    margin-bottom: 15px;
+}
+
+.onlypc, .raelmenu{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.nav{
+    border-bottom: 1px solid #e2e2e2;
+
+}
+.menu{
+    list-style: none;
+    transition: all .5s ease;
+}
+.mobilenav{
+    display: none;
+    cursor: pointer;
+}
+.menu li{
+    display: inline;
+    padding: 1em;
+}
+
+/*carousell*/
+.caroussel{
+    overflow: hidden;
+    height: 56vh;
+    width: 100%;
+}
+.caroussel img{
+    max-width: 100%;
+}
+
+
+/*mot*/
+.mot{
+    text-align: center;
+}
+.to-aprops{
+    
+}
+
+/*partemaires*/
+.partenaires_{
+    text-align: center;
+    margin-top: 2.5em;
+}
+
+.partenaires_ h2{
+    text-decoration: underline;
+}
+.partenaires{
+    display: grid;
+    gap: 15px;
+    grid-template-columns: repeat( auto-fill, minmax(250px, 1fr));
+    margin-top: 2em;
+
+}
+
+/*cartmark*/
+.cartmark{
+    text-align: center;
+    border: 1px solid #d2d2d2;    
+    border-radius: 10px;
+    transition: all .5s ease;
+    overflow: hidden;
+    position: relative;
+}
+.carttext{
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;    
+}
+.carttext a{
+    background-color: rgb(12, 17, 39);
+    color: rgb(255, 255, 255);
+    border-radius: 5px;
+    padding: 5px;
+
+}
+.cartmark img{
+    max-width: 100%;
+    border-bottom: 1px solid #e2e2e2;
+}
+
+.cartmark p{
+    
+}
+
+
+.cartmark:hover{
+    transform: translate(0, -8px);
+    box-shadow: 5px 3px 13px 0px #d8d8d8;
+}
+
+
+.raelmenu{
+    padding: 15px;
+    position: relative;
+}
+
+
+
+/*responsive*/
+
+@media screen and (max-width: 700px) {
+    .container{
+        padding: 0 1rem;
+    }
+    .cartmark{
+        width: 100%;
+    }
+    .onlypc{
+        display: none;
+    }
+    .menu{
+        display: none;
+        position: absolute;
+        width: 100%;
+        right: 0;
+        top: 100px;
+        z-index: 10;
+        background: #d1d1d1;
+        transition: display .5s ease;
+    }
+    .menu li{
+        display: block;
+        padding: 10px;
+    }
+    .mobilenav{
+        display: block;
+        transition: all .5s ease;
+    }
+}
+
+
