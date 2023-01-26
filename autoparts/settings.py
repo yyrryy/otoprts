@@ -29,21 +29,33 @@ SECRET_KEY = 'django-insecure-wwc%l%l#o)#u@lhc7gwe5@ldnmwdx(0yf*yg@9*5(w7jkg-7jr
 
 # development environment
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+DEBUG = os.environ.get('DEBUG', False)
+print(DEBUG)
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 
-ALLOWED_HOSTS = ['localhost', '157.245.64.200']
-DATABASES = {
+if DEBUG:
+    ALLOWED_HOSTS = ['*']
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+else:
+    ALLOWED_HOSTS = ['159.223.14.51']
+    DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'myproject',
+        'USER': 'myprojectuser',
+        'PASSWORD': 'gadwad',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
-
 # production environment
 # DEBUG = False
 
