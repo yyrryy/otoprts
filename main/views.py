@@ -221,7 +221,7 @@ def commande(request):
 @login_required(login_url='loginpage')
 def orders(request):
     # get orders from db and order them by date ascendant
-    orders=Order.objects.all().filter(isdelivered=False).order_by('id')
+    orders=Order.objects.all().filter(isdelivered=False).order_by('date')
     delivered=Order.objects.all().filter(isdelivered=True)
 
     return render(request, 'orders.html', {'orders':orders, 'delivered':delivered, 'title':'Commandes'})

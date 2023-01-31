@@ -1,8 +1,8 @@
 home page :
-header => Phone
-footer => Phone, Adress, social media
+header => Phone /X 
+footer => Phone, Adress, social media /X
 
-about page:
+about page: //
 main => nous somme ...., mission, vision, croyance
 
 contact page:
