@@ -296,6 +296,24 @@ $(document).ready(function() {
     loadpdcts()
 });
 
+$('.cmnd').each((i, el)=>{
+    $(el).on('click', ()=>{
+        
+        // id=$(el).attr('pdct');
+        $(el).attr('disabled', true)
+        ref=$(el).attr('pdctref')
+        name=$(el).attr('pdctname')
+        pr=$(el).attr('pdctpr')
+        id=$(el).attr('pdctid')
+        // get nearest item
+        let qty = $(el).parent().find('.input-number > .input-number__input').val()
+        // add new row to coommand table
+        addcmnd(name, ref, qty, pr, id)
+        // update total
+        updatetotal()
+
+    })
+})
 
 $('[name=category]').on('change',() => {
             loading()
@@ -377,4 +395,18 @@ $('.valider').on('click', ()=>{
 $('.fromclient').on('click', ()=>{
     loading('verification')
     
+})
+
+// hide commande
+$('.hidecommande').on('click', ()=>{
+    $('.cartholder').css({
+        'right':'-500rem'
+    })
+})
+
+// show commande
+$('.showcommande').on('click', ()=>{
+    $('.cartholder').css({
+        'right':'0'
+    })
 })

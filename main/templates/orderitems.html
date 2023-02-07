@@ -80,11 +80,12 @@
         
         {% endif %}
         <div class="d-flex justify-content-between sticky-bottom">
+          
           {% if user.groups.all.0.name == 'accounting' or user.groups.all.0.name == 'admin' %}
           {% if not order.isdelivered %}
           <form action="/dilevered/{{order.id}}" method="POST">
             {%csrf_token%}
-            <button class="btn btn-primary w-100"  type="submit">Valider</button>
+            <button class="btn btn-primary w-100"  type="submit">Livréé</button>
           </form>
           <button class="btn" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="False" aria-controls="collapseOne">
             Client
@@ -96,6 +97,7 @@
           {% endif %}
         {% endif %}
         {% if user.groups.all.0.name == 'clients' %}
+          
           {% if  order.isdelivered %}
           <button class="btn btn-primary disabled">
             Commande livrée

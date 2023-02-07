@@ -6,7 +6,7 @@ import pandas as pd
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, login, logout
 import json
-from django.db.models import OuterRef, Exists
+from django.db.models import OuterRef, Exists, Count
 import threading
 # import csrf_exampt
 from django.views.decorators.csrf import csrf_exempt
@@ -241,6 +241,15 @@ def dilevered(request, id):
     order.save()
     return redirect(orders)
 
+
+# gets products after clicking on a category
+def products(request, id):
+    # get the products from the db
+    c=Category.objects.get(pk=id)
+    products=Produit.objects.filter(category=id)
+    return render(request, 'products.html', {'products':products, 'title':'Produits de '+str(c), 'category':c})
+
+
 @login_required(login_url='loginpage')
 def dashboard(request):
     user=request.user
@@ -251,7 +260,8 @@ def dashboard(request):
 @login_required(login_url='loginpage')
 def catalog(request):
     categories = Category.objects.annotate(
-        has_promotion=Exists(Produit.objects.filter(category_id=OuterRef('pk'), offre__istartswith='|'))
+        has_promotion=Exists(Produit.objects.filter(category_id=OuterRef('pk'), offre__istartswith='|')),
+        total_products=Count('produit')
     )
     ctx={
             'categories': Category.objects.all(),
