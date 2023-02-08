@@ -117,7 +117,8 @@ const addcmnd=(name, ref, qty, pr, id)=>{
     if(!checkstorage(id)){
         sub=(pr*qty).toFixed(2)
         savetostorage(id, ref, name, qty, pr, sub)
-        $('.commanditems').text(parseInt($('.commanditems').text())+1)
+        console.log('updated counter')
+        $('.commanditems').html(parseInt($('.commanditems').html())+1)
         $('.valider').prop('disabled', false)
 
         $('.fromclient').prop('disabled', false)
@@ -402,6 +403,7 @@ $('.hidecommande').on('click', ()=>{
     $('.cartholder').css({
         'right':'-500rem'
     })
+    $('body').removeClass('overflow-hidden position-fixed')
 })
 
 // show commande
@@ -409,4 +411,5 @@ $('.showcommande').on('click', ()=>{
     $('.cartholder').css({
         'right':'0'
     })
+    $('body').addClass('overflow-hidden position-fixed')
 })
