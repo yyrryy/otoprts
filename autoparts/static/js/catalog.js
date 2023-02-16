@@ -413,3 +413,43 @@ $('.showcommande').on('click', ()=>{
     })
     $('body').addClass('overflow-hidden position-fixed')
 })
+
+// search in products
+let cards = document.querySelectorAll('.products-list__item')
+
+function liveSearch() {
+    let search_query = document.getElementById("searchbox").value;
+    console.log(search_query)
+    //Use innerText if all contents are visible
+    //Use textContent for including hidden elements
+    for (var i = 0; i < cards.length; i++) {
+        if(cards[i].textContent.toLowerCase()
+                .includes(search_query.toLowerCase())) {
+                    console.log(cards[i])
+                    cards[i].classList.remove("d-none");
+        } else {
+            cards[i].classList.add("d-none");
+        }
+    }
+}
+
+//A little delay
+let typingTimer;               
+let typeInterval = 500;  
+let searchInput = document.getElementById('searchbox');
+
+searchInput.addEventListener('keyup', () => {
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(liveSearch, typeInterval);
+});
+
+// fixed cart
+$(window).scroll(function() {
+    if ($(this).scrollTop() > 200) {
+        $('.cartdd').addClass('fixed-topright')
+        $('.categorytitle').addClass('fixed-topleft')
+    } else {
+        $('.cartdd').removeClass('fixed-topright')
+        $('.categorytitle').removeClass('fixed-topleft')
+    }
+})

@@ -29,4 +29,5 @@ urlpatterns = [
     path('profile', views.profile, name='profile'),
     path('editinfoclient', views.editinfoclient, name='editinfoclient'),
     path('updatepassword', views.updatepassword, name='updatepassword'),
+    path('me', views.me, name='me'),
 ]

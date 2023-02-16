@@ -318,4 +318,7 @@ def aboutus(request):
     return render(request, 'aboutus.html', {'title':'A propos de nous'})
 
 
+def me(request):
+    return render(request, 'me.html', {'title':'Develper - abdelwahed ait ali'})
+
 
