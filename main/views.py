@@ -324,7 +324,7 @@ def create_product(request):
     min=request.POST.get('min')
     ref=request.POST.get('ref')
     category=request.POST.get('category')
-
+    print(name, price, offre, min, ref, category)
     # Create the product object
     product = Produit(name=name, price=price
     , offre=offre, min=min, ref=ref, category=Category.objects.get(pk=category))
