@@ -6,79 +6,24 @@
 
 {% block content %}
 <!-- confirm order fixed at the bottom -->
-<div class="border-top fixed-bottom p-2 bg-white rpunded shadow d-flex justify-content-between align-items-center">
-  <div>
-      TOTAL: <span class="total">0</span>
-  </div>
 
-  <div class="d-flex justify-content-between modes border ">
-      <!-- add a list od mod pyem -->
-      <select class="form-select form-select-sm" aria-label="Default select example" name="modpymnt">
-          <option selected value="0">Mode de payement</option>
-          <option value="espece">Espece (-5%/article)</option>
-          <option value="cheque">Cheque (delai 4 mois)</option>
-        </select>
-  
-  
-      <!-- add a list od mod lvrs -->
-  
-      <select class="form-select form-select-sm" aria-label="Default select example" name="modlvrsn">
-          <option selected value="0">Mode de livraison</option>
-          <option value="lux">Lux</option>
-          <option value="sdtm">SDTM</option>
-          <option value="ghazala">Ghazala</option>
-          <option value="baha">Baha express</option>
-        </select>
-  </div>
-  {% if user.groups.all.0.name == 'salsemen' %}
-  <div class="col-4">
-      <div class="d-flex justify-content-center">
-          <select class="form-control form-control-select2 clientid" name="client" >
-              <option value="0">---</option>
-              {% for i in clients %}
-                  <option value="{{i.id}}">{{i.name}} ({{i.address}})</option>
-              {% endfor %}
-          </select>
-          
-          {% csrf_token %}
-          <button class="btn btn-primary valider" disabled>
-          Confirmer
-          </button>
-      </div>
-      
-      <button class="btn btn-primary w-100 mt-2" data-toggle="modal" data-target="#addclientmodal">
-          <i class="bi bi-plus"></i>Nouveau client
-      </button>
-
-      <small class="text-danger d-none clienterr">
-          Choisir un client ou ajouter un nouveau
-      </small>
-  </div>
-      
-  {% endif %}
-  {% if user.groups.all.0.name == 'clients' %}
-  <input type="hidden" class="clientid" value="{{user.client.id}}">
-  <div>{{ request.user.client.name }}</div>
-  <button class="btn btn-primary valider" disabled>confirmer</button>
-  
-  {% endif %}
-  
-</div>
 
 
 <div class="row" style="margin-bottom: 5rem;">
   <!-- products holder -->
-  <div class="col-md-8 products-view__list products-list products-list--grid--4 position-relative" data-layout="grid" data-with-features="false">
+  <div class="products-view__list products-list products-list--grid--4 position-relative" data-layout="grid" data-with-features="false">
 
   <!-- title holder -->
-  <div class="col-md-8 bg-white shadow rounded p-2 categorytitle">
-    <div class="d-flex">
+  <div class="col-12 bg-white shadow rounded p-2 categorytitle fixed-top">
+    <div class="d-flex justify-content-between align-items-center">
       <a href="/catalog" class="bi bi-arrow-left me-2"></a>
-      <p class="text-center">{{category.title.upper}}</b>
+      <p class="text-center">{{category.title.upper}}</p>
+
+
       
-      <!-- <button class="btn showcommande">
+      <button class="btn showcommande">
         Articles comandés: <span class="commanditems">0</span>
-    </button> -->
+    </button>
     </div>
 
       <div class="d-flex justify-content-between align-items-center row">
@@ -99,10 +44,12 @@
         <div class="products-list__item">
           <div class="product-card">
             <div class="product-card__image">
-              <div class="image image--type--product">
-                <!-- <a href="product-full.html" class="image__body">
-                  <img class="image__tag" src="images/products/product-1-245x245.jpg" alt="">
-                </a> -->
+              <div class="image image--type--product text-center">
+                {% if i.image %}
+                <img src="{{ i.image.url}}" alt="{{ i.name }}" width="230" height="230">
+                {% else %}
+                <img src="{% static 'images/default.jpg' %}" alt="{{ i.name }}" width="230" height="230">
+                {% endif %}
               </div>
               <div class="status-badge status-badge--style--success product-card__fit status-badge--has-icon status-badge--has-text">
               </div>
@@ -134,7 +81,7 @@
                 </div>
               </div>
               <div class="cart-table__quantity input-number"><input class="form-control input-number__input qty" type="number" min="{%if i.min%}{{i.min}}{%else%}1{%endif%}" value="{%if i.min%}{{i.min}}{%else%}1{%endif%}"><div class="input-number__add"></div><div class="input-number__sub"></div></div>
-          <button class="btn btn-primary cmnd w-100" pdct="{{i.id}}" pdctref="{{i.ref}}" pdctname="{{i.category.title}}" pdctpr="{{i.price}}" pdctid="{{i.id}}">Cmnd</button>
+          <button class="btn btn-primary cmnd w-100" pdct="{{i.id}}" pdctref="{{i.ref}}" pdctname="{{i.category.title}}" pdctpr="{{i.price}}" pdctid="{{i.id}}" pdctimg="{{i.image.url}}" pdctmin="{{i.min}}">Cmnd</button>
             </div>
           </div>
         </div>
@@ -142,13 +89,12 @@
     </div>
   </div>
 
-   <!-- cart -->
+   <!-- cart 
    <div class="col-md-4 borders cartdd">
   <div class="sticky-top card-header text-center d-flex justify-content-between align-items-center">
     <small>
         Bon de commande
     </small>
-    <!-- a button to clear commande -->
     <button class="btn clearcommande bi bi-trash-fill text-danger" onclick="clearcommande()">
     </button>
   </div>
@@ -171,7 +117,7 @@
     
     </div>
     
-</div>
+</div>-->
 </div>
   
 {% endblock %}

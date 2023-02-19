@@ -83,48 +83,7 @@
                 </strong>
             </div>
             <div class="px-3">
-                <div class="w-100 mb-2 px-3 d-flex justify-content-between bg-dark text-white align-items-center">
-                    {% if user.username %}
-                        <ul class="navbar-nav mr-auto">
-                                
-                            <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ user.get_username }}
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{% url 'logoutuser' %}">Deconnexion <i class="bi bi-skip-end-btn bg-danger"></i></a>
-                                {% if user.groups.all.0.name == 'accounting' %}
-                                <a class="dropdown-item" href="{% url 'orders' %}">Commandes</a>
-                                {% endif %}
-                                {% if user.groups.all.0.name == 'salsemen' or user.groups.all.0.name == 'clients'%}
-                                <a class="dropdown-item" href="{% url 'salsemanorders' %}">Mes commande</a>
-                                {% endif %}
-                                {% if  user.groups.all.0.name == 'clients'%}
-                                <a class="dropdown-item" href="{% url 'profile' %}">Modifier les informations</a>
-                                {% endif %}
-                                <div class="dropdown-divider"></div>
-                            </div>
-                            </li>
-                            
-                        </ul>
-                        {% if not user.groups.all.0.name == 'accounting' %}
-                        
-                        <a href="/catalog" class="btn btn-primary">
-                            Catalog
-                        </a>
-                        {% endif %}
-                        {% if user.groups.all.0.name == 'accounting' %}
-                        <small>
-                            Commande non validé: <span class="nonvalider">0</span>
-                        </small>
-                        {% endif %}
-                        {% if user.groups.all.0.name == 'salsemen' or user.groups.all.0.name == 'clients'%}
-                        <button class="btn text-white">
-                            Articles comandés: <span class="commanditems">0</span>
-                        </button>
-                        {% endif %}
-                    {% endif %}
-                </div>
+                
                 <div class="">
                     {% block content %}
                     {% endblock %}
@@ -220,7 +179,7 @@
             </div>
 
             <br>
-            <footer class="bg-white text-muted mt-auto d-flex justify-content-between align-items-center">
+            <footer class="px-3 bg-white text-muted mt-auto d-flex justify-content-between align-items-center">
                 <small>
                     Version: 1.0.0
                 </small>
@@ -229,9 +188,9 @@
                    Campion @ <span id="thisyear"></span> 
                 </small>
 
-                <small>
+                <!-- <small>
                     <a href="/me">developer</a>
-                </small>
+                </small> -->
             </footer>
             
             </div><!-- site__body / end -->

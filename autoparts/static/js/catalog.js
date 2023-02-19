@@ -47,12 +47,12 @@ const clearstorage =()=>{
     updatetotal()
 }
 
-const savetostorage=(id, ref, n, qty, pr, tt)=>{
+const savetostorage=(id, ref, n, qty, pr, tt, img, min)=>{
     // get products from localstorage
     products=JSON.parse(localStorage.getItem('products')) || []
     productsdetails=JSON.parse(localStorage.getItem('productsdetails')) || []
     // add the new product
-    let pdct=[ref, n, qty, pr, tt]
+    let pdct=[ref, n, qty, pr, tt, img, min]
     products.push(id)
     productsdetails.push(pdct)
     // save to localstorage
@@ -74,7 +74,7 @@ const loadpdcts=()=>{
         $('.valider').prop('disabled', false)
         $('.fromclient').prop('disabled', false)
         for (i of products){
-            let [ref, n, qty, pr, tt]=i
+            let [ref, n, qty, pr, tt, img, min]=i
             tablecmnd.append(`
             <tr class="cmndholder">
             <td class="pdctcmnd" ref=${ref} name="${n}">
@@ -84,7 +84,7 @@ const loadpdcts=()=>{
                 ${n}
             </td>
             <td class="qtyholder">
-                <div class="cart-table__quantity input-number"><input class="form-control input-number__input qty" type="number" min="0" value="${qty}" price="${pr}" name='qtytosub'><div class="input-number__add"></div><div class="input-number__sub"></div></div>
+                <div class="cart-table__quantity input-number"><input readonly class="form-control input-number__input qty" type="number" min="${min}" value="${qty}" price="${pr}" name='qtytosub'><div class="input-number__add"></div><div class="input-number__sub"></div></div>
                 
             </td>
             <td class="subtotal">
@@ -112,11 +112,11 @@ const loadpdcts=()=>{
 }
 
 
-const addcmnd=(name, ref, qty, pr, id)=>{
+const addcmnd=(name, ref, qty, pr, id, img, min)=>{
     // checks local storage if the item is already there
     if(!checkstorage(id)){
         sub=(pr*qty).toFixed(2)
-        savetostorage(id, ref, name, qty, pr, sub)
+        savetostorage(id, ref, name, qty, pr, sub, img, min)
         console.log('updated counter')
         $('.commanditems').html(parseInt($('.commanditems').html())+1)
         $('.valider').prop('disabled', false)
@@ -131,7 +131,7 @@ const addcmnd=(name, ref, qty, pr, id)=>{
             ${name}
         </td>
         <td class="qtyholder">
-            <div class="cart-table__quantity input-number"><input class="form-control input-number__input qty" type="number" min="0" value="${qty}" price="${pr}" name='qtytosub'><div class="input-number__add"></div><div class="input-number__sub"></div></div>
+            <div class="cart-table__quantity input-number"><input readonly class="form-control input-number__input qty" type="number" min="${min}" value="${qty}" price="${pr}" name='qtytosub'><div class="input-number__add"></div><div class="input-number__sub"></div></div>
             
         </td>
         <td class="subtotal">
@@ -306,10 +306,12 @@ $('.cmnd').each((i, el)=>{
         name=$(el).attr('pdctname')
         pr=$(el).attr('pdctpr')
         id=$(el).attr('pdctid')
+        img=$(el).attr('pdctimg')
+        min=$(el).attr('pdctmin')
         // get nearest item
         let qty = $(el).parent().find('.input-number > .input-number__input').val()
         // add new row to coommand table
-        addcmnd(name, ref, qty, pr, id)
+        addcmnd(name, ref, qty, pr, id, img, min)
         // update total
         updatetotal()
 
@@ -445,11 +447,12 @@ searchInput.addEventListener('keyup', () => {
 
 // fixed cart
 $(window).scroll(function() {
-    if ($(this).scrollTop() > 200) {
-        $('.cartdd').addClass('fixed-topright')
-        $('.categorytitle').addClass('fixed-topleft')
-    } else {
-        $('.cartdd').removeClass('fixed-topright')
-        $('.categorytitle').removeClass('fixed-topleft')
-    }
+    console.log($(this).scrollTop())
+    // if ($(this).scrollTop() > 50) {
+    //     // $('.cartdd').addClass('fixed-topright')
+    //     $('.categorytitle').addClass('fixed-topleft')
+    // } else {
+    //     // $('.cartdd').removeClass('fixed-topright')
+    //     $('.categorytitle').removeClass('fixed-topleft')
+    // }
 })

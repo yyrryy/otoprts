@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from cloudinary.models import CloudinaryField
 
 
 
@@ -40,6 +41,7 @@ class Produit(models.Model):
 
     #image
     # image = CloudinaryField('image', folder='autoparts/', default=None, null=True)
+    image = CloudinaryField('image', default=None, folder='autopart/', null=True)
 
     #cartgrise
     # n_chasis=models.CharField(max_length=50, null=True)

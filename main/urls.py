@@ -30,4 +30,5 @@ urlpatterns = [
     path('editinfoclient', views.editinfoclient, name='editinfoclient'),
     path('updatepassword', views.updatepassword, name='updatepassword'),
     path('me', views.me, name='me'),
+    path('create_product', views.create_product, name='create_product'),
 ]

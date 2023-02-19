@@ -11,6 +11,7 @@ import threading
 # import csrf_exampt
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
+from cloudinary.uploader import upload
 
 # users groups
 # chack if user's group in accounting
@@ -157,9 +158,7 @@ def create(request):
     # get category from db
     categories=Category.objects.all()
     # get brand from db
-    brands=Brand.objects.all()
-    marks=Mark.objects.all()
-    return render(request, 'create.html', {'categories':categories, 'brands':brands, 'marks':marks})
+    return render(request, 'create.html', {'categories':categories, })
 
 
 # add category ajax route
@@ -316,6 +315,31 @@ def logoutuser(request):
 
 def aboutus(request):
     return render(request, 'aboutus.html', {'title':'A propos de nous'})
+
+def create_product(request):
+    name = request.POST.get('name')
+    price = request.POST.get('price')
+    image_file = request.FILES.get('image')
+    offre=request.POST.get('offre')
+    min=request.POST.get('min')
+    ref=request.POST.get('ref')
+    category=request.POST.get('category')
+
+    # Create the product object
+    product = Produit(name=name, price=price
+    , offre=offre, min=min, ref=ref, category=Category.objects.get(pk=category))
+
+    # Upload the image to Cloudinary
+    if image_file:
+        # response = upload(image_file, public_id='my_image', upload_preset='ml_default', folder='autopart/')
+
+        response = upload(image_file, folder='autopart/')
+        print(response)
+        product.image = response['secure_url']
+
+    product.save()
+    return redirect('create')
+
 
 
 def me(request):
