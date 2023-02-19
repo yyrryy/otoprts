@@ -41,7 +41,7 @@ class Produit(models.Model):
 
     #image
     # image = CloudinaryField('image', folder='autoparts/', default=None, null=True)
-    image = CloudinaryField('image', default=None, folder='autopart/', null=True)
+    image = models.CharField(max_length=500, default=None, null=True)
 
     #cartgrise
     # n_chasis=models.CharField(max_length=50, null=True)
