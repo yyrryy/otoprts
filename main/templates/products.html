@@ -45,11 +45,8 @@
           <div class="product-card">
             <div class="product-card__image">
               <div class="image image--type--product text-center">
-                {% if i.image %}
                 <img src="{{i.image}}" alt="{{ i.name }}" width="230" height="230">
-                {% else %}
                 <img src="{% static 'images/default.jpg' %}" alt="{{ i.name }}" width="230" height="230">
-                {% endif %}
               </div>
               <div class="status-badge status-badge--style--success product-card__fit status-badge--has-icon status-badge--has-text">
               </div>
