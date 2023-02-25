@@ -32,29 +32,13 @@ DEBUG = os.environ.get('DEBUG', False)
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 
-if DEBUG:
-    ALLOWED_HOSTS = ['*']
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-else:
-    ALLOWED_HOSTS = ['146.190.21.218']
-    DATABASES = {
+ALLOWED_HOSTS = ['*']
+DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'myproject',
-        'USER': 'myprojectuser',
-        'PASSWORD': 'gadwad',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-# production environment
-# DEBUG = False
-
 # # Database
 # # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
