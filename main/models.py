@@ -1,13 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
-from cloudinary.models import CloudinaryField
-
 
 
 # Create your models here.
 
 class Category(models.Model):
     title=models.CharField(max_length=150)
+    code=models.CharField(max_length=150, default=None, null=True)
     def __str__(self) -> str:
         return self.title
 class Brand(models.Model):
@@ -33,15 +32,14 @@ class Produit(models.Model):
 
     #stock
     # stock=models.IntegerField(default=1)
-
+    stock=models.BooleanField(default=True)
 
 
     #ref
     ref=models.CharField(max_length=50)
 
     #image
-    # image = CloudinaryField('image', folder='autoparts/', default=None, null=True)
-    image = models.CharField(max_length=500, default=None, null=True)
+    image = models.CharField(max_length=500, default='/static/images/default.jpg', null=True)
 
     #cartgrise
     # n_chasis=models.CharField(max_length=50, null=True)

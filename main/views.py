@@ -11,7 +11,6 @@ import threading
 # import csrf_exampt
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
-from cloudinary.uploader import upload
 
 # users groups
 # chack if user's group in accounting
@@ -320,7 +319,6 @@ def aboutus(request):
 def create_product(request):
     name = request.POST.get('name')
     price = request.POST.get('price')
-    image_file = request.FILES.get('image')
     offre=request.POST.get('offre')
     min=request.POST.get('min')
     ref=request.POST.get('ref')
@@ -330,13 +328,6 @@ def create_product(request):
     product = Produit(name=name, price=price
     , offre=offre, min=min, ref=ref, category=Category.objects.get(pk=category))
 
-    # Upload the image to Cloudinary
-    if image_file:
-        # response = upload(image_file, public_id='my_image', upload_preset='ml_default', folder='autopart/')
-
-        response = upload(image_file, folder='autopart/')
-        print(response)
-        product.image = response['secure_url']
 
     product.save()
     return redirect('create')

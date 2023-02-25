@@ -189,7 +189,7 @@ const validercmnd=(clientid)=>{
             $('.valider').prop('disabled', true)
                     $('.fromclient').prop('disabled', true)
             updateclients()
-            alertify.alert('Message', 'Commande envoyé')
+            alert('Commande envoyé')
         },
         error:(err)=>{
             stoploading()
@@ -370,7 +370,7 @@ $('.valider').on('click', ()=>{
     //
     if (client.val()==0 || $('[name="modpymnt"]').val()==0 || $('[name="modlvrsn"]').val()==0){
         stoploading()
-        alertify.alert('Message', 'Veuillez choisir un mode de payement ou de livraison')
+        alert('Veuillez choisir un mode de payement ou de livraison')
         $('.modes').addClass('border-danger')
         console.log('error')
         return

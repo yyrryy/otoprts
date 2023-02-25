@@ -13,9 +13,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 from os.path import join
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -30,7 +27,6 @@ SECRET_KEY = 'django-insecure-wwc%l%l#o)#u@lhc7gwe5@ldnmwdx(0yf*yg@9*5(w7jkg-7jr
 # development environment
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', False)
-print(DEBUG)
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -45,13 +41,13 @@ if DEBUG:
         }
     }
 else:
-    ALLOWED_HOSTS = ['161.35.86.231']
+    ALLOWED_HOSTS = ['146.190.21.218']
     DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'myproject',
         'USER': 'myprojectuser',
-        'PASSWORD': 'gadwad123',
+        'PASSWORD': 'gadwad',
         'HOST': 'localhost',
         'PORT': '',
     }
@@ -75,7 +71,6 @@ INSTALLED_APPS = [
     'main',
     'blog',
     'customers',
-    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -157,13 +152,3 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-cloudinary.config( 
-  cloud_name=os.environ.get('CLOUDINARY_NAME'),
-    api_key=os.environ.get('CLOUDINARY_API_KEY'),
-    api_secret=os.environ.get('CLOUDINARY_API_SECRET'),
-  secure = True,
-  timeout = 60  # timeout for requests to cloudinary
-)
-
-
