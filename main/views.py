@@ -332,7 +332,9 @@ def create_product(request):
     product.save()
     return redirect('create')
 
-
+@user_passes_test(tocatalog, login_url='loginpage')
+def cart(request):
+    return render(request, 'cart.html', {'title':'Panier'})
 
 def me(request):
     return render(request, 'me.html', {'title':'Develper - abdelwahed ait ali'})

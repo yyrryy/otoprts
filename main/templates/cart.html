@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+<div class="block">
+    <div class="container">
+      <div class="cart">
+        <div class="cart__table cart-table position-relative">
+          <div class="loadingcartitems flex-column align-items-center justify-content-center w-100 h-100 top-0 bg-dark200" style="z-index:1199; position: absolute;">
+            <div class="spinner-border text-light"></div>
+        </div>
+          <table class="cart-table__table">
+            <thead class="cart-table__head">
+              <tr class="cart-table__row">
+                <th class="cart-table__column">Ref</th>
+                <th class="cart-table__column cart-table__column--product" style="width: 50%;">Article</th>
+                <th class="cart-table__column cart-table__column--price">Prix</th>
+                <th class="cart-table__column cart-table__column--quantity">Quantité</th>
+                <th class="cart-table__column cart-table__column--total">Total</th>
+                <th class="cart-table__column cart-table__column--remove"></th>
+              </tr>
+            </thead>
+            <tbody class="cart-table__body ">
+              
+            </tbody>
+            <tfoot class="cart-table__foot">
+              <tr>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <div class="cart__totals">
+          <div class="card">
+            <div class="card-body card-body--padding--2">
+              <table class="cart__totals-table">
+                
+                <tfoot>
+                  <tr>
+                    <th>Total</th>
+                    <td class="total"></td>
+                  </tr>
+                  <!-- <tr>
+                    <td>
+                      <p class="text-cennter">
+                        {{ request.user.client.name }}
+                      </p>
+                  </tr> -->
+                  <tr>
+                    <td>
+                    <div class="d-flex justify-content-between modes border flex-column">
+                      <!-- add a list od mod pyem -->
+                      <select class="form-select mb-2" aria-label="Default select example" name="modpymnt">
+                          <option selected value="0">Mode de payement</option>
+                          <option value="espece">Espece (-5%/article)</option>
+                          <option value="cheque">Cheque</option>
+                          <option value="effet">Effet</option>
+                          <option value="cheque">Cheque</option>
+                        </select>
+                  
+                  
+                      <!-- add a list od mod lvrs -->
+                  
+                      <select class="form-select mb-2" aria-label="Default select example" name="modlvrsn">
+                          <option selected value="0">Mode de livraison</option>
+                          <option value="lux">Lux</option>
+                          <option value="sdtm">SDTM</option>
+                          <option value="ghazala">Ghazala</option>
+                          <option value="baha">Baha express</option>
+                        </select>
+                    </div>
+                    </td>
+                  </tr>
+                  
+                </tfoot>
+              </table>
+              <input type="hidden" class="clientid" value="{{request.user.client.id}}">
+              <button class="btn btn-primary valider w-100" disabled>
+                valider le panier
+                </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/cart.js'%}"></script>
+{% endblock %}

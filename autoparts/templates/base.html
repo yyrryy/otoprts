@@ -83,7 +83,48 @@
                 </strong>
             </div>
             <div class="px-3">
-                
+                <div class="w-100 mb-2 px-3 d-flex justify-content-between bg-dark text-white align-items-center">
+                    {% if user.username %}
+                        <ul class="navbar-nav mr-auto">
+                                
+                            <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ user.get_username }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{% url 'logoutuser' %}">Deconnexion <i class="bi bi-skip-end-btn bg-danger"></i></a>
+                                {% if user.groups.all.0.name == 'accounting' %}
+                                <a class="dropdown-item" href="{% url 'orders' %}">Commandes</a>
+                                {% endif %}
+                                {% if user.groups.all.0.name == 'salsemen' or user.groups.all.0.name == 'clients'%}
+                                <a class="dropdown-item" href="{% url 'salsemanorders' %}">Mes commande</a>
+                                {% endif %}
+                                {% if  user.groups.all.0.name == 'clients'%}
+                                <a class="dropdown-item" href="{% url 'profile' %}">Modifier les informations</a>
+                                {% endif %}
+                                <div class="dropdown-divider"></div>
+                            </div>
+                            </li>
+                            
+                        </ul>
+                        {% if not user.groups.all.0.name == 'accounting' %}
+                        
+                        <a href="/catalog" class="btn btn-primary">
+                            Catalog
+                        </a>
+                        {% endif %}
+                        {% if user.groups.all.0.name == 'accounting' %}
+                        <small>
+                            Commande non validé: <span class="nonvalider">0</span>
+                        </small>
+                        {% endif %}
+                        {% if user.groups.all.0.name == 'salsemen' or user.groups.all.0.name == 'clients'%}
+                        <a class="btn text-white" href="/cart">
+                            <i class="bi bi-cart"></i> Panier : <span class="commanditems">0</span>
+                        </a>
+                        {% endif %}
+                    {% endif %}
+                </div>
                 <div class="">
                     {% block content %}
                     {% endblock %}
@@ -265,6 +306,11 @@
     const stoploading=()=>{
         $('.loading').removeClass('d-flex').addClass('d-none');
     }
+    products=JSON.parse(localStorage.getItem('products'))
+    if (products && products.length){
+        $('.commanditems').text(products.length)
+    }
+
     </script>
     {% block js %}
     {% endblock %}

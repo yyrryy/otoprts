@@ -36,23 +36,14 @@ const checkstorage = (id)=>{
     return false
 }
 
-const clearstorage =()=>{
-    // clear localstorage
-    localStorage.removeItem('products')
-    localStorage.removeItem('productsdetails')
-    // clear table
-    tablecmnd.empty()
-    $('.prdctslist').empty()
-    $('.commanditems').text(0)
-    updatetotal()
-}
 
-const savetostorage=(id, ref, n, qty, pr, tt, img, min)=>{
+
+const savetostorage=(id, ref, n, ctg, qty, pr, tt, img, min)=>{
     // get products from localstorage
     products=JSON.parse(localStorage.getItem('products')) || []
     productsdetails=JSON.parse(localStorage.getItem('productsdetails')) || []
     // add the new product
-    let pdct=[ref, n, qty, pr, tt, img, min]
+    let pdct=[ref, n, ctg, qty, pr, tt, img, min, id]
     products.push(id)
     productsdetails.push(pdct)
     // save to localstorage
@@ -60,143 +51,56 @@ const savetostorage=(id, ref, n, qty, pr, tt, img, min)=>{
     localStorage.setItem('productsdetails', JSON.stringify(productsdetails))
 }
 
-const updatetotal=()=>{
-    t=0
-    $('.subtotal').each((i, el)=>{
-        t+=parseFloat($(el).text())
-    })
-    $('.total').text(t.toFixed(2))
-}
-
-const loadpdcts=()=>{
-    products=JSON.parse(localStorage.getItem('productsdetails'))
-    if (products && products.length){
-        $('.valider').prop('disabled', false)
-        $('.fromclient').prop('disabled', false)
-        for (i of products){
-            let [ref, n, qty, pr, tt, img, min]=i
-            tablecmnd.append(`
-            <tr class="cmndholder">
-            <td class="pdctcmnd" ref=${ref} name="${n}">
-                ${ref}
-            </td>
-            <td class="pdctcmnd" ref=${ref} name="${n}">
-                ${n}
-            </td>
-            <td class="qtyholder">
-                <div class="cart-table__quantity input-number"><input readonly class="form-control input-number__input qty" type="number" min="${min}" value="${qty}" price="${pr}" name='qtytosub'><div class="input-number__add"></div><div class="input-number__sub"></div></div>
-                
-            </td>
-            <td class="subtotal">
-                ${tt}
-                
-            </td>
-            
-            </tr>
-            `)
-            $('.input-number').customNumber();
-            $("input[name=qtytosub]").each((i, el)=>{
-                $(el).on('change', ()=>{
-                    v=$(el).val()
-                    subt=$(el).attr('price')*v
-                    // find the subtotal cell
-                    $(el).parent().parent().parent().find('.subtotal').text(subt.toFixed(2))
-                    updatetotal()
-                }
-            )})
-        }
-        $('.commanditems').text(products.length)
-        updatetotal()
-        return
-    }
-}
 
 
-const addcmnd=(name, ref, qty, pr, id, img, min)=>{
+
+
+const addcmnd=(name, ctg, ref, qty, pr, id, img, min)=>{
     // checks local storage if the item is already there
     if(!checkstorage(id)){
         sub=(pr*qty).toFixed(2)
-        savetostorage(id, ref, name, qty, pr, sub, img, min)
+        savetostorage(id, ref, name, ctg, qty, pr, sub, img, min)
         console.log('updated counter')
         $('.commanditems').html(parseInt($('.commanditems').html())+1)
         $('.valider').prop('disabled', false)
 
-        $('.fromclient').prop('disabled', false)
-        tablecmnd.append(`
-        <tr class="cmndholder">
-        <td class="pdctcmnd" ref=${ref} name="${name}">
-            ${ref}
-        </td>
-        <td class="pdctcmnd" ref=${ref} name="${name}">
-            ${name}
-        </td>
-        <td class="qtyholder">
-            <div class="cart-table__quantity input-number"><input readonly class="form-control input-number__input qty" type="number" min="${min}" value="${qty}" price="${pr}" name='qtytosub'><div class="input-number__add"></div><div class="input-number__sub"></div></div>
+        // $('.fromclient').prop('disabled', false)
+        // tablecmnd.append(`
+        // <tr class="cmndholder">
+        // <td class="pdctcmnd" ref=${ref} name="${name}">
+        //     ${ref}
+        // </td>
+        // <td class="pdctcmnd" ref=${ref} name="${name}">
+        //     ${name}
+        // </td>
+        // <td class="qtyholder">
+        //     <div class="cart-table__quantity input-number"><input readonly class="form-control input-number__input qty" type="number" min="${min}" value="${qty}" price="${pr}" name='qtytosub'><div class="input-number__add"></div><div class="input-number__sub"></div></div>
             
-        </td>
-        <td class="subtotal">
-            ${sub}
+        // </td>
+        // <td class="subtotal">
+        //     ${sub}
             
-        </td>
+        // </td>
         
-        </tr>
-        `)
-        $('.input-number').customNumber();
-        $("input[name=qtytosub]").each((i, el)=>{
-            $(el).on('change', ()=>{
-                v=$(el).val()
-                subt=$(el).attr('price')*v
-                // find the subtotal cell
-                $(el).parent().parent().parent().find('.subtotal').text(subt.toFixed(2))
-                updatetotal()
-            }
-        )})
+        // </tr>
+        // `)
+
+        // $('.input-number').customNumber();
+        // $("input[name=qtytosub]").each((i, el)=>{
+        //     $(el).on('change', ()=>{
+        //         v=$(el).val()
+        //         subt=$(el).attr('price')*v
+        //         // find the subtotal cell
+        //         $(el).parent().parent().parent().find('.subtotal').text(subt.toFixed(2))
+        //         updatetotal()
+        //     }
+        // )})
         return
     }
     alert('Deja commandée')
 
 }
 
-
-const validercmnd=(clientid)=>{
-    holder=$('.cmndholder')
-    commande=[]
-    holder.each((i, el)=>{
-        ref=$(el).find('.pdctcmnd').attr('ref')
-        n=$(el).find('.pdctcmnd').attr('name')
-        qty=$(el).find('.qtyholder .input-number > .qty').val()
-        cmd=ref+':'+n+':'+qty
-        commande.push(cmd)
-    })
-    $.ajax({
-        url: '/commande',
-        type: 'POST',
-        data: {
-            'csrfmiddlewaretoken': csrf,
-            'commande': commande,
-            'client':clientid,
-            'total':parseFloat($('.total').text()),
-            'modpymnt':$('[name="modpymnt"]').val(),
-            'modlvrsn':$('[name="modlvrsn"]').val()
-        },
-
-        success: function(data){
-            $('select').val(0)
-            $('.modes').removeClass('border-danger')
-            stoploading()
-            $('.cmndholder').remove()
-            clearstorage()
-            $('.valider').prop('disabled', true)
-                    $('.fromclient').prop('disabled', true)
-            updateclients()
-            alert('Commande envoyé')
-        },
-        error:(err)=>{
-            stoploading()
-            alert(err)
-        }
-    })
-}
 
 
 const close = function() {
@@ -291,11 +195,7 @@ const clearcommande=()=>{
 }
 
 
-$(document).ready(function() {
-    loading()
-    stoploading()
-    loadpdcts()
-});
+
 
 $('.cmnd').each((i, el)=>{
     $(el).on('click', ()=>{
@@ -304,6 +204,7 @@ $('.cmnd').each((i, el)=>{
         $(el).attr('disabled', true)
         ref=$(el).attr('pdctref')
         name=$(el).attr('pdctname')
+        ctg=$(el).attr('pdctcategory')
         pr=$(el).attr('pdctpr')
         id=$(el).attr('pdctid')
         img=$(el).attr('pdctimg')
@@ -311,9 +212,8 @@ $('.cmnd').each((i, el)=>{
         // get nearest item
         let qty = $(el).parent().find('.input-number > .input-number__input').val()
         // add new row to coommand table
-        addcmnd(name, ref, qty, pr, id, img, min)
+        addcmnd(name, ctg, ref, qty, pr, id, img, min)
         // update total
-        updatetotal()
 
     })
 })
@@ -349,7 +249,6 @@ $('[name=category]').on('change',() => {
                             // add new row to coommand table
                             addcmnd(name, ref, qty, pr, id)
                             // update total
-                            updatetotal()
 
                         })
                     })
