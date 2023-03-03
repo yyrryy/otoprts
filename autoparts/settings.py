@@ -41,7 +41,7 @@ if DEBUG:
         }
     }
 else:
-    ALLOWED_HOSTS = ['134.122.58.13']
+    ALLOWED_HOSTS = ['134.122.58.13', 'stecampion.com', 'www.stecampion.com']
     DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',

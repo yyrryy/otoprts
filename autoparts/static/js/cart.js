@@ -52,7 +52,8 @@ $(document).ready(function () {
                 $('.valider').prop('disabled', true)
                         $('.fromclient').prop('disabled', true)
                 alert('Commande envoyé')
-                // go to thank you page
+                // go to thank you 
+                window.location.href='/salsemanorders'
             },
             error:(err)=>{
                 stoploading()
