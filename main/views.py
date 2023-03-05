@@ -1,5 +1,5 @@
 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from .models import Brand, Category, Client, Order, Orderitem, Produit, Coupon, Model, Mark
 import pandas as pd
@@ -11,6 +11,11 @@ import threading
 # import csrf_exampt
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
+from django.contrib.sitemaps import Sitemap
+from django.shortcuts import reverse
+
+
+
 
 # users groups
 # chack if user's group in accounting
@@ -340,3 +345,19 @@ def me(request):
     return render(request, 'me.html', {'title':'Develper - abdelwahed ait ali'})
 
 
+
+def sitemap(request):
+    # Get the base URL for the sitemap
+    host_base = request.build_absolute_uri(reverse("home"))
+
+    # Static routes with static content
+    static_urls = []
+    for url in ["aboutus", "#contactus", "partners", "catalog"]:
+        static_urls.append({"loc": f"{host_base}{url}"})
+
+    # Render the sitemap template
+    context = {"static_urls": static_urls}
+    sitemap_xml = render(request, "sitemap.xml", context, content_type="application/xml")
+
+    # Return the sitemap as an HTTP response with the appropriate content type
+    return HttpResponse(sitemap_xml, content_type="application/xml")

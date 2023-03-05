@@ -71,19 +71,24 @@
                     let email = $('#email').val();
                     let message = $('#message').val();
                     if (name != "" && subject != "" && email != "" && message != "") {
-                        $.ajax({
-                            url: './sendemail.php',
-                            type: 'POST',
-                            data: "name=" + name + "&subject=" + subject + "&email=" + email + "&message=" + message,
-                            success: function(result) {
-                                if (result == "email_error") {
-                                    $('#email').addClass("uk-form-danger").next('.require').text(' !');
-                                } else {
-                                    $('#name, #subject, #email, #message').val("");
-                                    UIkit.notification("<span uk-icon='icon: fa-check-circle; ratio: 0.028'></span> Your message has been sent successfully. Thank you!", { timeout: 3000, status:'success', pos: 'bottom-right' });
-                                }
-                            }
-                        });
+                      $('#buttonsend').attr('disabled', 'disabled');
+                      const scriptURL = 'https://script.google.com/macros/s/AKfycbxeJZTixg7ZHzG4Cz9LNQnn--12PCYQIqwpUeQ8h8WOhJ2nMxUBDZF2KGfvKq0idBEZ/exec'
+                    
+                      UIkit.notification("<span uk-icon='icon: fa-check-circle; ratio: 0.028'></span> Encours d'envoie", {status:'warning', pos: 'bottom-right' });
+                        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+                          .then(response => {
+                            UIkit.notification("<span uk-icon='icon: fa-check-circle; ratio: 0.028'></span> Message envoyé. Thank you!", { timeout: 3000, status:'success', pos: 'bottom-right' });
+                            $('#name').val('');
+                            $('#subject').val('');
+                            $('#email').val('');
+                            $('#message').val('');                          
+                            })
+                          .catch(error => console.error('Error!', error.message)) 
+                      
+                      $('#buttonsend').removeAttr('disabled');
+                      // reset form
+                      
+                      
                         return false;
                     } else {
                         $('.tb-contact-loading').fadeOut('fast');

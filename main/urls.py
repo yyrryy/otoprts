@@ -32,4 +32,5 @@ urlpatterns = [
     path('me', views.me, name='me'),
     path('create_product', views.create_product, name='create_product'),
     path('cart', views.cart, name='cart'),
+    path('sitemap', views.sitemap, name='sitemap'),
 ]

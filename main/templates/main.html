@@ -278,18 +278,18 @@
                 <div class="in-colored-card grey">
                     <div class="uk-card uk-card-default">
                         <div class="uk-card-body">
-                            <form id="contact-form" class="uk-form">
+                            <form id="contact-form" class="uk-form" name="submit-to-google-sheet">
                                 <div class="uk-margin uk-width-1-1">
-                                    <input class="uk-input" id="name" value="" type="text" placeholder="Full name">
+                                    <input class="uk-input" name="name" value="" type="text" placeholder="Full name">
                                 </div>
                                 <div class="uk-margin uk-width-1-1">
-                                    <input class="uk-input" id="email" value="" type="email" placeholder="Email">
+                                    <input class="uk-input" name="email" value="" type="email" placeholder="Email">
                                 </div>
                                 <div class="uk-margin uk-width-1-1">
-                                    <input class="uk-input" id="subject" value="" type="text" placeholder="Subject">
+                                    <input class="uk-input" name="subject" value="" type="text" placeholder="Subject">
                                 </div>
                                 <div class="uk-margin uk-width-1-1">
-                                    <textarea class="uk-textarea" id="message" rows="5" placeholder="Message"></textarea>
+                                    <textarea class="uk-textarea" name="message" rows="5" placeholder="Message"></textarea>
                                 </div>
                                 <div>
                                     <button class="uk-width-1-1 uk-button uk-button-primary uk-border-pill uk-float-left" id="buttonsend" type="submit" name="submit">Envoyer</button>
@@ -301,8 +301,26 @@
             </div>
         </div>
         <!-- grid content end -->
+        <hr>
+        <p>
+            Notre entreprise, Campion, est un importateur et un vendeur de pièces automobiles de haute qualité pour une variété de marques et de modèles de voitures. Nous sommes fiers de fournir des pièces d'origine de premier choix, ainsi que des pièces de rechange de qualité supérieure pour répondre aux besoins de tous les clients. Notre sélection complète de pièces comprend des freins, des filtres, des batteries, des pneus, des lubrifiants et bien plus encore. Nous sommes engagés à fournir un excellent service clientèle et à offrir des prix compétitifs pour toutes les pièces dont vous avez besoin. Avec notre expertise et notre expérience dans l'industrie, Campion est la solution idéale pour tous vos besoins en matière de pièces automobiles. Faites confiance à notre entreprise pour obtenir des pièces fiables, durables et de haute qualité pour votre voiture.
+        </p>
     </div>
 </div>
 </div>
 <!-- content end -->
+{% endblock %}
+{% block js %}
+
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxeJZTixg7ZHzG4Cz9LNQnn--12PCYQIqwpUeQ8h8WOhJ2nMxUBDZF2KGfvKq0idBEZ/exec'
+    const form = document.forms['submit-to-google-sheet']
+  
+    form.addEventListener('submit', e => {
+      e.preventDefault()
+      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        .then(response => console.log('Success!', response))
+        .catch(error => console.error('Error!', error.message))
+    })
+  </script>
 {% endblock %}

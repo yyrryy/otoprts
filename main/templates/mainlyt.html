@@ -7,8 +7,19 @@
     <meta name="description" content="ste compion">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#f6c342" />
+    <meta name="description" content="Campion est un importateur et vendeur leader de pièces automobiles de haute qualité pour une variété de modèles de voitures. Faites-nous confiance pour des pièces fiables et durables pour votre véhicule.">
+    <meta name="keywords" content="Campion, ste campion, pièces automobiles, pièces importées, pièces de qualité">
+    <meta name="robots" content="index, follow">
+
     <!-- Site Properties -->
-    <title>Accueill - ste compion</title>
+    <title>
+        {% if title %}
+        ste Campion | {{ title }}
+        {% else %}
+        ste Campion | Importateur et Vendeur de Pièces Automobiles de Qualité
+
+        {% endif %}
+    </title>
     <link rel="shortcut icon" href="static/images/favicon.png" type="image/x-icon">
     <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png">
     <!-- Google Fonts -->
@@ -74,7 +85,7 @@
                                     </li>
 
                                     <li>
-                                        <a href="/#marques">Les marques</a>
+                                        <a href="/partners">Les marques</a>
                                     </li>
                                     <li>
                                         <a href="/catalog" target="_blank">Catalog</a>
@@ -141,7 +152,7 @@
                                         </li>
 
                                         <li>
-                                            <a href="/#marques">Les marques</a>
+                                            <a href="/partners">Les marques</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -167,12 +178,11 @@
                 <div class="uk-child-width-1-1 uk-child-width-1-5@m uk-text-small" data-uk-grid>
                     <div class="uk-width-expand">
                         <a class="uk-logo" href="/"><img src="static/images/logo.png" data-src="static/images/logo.png"
-                                alt="logo" data-uk-img></a>
-                        <p>
-                            Addresse 155 route 152
-                            <br>
-                            Oulfa, casablanca
-                        </p>
+                                alt="Campion logo" data-uk-img></a>
+                                <h1>Ste Campion</h1>
+                                <p>
+                                    Al Azhar GH 56, Imm 50 (à coté de R.P CHAHDIA) - Appt 07 Etage 1 - Oulfa Casablanca 
+                                 </p>
                         <div class="cars">
                             <div class="carac">
                                 <div class="icon sat" data-uk-icon="icon:fa-shipping-fast; ratio: .06;">
@@ -253,6 +263,8 @@
     <script src="static/js/main/uikit-icons.min.js"></script>
     <script src="static/js/main/config.js"></script>
     <script src="static/js/main/vendor.js"></script>
+    {% block js %}
+    {% endblock %}
 
 </body>
 
