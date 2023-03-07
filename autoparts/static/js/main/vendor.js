@@ -70,7 +70,7 @@
                     let subject = $('#subject').val();
                     let email = $('#email').val();
                     let message = $('#message').val();
-                    if (name != "" && subject != "" && email != "" && message != "") {
+                    if (name != "" && subject != "" && email != "" && message != "" && email.indexOf('@') > -1) {
                       $('#buttonsend').attr('disabled', 'disabled');
                       const scriptURL = 'https://script.google.com/macros/s/AKfycbxeJZTixg7ZHzG4Cz9LNQnn--12PCYQIqwpUeQ8h8WOhJ2nMxUBDZF2KGfvKq0idBEZ/exec'
                     

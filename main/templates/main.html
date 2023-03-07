@@ -74,51 +74,29 @@
               <h2>Nos partenaires</h2>
               <div class="partenaires">
                 <div class="cartmark">
-                    <img src="static/images/airtex.jpg" alt="airtex">
-                    <p>Airtex</p>
-                </div>
-                <div class="cartmark">
-                    <img src="static/images/bendix.jpeg" alt="airtex">
+                    <a href="#">
+                        <img src="https://res.cloudinary.com/yurey/image/upload/v1678100964/autopart/partners/bendix_elbcxt.jpg" alt="airtex">
+                    </a>
                     <p>Bendix</p>
                 </div>
-
-                  <div class="cartmark">
-                      <img src="static/images/energizer.jpg" alt="airtex">
-                      <p>Energizer</p>
-                  </div>
-
-                  <div class="cartmark">
-                      <img src="static/images/pressgom.jpg" alt="airtex">
-                      <p>Pressgom</p>
-                  </div>
-
-                  
-
-                  <div class="cartmark">
-                      <img src="static/images/fareauto.jpg" alt="Fare automotive">
-                      <p>Fare automotive</p>
-                  </div>
-
-                  <div class="cartmark">
-                      <img src="static/images/beseka.jpg" alt="Beseka">
-                      <p>Beseka</p>
-                  </div>
-
-                  <div class="cartmark">
-                      <img src="static/images/braxis.jpg" alt="Braxis">
-                      <p>Braxis</p>
-                  </div>
-
-                  <div class="cartmark">
-                      <img src="static/images/muleroil.jpg" alt="muleroil">
-                      <p>Muleroil</p>
-                  </div>
-
-                  
-
-                  
-                  
-              </div>
+                <div class="cartmark">
+                    <a href="#">
+                        <img src="https://res.cloudinary.com/yurey/image/upload/v1678100964/autopart/partners/airtex_fyatnf.jpg" alt="airtex">
+                    </a>
+                    <p>Airtex</p>
+                </div>
+        
+                <div class="cartmark">
+                    <a href="#">
+                        <img src="https://res.cloudinary.com/yurey/image/upload/v1678101629/autopart/partners/energizer_nlxpfx.jpg" alt="energizer">
+                    </a>
+        
+                    <p>Energizer</p>
+        
+        
+                </div>
+        
+            </div>
               <div class="uk-nav-center uk-padding">
                   <a href="/partners" class="uk-button uk-button-primary uk-border-pill">
                      Tous nos marques <span data-uk-icon="icon: fa-arrow-right; ratio: .028"></span>
@@ -253,7 +231,7 @@
                             </div>
                             <div class="uk-margin-small-left">
                                 <p>
-                                    06 61 15 50 97 / 06 67 79 29 80 
+                                    06 61 21 32 64 / 06 61 15 50 97
                                 </p>
                             </div>
                         </div>
@@ -280,16 +258,16 @@
                         <div class="uk-card-body">
                             <form id="contact-form" class="uk-form" name="submit-to-google-sheet">
                                 <div class="uk-margin uk-width-1-1">
-                                    <input class="uk-input" name="name" value="" type="text" placeholder="Full name">
+                                    <input class="uk-input" name="name" id="name" value="" type="text" placeholder="Nom">
                                 </div>
                                 <div class="uk-margin uk-width-1-1">
-                                    <input class="uk-input" name="email" value="" type="email" placeholder="Email">
+                                    <input type="email" class="uk-input" name="email" id="email" value=""  placeholder="Email" required>
                                 </div>
                                 <div class="uk-margin uk-width-1-1">
-                                    <input class="uk-input" name="subject" value="" type="text" placeholder="Subject">
+                                    <input class="uk-input" name="subject" id="subject" value="" type="text" placeholder="Sujet">
                                 </div>
                                 <div class="uk-margin uk-width-1-1">
-                                    <textarea class="uk-textarea" name="message" rows="5" placeholder="Message"></textarea>
+                                    <textarea class="uk-textarea" name="message" id="message" rows="5" placeholder="Message"></textarea>
                                 </div>
                                 <div>
                                     <button class="uk-width-1-1 uk-button uk-button-primary uk-border-pill uk-float-left" id="buttonsend" type="submit" name="submit">Envoyer</button>
@@ -312,15 +290,5 @@
 {% endblock %}
 {% block js %}
 
-  <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxeJZTixg7ZHzG4Cz9LNQnn--12PCYQIqwpUeQ8h8WOhJ2nMxUBDZF2KGfvKq0idBEZ/exec'
-    const form = document.forms['submit-to-google-sheet']
-  
-    form.addEventListener('submit', e => {
-      e.preventDefault()
-      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-        .then(response => console.log('Success!', response))
-        .catch(error => console.error('Error!', error.message))
-    })
-  </script>
+
 {% endblock %}
