@@ -65,15 +65,20 @@
 
     let themeApp = {
             theme_contact_page: function() {
-                $('#buttonsend').click(function() {
+                $('#buttonsend').on('click', function(e) {
+                    e.preventDefault();
                     let name = $('#name').val();
                     let subject = $('#subject').val();
                     let email = $('#email').val();
                     let message = $('#message').val();
-                    if (name != "" && subject != "" && email != "" && message != "" && email.indexOf('@') > -1) {
+                    const form = document.forms['submit-to-google-sheet']
+                    if (name != "" && subject != "" && email != "" && message != "" ) {
+                      if ( email.indexOf('@') == -1 || email.indexOf('.')==-1){
+                        $('#email').addClass("uk-form-danger");
+                        return
+                      }
                       $('#buttonsend').attr('disabled', 'disabled');
                       const scriptURL = 'https://script.google.com/macros/s/AKfycbxeJZTixg7ZHzG4Cz9LNQnn--12PCYQIqwpUeQ8h8WOhJ2nMxUBDZF2KGfvKq0idBEZ/exec'
-                    
                       UIkit.notification("<span uk-icon='icon: fa-check-circle; ratio: 0.028'></span> Encours d'envoie", {status:'warning', pos: 'bottom-right' });
                         fetch(scriptURL, { method: 'POST', body: new FormData(form)})
                           .then(response => {
