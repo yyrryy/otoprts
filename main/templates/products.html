@@ -7,7 +7,50 @@
 {% block content %}
 <!-- confirm order fixed at the bottom -->
 
+<!--question Modal -->
+<div class="modal fade" id="questionmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+      <p class="text-center">
+        سؤال عن المنتج
+      </p>
+			<div class="accordion mb-2" id="accordionExample">
+				<div class="accordion-item">
+				  
+				  <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+					<div class="accordion-body">
+						<form id="questionform">
+							{% csrf_token %}
+							<div class="form-group">
+								<label for="exampleInputEmail1">ref</label>
+								<input readonly name="ref" type="text" required class="form-control">
+							</div>
+							
+							<div class="form-group">
+								<label for="exampleInputPassword1">question</label>
+								<textarea name="question" class="form-control" rows="15"></textarea>
+							</div>
+							
+              <input type="text" hidden name="phone" value="{{request.user.client.phone}}">
+              <input type="text" hidden name="client" value="{{request.user.client.name}}">
 
+							<button  class="btn btn-primary addclientbtn w-100 mt-3">Submit</button>
+					  </form>
+					</div>
+				  </div>
+				</div>
+			</div>
+			
+		</div>
+	  </div>
+	</div>
+</div>
 
 <div class="row" style="margin-bottom: 5rem;">
   <!-- products holder -->
@@ -47,7 +90,7 @@
           <div class="product-card">
             <div class="product-card__image">
               <div class="image image--type--product text-center">
-                <img src="/static/images/{{i.category.code}}/{{i.ref}}.jpg" alt="{{ i.name }}" width="230" height="230" loading="lazy">
+                <img src="/static/images/{{i.category.code}}/{{i.ref}}.jpg" alt="{{ i.name }}" loading="lazy" style="width: 100%;">
               </div>
               <div class="status-badge status-badge--style--success product-card__fit status-badge--has-icon status-badge--has-text">
               </div>
@@ -61,7 +104,8 @@
                     {{i.name}} - {{ i.ref }}
                 </div>
                 <div class="d-flex flex-column">
-                  {% if i.stock %}
+                  <div class="d-flex justify-content-between">
+                    {% if i.stock %}
                   <small class="text-success p-2">
                     ✔ En stock
                   </small>
@@ -70,12 +114,18 @@
                     ❌ rupture de stock
                   </small>
                   {% endif %}
-                  {% if i.offre %}
-                  <small class="p-2 text-success">promo: {{i.offre}}</small>
-                  {% endif %}
-                  {% if i.min %}
-                  <small class="mt-3 p-2 text-info">minimum: {{i.min}}</small>
-                  {% endif %}
+                  <button class="btn askbtn" data-id="{{i.category.title}} {{i.ref}}" data-toggle="modal" data-target="#questionmodal">
+                    <i class="bi bi-question"></i>
+                  </button>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    {% if i.offre %}
+                    <small class="p-2 text-success">promo: {{i.offre}}</small>
+                    {% endif %}
+                    {% if i.min %}
+                    <small class="p-2 text-info">minimum: {{i.min}}</small>
+                    {% endif %}
+                  </div>
                 </div>
               </div>
               
@@ -87,8 +137,8 @@
                   {{i.price}} Net
                 </div>
               </div>
-              <div class="cart-table__quantity input-number"><input class="form-control input-number__input qty" type="number" min="{%if i.min%}{{i.min}}{%else%}1{%endif%}" value="{%if i.min%}{{i.min}}{%else%}1{%endif%}"><div class="input-number__add"></div><div class="input-number__sub"></div></div>
-          <button class="btn btn-primary cmnd w-100" pdct="{{i.id}}" pdctref="{{i.ref}}" pdctname="{{i.name|slice:':16'}}..." pdctpr="{{i.price}}" pdctid="{{i.id}}" pdctimg="{{i.image.url}}" pdctmin="{{i.min}}" pdctcategory="{{i.category.title}}">Cmnd</button>
+              <div class="cart-table__quantity input-number"><input readonly class="form-control input-number__input qty" type="number" min="{%if i.min%}{{i.min}}{%else%}1{%endif%}" value="{%if i.min%}{{i.min}}{%else%}1{%endif%}"><div class="input-number__add"></div><div class="input-number__sub"></div></div>
+          <button class="btn btn-primary cmnd w-100" pdct="{{i.id}}" pdctref="{{i.ref}}" pdctname="{{i.name}}" pdctpr="{{i.price}}" pdctid="{{i.id}}" pdctimg="{{i.image}}" pdctmin="{{i.min}}" pdctcategory="{{i.category.title}}">Cmnd</button>
             </div>
           </div>
         </div>
@@ -133,7 +183,35 @@
 <script src="{% static 'js/catalog.js' %} "></script>
 
 <script>
+  $('.askbtn').each((i, el)=>{
+    $(el).on('click', ()=>{
+      $('[name=ref]').val($(el).data('id'))
+    })
+  })
+  var form = document.getElementById('questionform');
+   $('.addclientbtn').on('click', function(e){
+        
+        e.preventDefault();
+        const scriptURL='https://script.google.com/macros/s/AKfycbysYBeRsdX8zbXzloiRkigWUsnAC0NWwtLUzcZGsoerf_VvLRBsdvVMi4LYjJYU5J90/exec'
+        if ($('[name=question]').val()=='' ){
+            alert('Veuillez remplir tous les champs');
+        }
+        else{
+            $(this).addClass('disabled')
+            $(this).text('En cours ...')
+            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            .then(response => {
+            alert('Votre demande a été envoyée avec succès');
+            // hide modal
+          $('#questionmodal').modal('hide')
 
-  
+            })
+            .catch(error => {
+                alert('ERROR');
+                // redierct to home
+                location.reload 
+            }) 
+        }
+   }) 
 </script>
 {% endblock %}

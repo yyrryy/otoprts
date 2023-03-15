@@ -154,7 +154,6 @@ $("#addclientform").submit(function(event) {
       success: function(response) {
         stoploading()
         // handle the response from the server
-        console.log(response)
         $('#addclientmodal').modal('hide')
         updateclients()
       }
@@ -346,7 +345,6 @@ searchInput.addEventListener('keyup', () => {
 
 // fixed cart
 $(window).scroll(function() {
-    console.log($(this).scrollTop())
     // if ($(this).scrollTop() > 50) {
     //     // $('.cartdd').addClass('fixed-topright')
     //     $('.categorytitle').addClass('fixed-topleft')

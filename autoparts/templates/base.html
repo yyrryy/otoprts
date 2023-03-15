@@ -296,6 +296,16 @@
     <script src="{% static 'js/main.js'%}"></script>
     
     <script>
+        if(navigator.connection) {
+            console.log('connexion')
+  const connectionType = navigator.connection.effectiveType;
+  const rtt = navigator.connection.rtt;
+
+  if(connectionType === 'slow-2g' || (connectionType === '2g' && rtt > 1000)) {
+    alert('Your internet connection is too slow. Please try again later.');
+    window.stop();
+  }
+}
         $('#thisyear').text(new Date().getFullYear())
           const loading=()=>{
 		$('.loading').removeClass('d-none').addClass('d-flex');
