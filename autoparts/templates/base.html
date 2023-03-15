@@ -302,8 +302,7 @@
   const rtt = navigator.connection.rtt;
 
   if(connectionType === 'slow-2g' || (connectionType === '2g' && rtt > 1000)) {
-    alert('Your internet connection is too slow. Please try again later.');
-    window.stop();
+    alert('Votre connexion internet est trop lente.');
   }
 }
         $('#thisyear').text(new Date().getFullYear())
