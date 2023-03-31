@@ -1,13 +1,3 @@
 vauto
 migrations
-main/__pycache__
-test.py
-# Django stuff:
-*.log
-*.pot
-__pycache__
-migrations
 db.sqlite3
-warnings.txt
-db.*
-migrations/*

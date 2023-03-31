@@ -5,7 +5,13 @@ $(document).ready(function () {
         $('.subtotal').each((i, el)=>{
             t+=parseFloat($(el).text())
         })
-        $('.total').text(t.toFixed(2))
+        $(".total").animate({
+          "opacity": 0
+        }, 50, function() {
+          $('.total').text(t.toFixed(2)).animate({
+            "opacity": 1
+          }, 50);
+        })
     }
 
 
@@ -30,7 +36,6 @@ $(document).ready(function () {
             cmd=ref+':'+n+':'+qty
             commande.push(cmd)
         })
-        console.log(commande)
         $.ajax({
             url: '/commande',   
             type: 'POST',
@@ -79,15 +84,8 @@ $(document).ready(function () {
     
     
     $('.input-number').customNumber();
-    $("input[name=qtytosub]").each((i, el)=>{
-        $(el).on('change', ()=>{
-            v=$(el).val()
-            subt=$(el).attr('price')*v
-            // find the subtotal cell
-            $(el).parent().parent().parent().find('.subtotal').text(subt.toFixed(2))
-            updatetotal()
-        }
-    )})
+    
+
     //get items from local storage
     const loadpdcts=()=>{
         products=JSON.parse(localStorage.getItem('productsdetails'))
@@ -106,7 +104,7 @@ $(document).ready(function () {
                   <small>${ctg} ${n}</small>
                 </td>
                 <td class="cart-table__column cart-table__column--price" data-title="Price">
-                <small>${pr}</small>
+                <small class="priceholder" price=${pr}>${pr}</small>
                 </td>
                 <td class="cart-table__column cart-table__column--quantity qtyholder" data-title="Quantity">
                   <div class="cart-table__quantity input-number">
@@ -133,7 +131,9 @@ $(document).ready(function () {
                 $("input[name=qtytosub]").each((i, el)=>{
                     $(el).on('change', ()=>{
                         v=$(el).val()
-                        subt=$(el).attr('price')*v
+                        price=parseFloat($(el).parent().parent().parent().find('.priceholder').text())
+                        console.log(price)
+                        subt=price*v
                         // find the subtotal cell
                         $(el).parent().parent().parent().find('.subtotal').text(subt.toFixed(2))
                         updatetotal()
@@ -171,4 +171,38 @@ $(document).ready(function () {
 
       }
     });
+
+    // handle 5% rem
+    $('[name="modpymnt"]').on('change', ()=>{
+        if($('[name="modpymnt"]').val()=='espece'){
+          console.log('espece')
+          $('.subtotal').each((i, el)=>{
+            // animate the update of the total
+            $(el).text((parseFloat($(el).text())*0.95).toFixed(2))
+            
+
+            
+          })
+          $('.priceholder').each((i, el)=>{
+            $(el).text((parseFloat($(el).text())*0.95).toFixed(2))
+          })
+          updatetotal()
+        }
+        else{
+          console.log('not espece')
+          $("input[name=qtytosub]").each((i, el)=>{
+            
+                v=$(el).val()
+                subt=$(el).attr('price')*v
+                // find the subtotal cell
+                subholder=$(el).parent().parent().parent().find('.subtotal')
+                subholder.text(subt.toFixed(2))
+              })
+              $('.priceholder').each((i, el)=>{
+                $(el).text($(el).attr('price'))
+              })
+              updatetotal()
+        }
+
+    })
   });
