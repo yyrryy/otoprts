@@ -132,7 +132,6 @@ $(document).ready(function () {
                     $(el).on('change', ()=>{
                         v=$(el).val()
                         price=parseFloat($(el).parent().parent().parent().find('.priceholder').text())
-                        console.log(price)
                         subt=price*v
                         // find the subtotal cell
                         $(el).parent().parent().parent().find('.subtotal').text(subt.toFixed(2))
@@ -175,21 +174,20 @@ $(document).ready(function () {
     // handle 5% rem
     $('[name="modpymnt"]').on('change', ()=>{
         if($('[name="modpymnt"]').val()=='espece'){
-          console.log('espece')
-          $('.subtotal').each((i, el)=>{
-            // animate the update of the total
-            $(el).text((parseFloat($(el).text())*0.95).toFixed(2))
-            
-
-            
-          })
           $('.priceholder').each((i, el)=>{
             $(el).text((parseFloat($(el).text())*0.95).toFixed(2))
+          })
+          $('.subtotal').each((i, el)=>{
+            // animate the update of the total
+            price=parseFloat($(el).parent().parent().find('.priceholder').text())
+            qty=parseFloat($(el).parent().find('.qty').val())
+            $(el).text(parseFloat(price*qty).toFixed(2))
+            
+            
           })
           updatetotal()
         }
         else{
-          console.log('not espece')
           $("input[name=qtytosub]").each((i, el)=>{
             
                 v=$(el).val()
