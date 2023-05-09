@@ -39,11 +39,12 @@ class Produit(models.Model):
     ref=models.CharField(max_length=50)
 
     #image
-    image = models.CharField(max_length=500, default='/static/images/default.jpg', null=True)
+    image = models.CharField(max_length=500, default='/static/images/default.jpg', null=True, blank=True)
 
     #cartgrise
     # n_chasis=models.CharField(max_length=50, null=True)
     min=models.CharField(max_length=500, default=None, null=True, blank=True)
+    isoffer=models.BooleanField(default=False)
     offre=models.CharField(max_length=500, default=None, null=True, blank=True)
     category=models.ForeignKey(Category,on_delete=models.CASCADE, default=None)
     # brand=models.CharField(max_length=25, default=None)
@@ -76,16 +77,19 @@ class Represent(models.Model):
 # orders table
 class Order(models.Model):
     date = models.DateTimeField(auto_now_add=True)
+    code=models.CharField(max_length=50, null=True, default=None)
     # name will be a string
     # email will be a string and not requuired
     salseman=models.CharField(max_length=50, null=True, default=None)
     modpymnt=models.CharField(max_length=50, null=True, default=None)
     modlvrsn=models.CharField(max_length=50, null=True, default=None)
-    client=models.ForeignKey(Client, on_delete=models.CASCADE, default=None)
     total=models.DecimalField(default=0.00, decimal_places=2, max_digits=20)
-    
+    # totalremise will be there i ncase pymny is cash
+    totalremise=models.DecimalField(default=0.00, decimal_places=2, max_digits=20)
     isdelivered = models.BooleanField(default=False)
-
+    clientname=models.CharField(max_length=500, null=True, default=None)
+    clientphone=models.CharField(max_length=500, null=True, default=None)
+    clientaddress=models.CharField(max_length=500, null=True, default=None)
     # order by date
     class Meta:
         ordering = ['-date']

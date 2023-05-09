@@ -13,79 +13,40 @@
 </style>
 {% endblock %}
 {% block content %}
-<div class="bg-white mt-2">
 
-
-
-  <div class="row mb-5">
-    
-    <div class="col-6 fitscreen">
-      <p class="card-header sticky-top">
-        Commandes
-      </p>
-      <table class="table table-hover table-striped table-borded tablecommande">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Client</th>
-            <th>Repr</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for order in orders %}
-          <tr class="ord {% if order.isdelivered%}bg-primary{%endif%}" orderid="{{order.id}}">
-            <td>{{ order.date|date:'d/m/Y' }}</td>
-            <td>{{ order.client }}</td>
-            <td>{{ order.salseman}}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-
-    <div class="col-6 fitscreen details">
-      <div class="orderitems position-relative">
-      
-        
+  <!-- orders -->
+  <div class="bg-white shadow rounded p-2">
+    <div class="d-flex justify-content-between">
+      <div>
+        Commandes 
+      </div>
+      <div class="">
+        <div class="badge bg-danger text-white">Non confirmé: {{notdel}}</div>
+        <div class="badge bg-primary text-white">Confirmé: {{delivered}}</div>
       </div>
     </div>
-
-    
-  </div>
-  <hr>
-  <!-- deleivered -->
-  <div class="row">
-    <div class="col-6 fitscreen">
-      <p class="card-header sticky-top">
-        Commandes livrées
-      </p>
-      <table class="table table-hover table-striped table-borded">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Client</th>
-            <th>Repr</th>
+    <table class="table table-hover table-striped table-borded tablecommande">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Repr</th>
+          <th>Paiment</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+          <tr class="ord {% if order.isdelivered%}bg-primary text-white{%endif%}" orderid="{{order.code}}">
+            <td>{{ order.date|date:'d/m/Y' }}</td>
+            <td>{{ order.salseman }}</td>
+            <td>{{ order.modpymnt }}</td>
+            <td>{{ order.total}}</td>
           </tr>
-        </thead>
-        <tbody>
-          {% for order in delivered %}
-          <tr orderid="{{order.id}}" class="ord">
-            <td>{{ order.id }}</td>
-            <td>{{ order.client }}</td>
-            <td>{{ order.salseman}}</td>
-          </tr>
-          {% empty %}
-          <tr>
-            <td colspan="3">No orders yet</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 
-
-</div>
 
 
 {% endblock %}
@@ -98,47 +59,32 @@
     // assign this value to nonvalider
     $('.nonvalider').html(rows-1);
   });
-  window.onscroll = function() {myFunction()};
 
-// Get the header
-  var header = document.querySelector(".details");
-
-  // Get the offset position of the navbar
-  var sticky = header.offsetTop;
-
-  // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
-  function myFunction() {
-    if (window.pageYOffset > sticky) {
-      header.classList.add("fixeddetails");
-    } else {
-      header.classList.remove("fixeddetails");
-    }
-  }
 
 
 
     $('.ord').each(function(){
       $(this).click(function(){
-        loading()
         
         id=$(this).attr('orderid');
-
-            $.ajax({
-                url: '/orderitems/'+id,
-                type: 'POST',
-                data:{
-                  'csrfmiddlewaretoken': '{{ csrf_token }}',
-                },
-                success: function(data){
-                  console.log($('.orderitems'))
-                  $('.orderitems').html(data.data);
-                  stoploading()
-                  $('.closeorderitems').click(function(){
-                    $('.orderitems').removeClass('openorder');
-                  })
-                }
-            });
+        window.location.href='/salsemanorders/'+id
+            // $.ajax({
+            //     url: '/salsemanorders/'+id,
+            //     type: 'POST',
+            //     data:{
+            //       'csrfmiddlewaretoken': '{{ csrf_token }}',
+            //     },
+            //     success: function(data){
+            //       console.log($('.orderitems'))
+            //       $('.orderitems').html(data.data);
+            //       stoploading()
+            //       $('.closeorderitems').click(function(){
+            //         $('.orderitems').removeClass('openorder');
+            //       })
+            //     }
+            // });
         });
     })
+
 </script>
 {% endblock %}

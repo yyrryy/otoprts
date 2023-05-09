@@ -54,10 +54,10 @@
 
 <div class="row" style="margin-bottom: 5rem;">
   <!-- products holder -->
-  <div class="products-view__list products-list products-list--grid--4 position-relative" data-layout="grid" data-with-features="false">
+  <div class="products-view__list products-list products-list--grid--4 position-relative" data-layout="list" data-with-features="false">
 
   <!-- title holder -->
-  <div class="col-12 bg-white shadow rounded p-2 categorytitle fixed-top">
+  <div class="col-12 bg-white shadow rounded p-2 categorytitle fixed-bottom">
     <div class="d-flex justify-content-between align-items-center">
       <a href="/catalog" class="bi bi-arrow-left me-2 btn text-primary">Catalog</a>
       <div>
@@ -86,7 +86,7 @@
   </div>
     <div class="products-list__content">
         {% for i in products %}
-        <div class="products-list__item rounded">
+        <div class="products-list__item rounded shadow">
           <div class="product-card">
             <div class="product-card__image">
               <div class="image image--type--product text-center">
@@ -106,13 +106,10 @@
                 <div class="d-flex flex-column">
                   <div class="d-flex justify-content-between">
                     {% if i.stock %}
-                  <small class="text-success p-2">
-                    ✔ En stock
-                  </small>
+                    <div class="status-badge status-badge--style--success status-badge--has-icon status-badge--has-text"><div class="status-badge__body"><div class="status-badge__icon"><svg width="13" height="13"><path d="M12,4.4L5.5,11L1,6.5l1.4-1.4l3.1,3.1L10.6,3L12,4.4z"></path></svg></div><div class="status-badge__text">In Stock</div><div class="status-badge__tooltip" tabindex="0" data-toggle="tooltip" title="" data-original-title="In Stock"></div></div></div>
                   {% else %}
-                  <small class="text-danger p-2">
-                    ❌ rupture de stock
-                  </small>
+                  <div class="status-badge status-badge--style--failure status-badge--has-icon status-badge--has-text"><div class="status-badge__body"><div class="status-badge__icon"><svg width="13" height="13"><path d="M6.5,0C2.9,0,0,2.9,0,6.5S2.9,13,6.5,13S13,10.1,13,6.5S10.1,0,6.5,0z M6.5,2c0.9,0,1.7,0.3,2.4,0.7L2.7,8.9
+                    C2.3,8.2,2,7.4,2,6.5C2,4,4,2,6.5,2z M6.5,11c-0.9,0-1.7-0.3-2.4-0.7l6.2-6.2C10.7,4.8,11,5.6,11,6.5C11,9,9,11,6.5,11z"></path></svg></div><div class="status-badge__text">No Stock</div><div class="status-badge__tooltip" tabindex="0" data-toggle="tooltip" title="" data-original-title="No Stock"></div></div></div>
                   {% endif %}
                   <button class="btn askbtn" data-id="{{i.category.title}} {{i.ref}}" data-toggle="modal" data-target="#questionmodal">
                     <i class="bi bi-question"></i>
@@ -120,10 +117,10 @@
                   </div>
                   <div class="d-flex justify-content-between">
                     {% if i.offre %}
-                    <small class="p-2 text-success">promo: {{i.offre}}</small>
+                    <div class="tag-badge tag-badge--new">{{i.offre}}</div>
                     {% endif %}
                     {% if i.min %}
-                    <small class="p-2 text-info">minimum: {{i.min}}</small>
+                    <div class="tag-badge tag-badge--hot">{{i.min}} PCS</div>
                     {% endif %}
                   </div>
                 </div>
@@ -137,7 +134,7 @@
                   {{i.price}} Net
                 </div>
               </div>
-              <div class="cart-table__quantity input-number"><input readonly class="form-control input-number__input qty" type="number" min="{%if i.min%}{{i.min}}{%else%}1{%endif%}" value="{%if i.min%}{{i.min}}{%else%}1{%endif%}"><div class="input-number__add"></div><div class="input-number__sub"></div></div>
+              <div class="cart-table__quantity input-number mb-3"><input readonly class="form-control input-number__input qty" type="number" min="{%if i.min%}{{i.min}}{%else%}1{%endif%}" value="{%if i.min%}{{i.min}}{%else%}1{%endif%}"><div class="input-number__add"></div><div class="input-number__sub"></div></div>
           <button class="btn btn-primary cmnd w-100" pdct="{{i.id}}" pdctref="{{i.ref}}" pdctname="{{i.name}}" pdctpr="{{i.price}}" pdctid="{{i.id}}" pdctimg="{{i.image}}" pdctmin="{{i.min}}" pdctcategory="{{i.category.title}}">Cmnd</button>
             </div>
           </div>

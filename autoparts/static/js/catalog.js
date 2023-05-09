@@ -39,6 +39,7 @@ const checkstorage = (id)=>{
 
 
 const savetostorage=(id, ref, n, ctg, qty, pr, tt, img, min)=>{
+    console.log(n)
     // get products from localstorage
     products=JSON.parse(localStorage.getItem('products')) || []
     productsdetails=JSON.parse(localStorage.getItem('productsdetails')) || []
@@ -50,7 +51,6 @@ const savetostorage=(id, ref, n, ctg, qty, pr, tt, img, min)=>{
     localStorage.setItem('products', JSON.stringify(products))
     localStorage.setItem('productsdetails', JSON.stringify(productsdetails))
 }
-
 
 
 
@@ -198,10 +198,11 @@ const clearcommande=()=>{
 
 $('.cmnd').each((i, el)=>{
     $(el).on('click', ()=>{
-        
+        console.log('clickd')
         // id=$(el).attr('pdct');
         $(el).attr('disabled', true)
         ref=$(el).attr('pdctref')
+        console.log(ref)
         name=$(el).attr('pdctname')
         ctg=$(el).attr('pdctcategory')
         pr=$(el).attr('pdctpr')

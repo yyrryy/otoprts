@@ -6,6 +6,8 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('product/<int:id>', views.product, name='product'),
+    path('searchref', views.searchref, name='searchref'),
     path('filters', views.filters, name='filters'),
     path('create', views.create, name='create'),
     path('addcategory', views.addcategory, name='addcategory'),
@@ -20,7 +22,7 @@ urlpatterns = [
     path('login', views.loginpage, name='loginpage'),
     path('dashboard', views.dashboard, name='dashboard'),
     path('catalog', views.catalog, name='catalog'),
-    path('salsemanorders', views.salsemanorders, name='salsemanorders'),
+    path('salsemanorders/<str:str_id>', views.salsemanorders, name='salsemanorders'),
     path('logoutuser', views.logoutuser, name='logoutuser'),
     path('clients', views.clients, name='clients'),
     path('addclient', views.addclient, name='addclient'),

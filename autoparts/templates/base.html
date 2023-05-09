@@ -20,6 +20,9 @@
     <!-- css -->
     <script src="{% static 'js/jquery.min.js'%}"></script>
     <link href="{% static 'css/bootstrap.css' %} " rel="stylesheet" />
+    <link href="{% static 'css/style.mobile-header-variant-one.css' %} " rel="stylesheet" />
+    <link href="{% static 'css/style.header-spaceship-variant-one.css' %} " rel="stylesheet" />
+    
     <link href="{% static 'css/default-skin.css'%} " rel="stylesheet" />
     <link href="{% static 'css/select2.min.css'%} " rel="stylesheet" />
     <link href="{% static 'css/style.css'%} " rel="stylesheet" />
@@ -70,73 +73,42 @@
 </head>
 
 <body>
+
+    <!-- mobile header -->
+    
     <!-- site -->
-    <div class="site position-relative">
-        
+    <div class="site">
+
+        {% if user.username %}
+        <!-- mobile site__header -->
+        {% include "mobileheader.html" %}
+        {% include "header.html" %}
+        {% endif %}
         <!-- site__body -->
-        <div class="site__body d-flex flex-column">
-            <div class="loading flex-column align-items-center justify-content-center w-100 h-100 position-fixed top-0 bg-dark200 d-none" style="z-index:1199">
-                <div class="spinner-border text-light"></div>
-                <strong class="text-light textloading">
-                    
-                </strong>
-            </div>
+        
+        <!-- screen loader -->
+        <div class="d-flex flex-column align-items-center justify-content-center loadingscreen position-fixed d-none"
+        style="height: 100vh;background:#171717bc ; width: 100vw; z-index: 9999;"
+        >
+        <div class="spinner-border text-white" role="status">
+        </div>
+        </div>
+        <div class="site__body">
+            <div class="block-space block-space--layout--divider-xs"></div>
             <div class="px-3">
-                <div class="w-100 mb-2 px-3 d-flex justify-content-between bg-dark text-white align-items-center">
-                    {% if user.username %}
-                        <ul class="navbar-nav mr-auto">
-                                
-                            <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ user.get_username }}
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{% url 'logoutuser' %}">Deconnexion <i class="bi bi-skip-end-btn bg-danger"></i></a>
-                                {% if user.groups.all.0.name == 'accounting' %}
-                                <a class="dropdown-item" href="{% url 'orders' %}">Commandes</a>
-                                {% endif %}
-                                {% if user.groups.all.0.name == 'salsemen' or user.groups.all.0.name == 'clients'%}
-                                <a class="dropdown-item" href="{% url 'salsemanorders' %}">Mes commande</a>
-                                {% endif %}
-                                {% if  user.groups.all.0.name == 'clients'%}
-                                <a class="dropdown-item" href="{% url 'profile' %}">Modifier les informations</a>
-                                {% endif %}
-                                <div class="dropdown-divider"></div>
-                            </div>
-                            </li>
-                            
-                        </ul>
-                        {% if not user.groups.all.0.name == 'accounting' %}
-                        
-                        <a href="/catalog" class="btn btn-primary">
-                            Catalog
-                        </a>
-                        {% endif %}
-                        {% if user.groups.all.0.name == 'accounting' %}
-                        <small>
-                            Commande non validé: <span class="nonvalider">0</span>
-                        </small>
-                        {% endif %}
-                        {% if user.groups.all.0.name == 'salsemen' or user.groups.all.0.name == 'clients'%}
-                        <a class="btn text-white" href="/cart">
-                            <i class="bi bi-cart"></i> Panier : <span class="commanditems">0</span>
-                        </a>
-                        {% endif %}
-                    {% endif %}
-                </div>
+                
                 <div class="">
                     {% block content %}
                     {% endblock %}
                 </div>
                 <!-- cart -->
-                <div class="position-fixed cartholder">
+                <!-- <div class="position-fixed cartholder">
                     <div class="col-5 fitscreen bg-white shadow rounded px-2 w-100">
                     <div class="sticky-top card-header text-center d-flex justify-content-between align-items-center">
                         <button class="btn hidecommande bi bi-arrow-left"></button> 
                         <h2>
                             Commande
                         </h2>
-                        <!-- a button to clear commande -->
                         <button class="btn clearcommande bi bi-trash-fill text-danger" onclick="clearcommande()">
                         </button>
                     </div>
@@ -162,7 +134,6 @@
                         </div>
             
                         <div class="d-flex justify-content-between modes border p-2">
-                            <!-- add a list od mod pyem -->
                             <select class="form-select mb-2" aria-label="Default select example" name="modpymnt">
                                 <option selected value="0">Mode de payement</option>
                                 <option value="espece">Espece (-5%/article)</option>
@@ -170,7 +141,6 @@
                               </select>
                         
                         
-                            <!-- add a list od mod lvrs -->
                         
                             <select class="form-select mb-2" aria-label="Default select example" name="modlvrsn">
                                 <option selected value="0">Mode de livraison</option>
@@ -214,7 +184,7 @@
                         {% endif %}
                         
                     </div>
-                </div>
+                </div> -->
                 
             </div>
             
@@ -222,7 +192,7 @@
             <br>
             <footer class="px-3 bg-white text-muted mt-auto d-flex justify-content-between align-items-center">
                 <small>
-                    Version: 1.0.0
+                    Version: 2.0.0
                 </small>
                 
                 <small>
@@ -234,9 +204,9 @@
                 </small> -->
             </footer>
             
-            </div><!-- site__body / end -->
+        </div><!-- site__body / end -->
         <!-- site__footer -->
-       
+        
     </div><!-- site / end -->
     <!-- mobile-menu -->
 
@@ -289,31 +259,43 @@
 	  </div>
 	</div>
   </div>
-
-    <!-- scripts -->
+  <!-- scripts -->
     <script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
     <script src="{% static 'js/select2.min.js'%}"></script>
     <script src="{% static 'js/number.js'%}"></script>
     <script src="{% static 'js/main.js'%}"></script>
     
     <script>
-        if(navigator.connection) {
-            console.log('connexion')
-  const connectionType = navigator.connection.effectiveType;
-  const rtt = navigator.connection.rtt;
-
-  if(connectionType === 'slow-2g' || (connectionType === '2g' && rtt > 1000)) {
-    alert('Votre connexion internet est trop lente.');
-  }
-}
-        $('#thisyear').text(new Date().getFullYear())
-          const loading=()=>{
-		$('.loading').removeClass('d-none').addClass('d-flex');
+        const loading=()=>{
+		$('.loadingscreen').removeClass('d-none').addClass('d-flex');
         }
 
     const stoploading=()=>{
-        $('.loading').removeClass('d-flex').addClass('d-none');
+        $('.loadingscreen').removeClass('d-flex').addClass('d-none');
     }
+        $('.searchref').on('change', function(){
+            ref=$(this).val()
+            if (ref!=''){
+                loading()
+                $.ajax({
+                    url: '/searchref',
+                    type: 'POST',
+                    data: {
+                        'ref': ref,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function (data) {
+                        stoploading()
+                        if (data){
+                            $('.searchref').focus()
+                            $('.searchresults').html(data.data)
+                        }
+                    }
+                });
+            }
+        })
+        $('#thisyear').text(new Date().getFullYear())
+          
     products=JSON.parse(localStorage.getItem('products'))
     if (products && products.length){
         $('.commanditems').text(products.length)

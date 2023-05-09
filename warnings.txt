@@ -36,4 +36,7 @@ server {
 }
 
 
-finish update espece
+finish update espece:/
+global search :
+edit promo to be bootean
+add promo amount

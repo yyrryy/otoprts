@@ -7,20 +7,35 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, login, logout
 import json
 from django.db.models import OuterRef, Exists, Count
-import threading
+import uuid
 # import csrf_exampt
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.contrib.sitemaps import Sitemap
 from django.shortcuts import reverse
+from django.db.models import Q
+
+def product(request, id):
+    product=Produit.objects.get(pk=id)
+    return render(request, 'product.html', {'product':product})
 
 
-
+def searchref(request):
+    ref=request.POST.get('ref')
+    print(ref)
+    products = Produit.objects.filter(Q(ref__icontains=ref) | Q(name__icontains=ref))
+    for i in products:
+        print(i.ref)
+        print(i.name)
+        print(i.price)
+    return JsonResponse({
+        'data':render(request, 'searchref.html', {'products':products}).content.decode('utf-8')
+    })
 
 # users groups
 # chack if user's group in accounting
 def isaccounting(user):
-    return user.groups.filter(name='accounting').exists()
+    return (user.groups.filter(name='accounting').exists() or user.groups.filter(name='admin').exists() )
 
 # chack if user's group in salsemen
 def issalsemen(user):
@@ -30,7 +45,11 @@ def isclient(user):
     return user.groups.filter(name='clients').exists()
 
 def tocatalog(user):
-    return (user.groups.filter(name='salsemen').exists() or user.groups.filter(name='clients').exists())
+    return (user.groups.filter(name='salsemen').exists() or user.groups.filter(name='clients').exists() or user.groups.filter(name='admin').exists() )
+
+def bothsalseaccount(user):
+    return (user.groups.filter(name='salsemen').exists() or user.groups.filter(name='accounting').exists() or user.groups.filter(name='admin').exists() )
+
 # Create your views here.
 def home(request):
     # print(request.user)
@@ -199,11 +218,14 @@ def addbulk(request, ctg):
 @user_passes_test(tocatalog, login_url='loginpage')
 @login_required(login_url='loginpage')
 def commande(request):
-    client=request.POST.get('client')
+    clientname=request.POST.get('clientname')
+    clientaddress=request.POST.get('clientaddress')
+    clientphone=request.POST.get('clientphone')
     total=request.POST.get('total') 
     modpymnt=request.POST.get('modpymnt')
     modlvrsn=request.POST.get('modlvrsn')
-    order=Order.objects.create(client=Client.objects.get(pk=client), salseman=request.user.username, total=total, modpymnt=modpymnt, modlvrsn=modlvrsn)
+    totalremise=request.POST.get('totalremise', 0)
+    order=Order.objects.create(clientname=clientname, clientaddress=clientaddress, clientphone=clientphone, salseman=request.user.username, total=total, modpymnt=modpymnt, modlvrsn=modlvrsn, totalremise=totalremise, code=str(uuid.uuid4()))
     commande=request.POST.getlist('commande[]')
     for i in commande:
         ref, name, qty=i.split(':')
@@ -214,7 +236,8 @@ def commande(request):
     #threading.Thread(target=send_mail, args=('Nouveau commande.', f'Nouveau commande. #{order.id}', 'abdelwahedaitali@gmail.com', ['aitaliabdelwahed@gmail.com'], False)).start()
     return JsonResponse({
         'valid':True,
-        'message':'Commande enregistrée avec succès'
+        'message':'Commande enregistrée avec succès',
+        'id':order.code
     })
 
 
@@ -225,10 +248,10 @@ def commande(request):
 @login_required(login_url='loginpage')
 def orders(request):
     # get orders from db and order them by date ascendant
-    orders=Order.objects.all().filter(isdelivered=False).order_by('date')
-    delivered=Order.objects.all().filter(isdelivered=True)
+    orders=Order.objects.all()
+    delivered=len(Order.objects.all().filter(isdelivered=True))
 
-    return render(request, 'orders.html', {'orders':orders, 'delivered':delivered, 'title':'Commandes'})
+    return render(request, 'orders.html', {'orders':orders, 'delivered':delivered, 'title':'Commandes', 'notdel':len(orders)-delivered})
 
 
 def orderitems(request, id):
@@ -247,6 +270,8 @@ def dilevered(request, id):
 
 
 # gets products after clicking on a category
+@user_passes_test(tocatalog, login_url='loginpage')
+@login_required(login_url='loginpage')
 def products(request, id):
     # get the products from the db
     c=Category.objects.get(pk=id)
@@ -279,12 +304,12 @@ def catalog(request):
 
 
 
-@user_passes_test(tocatalog, login_url='loginpage')
+@user_passes_test(bothsalseaccount, login_url='loginpage')
 @login_required(login_url='loginpage')
-def salsemanorders(request):
-    print(request.user)
-    orders=Order.objects.filter(salseman=request.user.username)
-    return render(request, 'salsemanorders.html', {'orders':orders})
+def salsemanorders(request, str_id):
+    orders=Order.objects.get(code=str_id)
+    items=Orderitem.objects.filter(order=orders.id)
+    return render(request, 'salsemanorders.html', {'order':orders, 'items':items, 'title':'Commande #'+str(orders.id)})
 
 
 

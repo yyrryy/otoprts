@@ -12,6 +12,7 @@
             <div class="spinner-border text-light"></div>
         </div>
         
+        
           <table class="cart-table__table">
             <thead class="cart-table__head">
               <tr class="cart-table__row">
@@ -23,7 +24,7 @@
                 <th class="cart-table__column cart-table__column--remove"></th>
               </tr>
             </thead>
-            <tbody class="cart-table__body ">
+            <tbody class="cart-table__body">
               
             </tbody>
             <tfoot class="cart-table__foot">
@@ -42,6 +43,17 @@
                     <th>Total HT</th>
                     <td class="total text-success"></td>
                   </tr>
+                  <tr class="remise d-none">
+                    <td>
+                      -5%
+                    </td>
+                    
+                  </tr>
+                  <tr class="remise d-none">
+                    <td class="totalremise">
+                      0
+                    </td>
+                  </tr>
                   <!-- <tr>
                     <td>
                       <p class="text-cennter">
@@ -50,9 +62,9 @@
                   </tr> -->
                   <tr>
                     <td>
-                    <div class="d-flex justify-content-between modes border flex-column">
+                    <div class="d-flex justify-content-between border flex-column">
                       <!-- add a list od mod pyem -->
-                      <select class="form-select mb-2" aria-label="Default select example" name="modpymnt">
+                      <select class="form-select mb-2 modes" aria-label="Default select example" name="modpymnt">
                           <option selected value="0">Mode de payement</option>
                           <option value="espece">Espece (-5%/article)</option>
                           <option value="cheque">Cheque</option>
@@ -62,7 +74,7 @@
                   
                       <!-- add a list od mod lvrs -->
                   
-                      <select class="form-select mb-2" aria-label="Default select example" name="modlvrsn">
+                      <select class="form-select mb-2 modes" aria-label="Default select example" name="modlvrsn">
                           <option selected value="0">Mode de livraison</option>
                           <option value="lux">Lux</option>
                           <option value="sdtm">SDTM</option>
@@ -72,10 +84,23 @@
                     </div>
                     </td>
                   </tr>
-                  
+                  <tr>
+                    <td>
+                      <input type="text" class="form-control notempty clientname" placeholder="Client">
+                    </td>
+                    <td>
+                      <input type="text" class="form-control notempty clientaddress" placeholder="Addresse">
+                    </td>
+                    <td>
+                      <input id="onlynumbers" type="tel" class="form-control notempty clientphone" placeholder="telephone">
+                    </td>
+                    <td>
+                      <!-- <input type="text" class="form-control notempty" placeholder=""> -->
+                    </td>
+                  </tr>
                 </tfoot>
               </table>
-              <input type="hidden" class="clientid" value="{{request.user.client.id}}">
+              <!-- <input type="hidden" class="clientid" value="{{request.user.client.id}}"> -->
               <button class="btn btn-primary valider w-100" disabled>
                 valider le panier
                 </button>
@@ -88,5 +113,21 @@
 {% endblock %}
 
 {% block js %}
+<script>
+  // get the input element
+  const input = document.getElementById('onlynumbers');
+
+  // add an event listener to validate input
+  input.addEventListener('input', (event) => {
+      // get the current value of the input
+      const value = event.target.value;
+
+      // replace any non-numeric characters with an empty string
+      const cleanValue = value.replace(/[^0-9]/g, '');
+
+      // set the cleaned value as the input value
+      event.target.value = cleanValue;
+  });
+</script>
 <script src="{% static 'js/cart.js'%}"></script>
 {% endblock %}
