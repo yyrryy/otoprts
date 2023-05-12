@@ -50,6 +50,10 @@ def tocatalog(user):
 def bothsalseaccount(user):
     return (user.groups.filter(name='salsemen').exists() or user.groups.filter(name='accounting').exists() or user.groups.filter(name='admin').exists() )
 
+def isadmin(user):
+    return user.groups.filter(name='admin').exists()
+
+
 # Create your views here.
 def home(request):
     # print(request.user)
@@ -175,7 +179,7 @@ def filters(request):
         'data':render(request, 'calls.html', {'products':products}).content.decode('utf-8')
     })
 
-@user_passes_test(isaccounting, login_url='loginpage')
+@user_passes_test(isadmin, login_url='loginpage')
 @login_required(login_url='loginpage')
 def create(request):
     # get category from db
@@ -212,7 +216,7 @@ def addbulk(request, ctg):
     df = df.fillna('')
     for d in df.itertuples():
         print(d)
-        Produit.objects.create(name=d.n.lower(),category=Category.objects.get(pk=ctg), price=round(d.pr, 2), ref=str(d.ref).lower(), min=d.min, offre=d.offre, image=d.image)
+        Produit.objects.create(ref=str(d.ref).lower(), name=d.n.lower(),category_id=ctg, price=round(d.pr, 2), isoffer=d.isoffer, min=d.min, offre=d.offer, image=d.image, mark_id=d.mark)
     return redirect(create)
 
 @user_passes_test(tocatalog, login_url='loginpage')

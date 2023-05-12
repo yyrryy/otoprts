@@ -259,6 +259,24 @@
 	  </div>
 	</div>
   </div>
+
+  <!-- image display modal -->
+<div class="modal fade" id="imagedisplaymodal" tabindex="-1" aria-labelledby="eimagedisplaymodalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <div class="modal-body text-center">
+            <img src="" alt="" class="imgproductmodal" style="max-width: 100%;">
+  
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+  
+        </div>
+      </div>
+    </div>
+  </div>
+  
   <!-- scripts -->
     <script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
     <script src="{% static 'js/select2.min.js'%}"></script>
@@ -266,6 +284,17 @@
     <script src="{% static 'js/main.js'%}"></script>
     
     <script>
+        const displayimage=()=>{
+            $('.imagedisplaybtn').each((i, el)=>{
+                $(el).on('click', function(){
+                    console.log($(this))
+                    img=$(this).attr('imgsrc')
+                    console.log(img)
+                    $('.imgproductmodal').attr('src', img)
+                })
+            })
+        }
+        displayimage()
         const loading=()=>{
 		$('.loadingscreen').removeClass('d-none').addClass('d-flex');
         }

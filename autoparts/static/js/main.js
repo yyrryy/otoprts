@@ -158,9 +158,7 @@
             image.data('owl.carousel').to($(this).index(), 300, true);
         });
 
-        gallery.find('.product-gallery__zoom').on('click', function() {
-            openPhotoSwipe(image.find('.owl-item.active').index());
-        });
+        
 
         image.on('click', '.owl-item > a', function(event) {
             event.preventDefault();

@@ -20,6 +20,7 @@ class Model(models.Model):
 
 class Mark(models.Model):
     name=models.CharField(max_length=20)
+    image=models.CharField(max_length=500, default='/static/images/mark.jpg', null=True, blank=True)
     def __str__(self) -> str:
         return self.name
 
@@ -40,7 +41,7 @@ class Produit(models.Model):
 
     #image
     image = models.CharField(max_length=500, default='/static/images/default.jpg', null=True, blank=True)
-
+    mark=models.ForeignKey(Mark, on_delete=models.CASCADE, default=None, null=True, blank=True)
     #cartgrise
     # n_chasis=models.CharField(max_length=50, null=True)
     min=models.CharField(max_length=500, default=None, null=True, blank=True)
