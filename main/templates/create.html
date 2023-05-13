@@ -5,52 +5,10 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container bg-white">
-    
-  <div class="row">
-    <div class="col-md-8 offset-md-2">
-      <h1>Create Product</h1>
-      <form method="POST" enctype="multipart/form-data" action="create_product">
-        {% csrf_token %}
-        <div class="form-group">
-          <label for="name">Name:</label>
-          <input type="text" class="form-control" id="name" name="name" required>
-        </div>
-        <div class="form-group">
-          <label for="price">Price:</label>
-          <input type="number" class="form-control" id="price" name="price" required>
-        </div>
-        <div class="form-group">
-          <label for="image">Image:</label>
-          <input type="file" class="form-control-file" id="image" name="image" accept="image/*">
-        </div>
-        <div class="form-group">
-          <label for="offre">Offre:</label>
-          <input type="text" class="form-control" id="offre" name="offre" required>
-        </div>
-        <div class="form-group">
-          <label for="min">Min:</label>
-          <input type="number" class="form-control" id="min" name="min" required>
-        </div>
-        <div class="form-group">
-          <label for="ref">Ref:</label>
-          <input type="text" class="form-control" id="ref" name="ref" required>
-        </div>
-        <div class="form-group">
-          <label for="category">Category:</label>
-          <select class="form-control" id="category" name="category" required>
-            {% for category in categories %}
-              <option value="{{ category.id }}">{{ category.title }}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Create Product</button>
-      </form>
-    </div>
-  </div>
+
 </div>
 
-        <br>
+        <!-- <br>
         <div class="row">
             <form class="mb-3 col-md-4" action="/addcategory" method="POST">
                 {% csrf_token %}
@@ -97,12 +55,21 @@
                 <th scope="col">mo</th>
               </tr>
             </thead>
-        </table>
+        </table> -->
 
 
+        <form action="/addbulk" method="POST" class="row" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-group">
+              {% csrf_token %}
+              <input required type="file" name="file">
+              <button class="btn btn-primary addbulk" type="submit">
+                  Add
+              </button>
+          </div>
+      </form>
         
-        
-        <!--  bootstrap cards -->
+        <!--  bootstrap cards 
         <div class="row addforms">
             {% for i in categories %}
             <div class="card col-3">
@@ -124,7 +91,7 @@
             </div>
             {% endfor %}
         
-        </div>
+        </div>-->
         
 
         

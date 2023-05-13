@@ -1,12 +1,8 @@
+venv
 vauto
-migrations
-test.py
-# Django stuff:
-*.log
-*.pot
+.env
+pycache
+requirements.txt
+db.*
 __pycache__
 migrations
-db.sqlite3
-warnings.txt
-db.*
-migrations/*

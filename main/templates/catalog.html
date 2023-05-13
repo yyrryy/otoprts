@@ -113,7 +113,7 @@
 	<div class="block block-categories">
 		<div class="container">
 		  <div class="block-categories__header">
-			<div class="block-categories__title">Categories <div class="decor block-categories__title-decor decor--type--center">
+			<div class="block-categories__title">Mark <div class="decor block-categories__title-decor decor--type--center">
 				<div class="decor__body">
 				  <div class="decor__start"></div>
 				  <div class="decor__end"></div>
@@ -135,18 +135,24 @@
 			<div class="block-categories__list">
 			  
 			  {% for i in cc %}
-			  <a href="/products/{{i.id}}" class="block-categories__item category-card category-card--layout--classic">
+			  <a href="/marks/products/{{i.id}}" class="block-categories__item category-card category-card--layout--classic">
 				<div class="category-card__body">
 				  <div class="category-card__content align-items-center">
 					<div class="category-card__image image image--type--category">
 					  <div class="image__body">
-						<img class="image__tag" src="/static/images/{{i.code}}/{{i.code}}.jpg" alt="">
+						<img class="image__tag" src="{{i.image}}" alt="">
 					  </div>
 					</div>
-					<p>{{i.title}}
+					<strong>
+						<b>
+							{{i.name}}
+						</b>
 						<br>
-						{{i.total_products}} Produits
-					</p>
+						{{i.total_products}} Produits<br>
+						{% if i.has_promotion %}
+						(Promotion)
+						{% endif %}
+					</strong>
 				  </div>
 				</div>
 			  </a>

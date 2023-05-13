@@ -210,13 +210,16 @@ def addmark(request):
     return redirect(create)
 
 @login_required(login_url='loginpage')
-def addbulk(request, ctg):
+def addbulk(request):
     myfile = request.FILES['file']
     df = pd.read_excel(myfile)
     df = df.fillna('')
     for d in df.itertuples():
         print(d)
-        Produit.objects.create(ref=str(d.ref).lower(), name=d.n.lower(),category_id=ctg, price=round(d.pr, 2), isoffer=d.isoffer, min=d.min, offre=d.offer, image=d.image, mark_id=d.mark)
+        try:
+            Produit.objects.create(ref=str(d.ref).lower(), name=d.n.lower(),category_id=d.category, price=round(d.pr, 2), isoffer=d.isoffer, min=d.min, offre=d.offer, image=d.image, mark_id=d.mark)
+        except Exception as e:
+            print(e)
     return redirect(create)
 
 @user_passes_test(tocatalog, login_url='loginpage')
@@ -278,8 +281,15 @@ def dilevered(request, id):
 @login_required(login_url='loginpage')
 def products(request, id):
     # get the products from the db
+    c=Mark.objects.get(pk=id)
+    products=Produit.objects.filter(mark_id=id)
+    return render(request, 'products.html', {'products':products, 'title':'Produits de '+str(c), 'category':c})
+
+
+def productscategories(request, id):
+    # get the products from the db
     c=Category.objects.get(pk=id)
-    products=Produit.objects.filter(category=id)
+    products=Produit.objects.filter(category_id=id)
     return render(request, 'products.html', {'products':products, 'title':'Produits de '+str(c), 'category':c})
 
 
@@ -292,8 +302,12 @@ def dashboard(request):
 @user_passes_test(tocatalog, login_url='loginpage')
 @login_required(login_url='loginpage')
 def catalog(request):
-    categories = Category.objects.annotate(
-        has_promotion=Exists(Produit.objects.filter(category_id=OuterRef('pk'), offre__istartswith='|')),
+    # categories = Category.objects.annotate(
+    #     has_promotion=Exists(Produit.objects.filter(category_id=OuterRef('pk'), isoffer=True)),
+    #     total_products=Count('produit')
+    # )
+    marks = Mark.objects.annotate(
+        has_promotion=Exists(Produit.objects.filter(mark_id=OuterRef('pk'), isoffer=True)),
         total_products=Count('produit')
     )
     ctx={
@@ -302,7 +316,7 @@ def catalog(request):
             'models':Model.objects.all(),
             'clients':Client.objects.all(),
             'title':'Catalog',
-            'cc':categories,
+            'cc':marks,
         }
     return render(request, 'catalog.html', ctx)
 

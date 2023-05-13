@@ -5,10 +5,10 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Category(models.Model):
-    title=models.CharField(max_length=150)
+    name=models.CharField(max_length=150)
     code=models.CharField(max_length=150, default=None, null=True)
     def __str__(self) -> str:
-        return self.title
+        return self.name
 class Brand(models.Model):
     name=models.CharField(max_length=20)
     def __str__(self) -> str:
@@ -51,8 +51,7 @@ class Produit(models.Model):
     # brand=models.CharField(max_length=25, default=None)
     # model=models.CharField(max_length=25, default=None)
     # mark=models.CharField(max_length=25, default=None)
-    def __str__(self) -> str:
-        return f'{self.category}'
+    
 # cupppon codes table
 class Coupon(models.Model):
     code = models.CharField(max_length=50)
