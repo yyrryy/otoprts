@@ -51,7 +51,8 @@ class Produit(models.Model):
     # brand=models.CharField(max_length=25, default=None)
     # model=models.CharField(max_length=25, default=None)
     # mark=models.CharField(max_length=25, default=None)
-    
+    def __str__(self) -> str:
+        return self.ref
 # cupppon codes table
 class Coupon(models.Model):
     code = models.CharField(max_length=50)
