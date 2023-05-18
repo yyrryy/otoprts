@@ -88,9 +88,11 @@ class Order(models.Model):
     # totalremise will be there i ncase pymny is cash
     totalremise=models.DecimalField(default=0.00, decimal_places=2, max_digits=20)
     isdelivered = models.BooleanField(default=False)
+    ispaied = models.BooleanField(default=False)
     clientname=models.CharField(max_length=500, null=True, default=None)
     clientphone=models.CharField(max_length=500, null=True, default=None)
     clientaddress=models.CharField(max_length=500, null=True, default=None)
+    client=models.ForeignKey(Client, on_delete=models.CASCADE, default=None, null=True)
     # order by date
     class Meta:
         ordering = ['-date']

@@ -23,11 +23,13 @@
       <div class="">
         <div class="badge bg-danger text-white">Non confirmé: {{notdel}}</div>
         <div class="badge bg-primary text-white">Confirmé: {{delivered}}</div>
+        <div class="badge bg-success text-white">Payé: {{paied}}</div>
       </div>
     </div>
     <table class="table table-hover table-striped table-borded tablecommande">
       <thead>
         <tr>
+          <th>#</th>
           <th>Date</th>
           <th>Repr</th>
           <th>Paiment</th>
@@ -36,7 +38,8 @@
       </thead>
       <tbody>
         {% for order in orders %}
-          <tr class="ord {% if order.isdelivered%}bg-primary text-white{%endif%}" orderid="{{order.code}}">
+          <tr class="ord {% if order.isdelivered%}bg-primary text-white{%endif%} {% if order.ispaied%}bg-success text-white{%endif%}" orderid="{{order.code}}">
+            <td>{{ order.id }}</td>
             <td>{{ order.date|date:'d/m/Y' }}</td>
             <td>{{ order.salseman }}</td>
             <td>{{ order.modpymnt }}</td>

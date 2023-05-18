@@ -20,9 +20,9 @@
       </p>
       </div>
       <div class="">
-        <h5>Client: {{order.clientname}}</h5>
+        <h5>Client: {{order.client.name}}</h5>
         <p>
-          {{order.clientphone}} || {{order.clientaddress}}
+          {{order.client.phone}} <br> {{order.client.address}} - {{order.client.city}}
         </p>
         <p>
           
@@ -92,14 +92,20 @@
 </div>
 {% if user.groups.all.0.name == 'accounting' %}
 <div class="fixed-bottom">
-  {% if order.isdelivered %}
-  <button class="btn btn-success w-100"  type="submit">Confirmée</button>
-  {%else%}
+  {% if order.isdelivered and order.ispaied %}
+  <button class="btn w-100 disabled"  type="submit">Confirmé et payé</button>
+  {%elif not order.isdelivered %}
   <form action="/dilevered/{{order.id}}" method="POST">
     {%csrf_token%}
     <button class="btn btn-primary w-100"  type="submit">Confirmer</button>
   </form>
+  {% else %}
+  <form action="/paied/{{order.id}}" method="POST">
+    {%csrf_token%}
+    <button class="btn btn-success w-100"  type="submit">Payé</button>
+  </form>
   {%endif%}
+
 </div>
 {%endif%}
 <!-- {% if user.groups.all.0.name == 'clients' %}

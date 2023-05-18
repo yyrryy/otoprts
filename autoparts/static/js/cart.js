@@ -44,7 +44,7 @@ const validercmnd=(clientid)=>{
       data: {
           'csrfmiddlewaretoken': $('[name="csrfmiddlewaretoken"]').val(),
           'commande': commande,
-          // 'client':clientid,
+          'client':clientid,
           'total':parseFloat($('.total').text()),
           'modpymnt':$('[name="modpymnt"]').val(),
           'modlvrsn':$('[name="modlvrsn"]').val(),
@@ -55,13 +55,13 @@ const validercmnd=(clientid)=>{
       },
 
       success: function(data){
+        stoploading()
           $('select').val(0)
           $('.modes').removeClass('border-danger')
-          stoploading()
           $('.cmndholder').remove()
           clearstorage()
           $('.valider').prop('disabled', true)
-                  $('.fromclient').prop('disabled', true)
+          $('.fromclient').prop('disabled', true)
           alert('Commande envoyé')
           // go to thank you 
           window.location.href='/salsemanorders/'+data.id
@@ -83,7 +83,7 @@ const loadpdcts=()=>{
       for (i of products){
           let [ref, n, ctg, qty, pr, tt, img, min, id]=i
           $('.cart-table__body').append(`
-          <tr class="cart-table__row cmndholder" ref="${ref}" n="${ctg}">
+          <tr class="cart-table__row cmndholder" ref="${ref}" n="${n}">
           <td class="cart-table__column cart-table__column--product">
             <small>${ref}</small>
           </td>
@@ -134,26 +134,51 @@ C11.2,9.8,11.2,10.4,10.8,10.8z"></path>
 $(document).ready(function () {
     console.log('cart')
     
+    $('.createclient').on('click', ()=>{
+      var isAnyEmpty = $('.notempty').filter(function() { return $(this).val() == ''; }).length > 0;
+      if (isAnyEmpty){
+        let emptyInputs = $('input.notempty').filter(function() {
+          return !this.value.trim();
+        });
+        
+        // Add a red border to all empty input elements
+        emptyInputs.css('border', '1px solid red');
+        $('input.notempty').not(emptyInputs).css('border', '');
+  
+      }else{
+        console.log('create client')
+        loading('client')
+        $.ajax({
+          type: "POST",
+          url: "/addclient",
+          data: {
+            'name':$('.clientname').val(),
+            'phone':$('.clientphone').val(),
+            'address':$('.clientaddress').val(),
+            'city':$('.clientcity').val(),
+            'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
+          },
+          success: function (data) {
+            stoploading()
+            $('.clientid').html(data.options)
+            $('input.notempty').val('')
+            $('#collapseOne').collapse('hide')
+          }
+        });
+      }
+    })
 
     // valider click
     $('.valider').on('click', ()=>{
         loading('verification')
         //
-        var isAnyEmpty = $('.notempty').filter(function() { return $(this).val() == ''; }).length > 0;
-        if ($('[name="modpymnt"]').val()==0 || $('[name="modlvrsn"]').val()==0 || isAnyEmpty){
+        if ($('[name="modpymnt"]').val()==0 || $('[name="modlvrsn"]').val()==0 || $('.clientid').val()==0){
             stoploading()
-            let emptyInputs = $('input.notempty').filter(function() {
-              return !this.value.trim();
-            });
-            
-            // Add a red border to all empty input elements
-            emptyInputs.css('border', '1px solid red');
-            $('input.notempty').not(emptyInputs).css('border', '');
 
             let emptySelects = $('select.modes').filter(function() {
               return this.value==0
             });
-            
+            console.log(emptySelects)
             // Add a red border to all empty select elements
             emptySelects.css('border', '1px solid red');
             
@@ -163,12 +188,12 @@ $(document).ready(function () {
             
             return
         }
-        let clientname=$('.clientname').val()
-        let clientaddress=$('.clientaddress').val()
-        let clientphone=$('.clientphone').val()
-        localStorage.setItem('clientname', clientname)
-        localStorage.setItem('clientaddress', clientaddress)
-        localStorage.setItem('clientphone', clientphone)
+        // let clientname=$('.clientname').val()
+        // let clientaddress=$('.clientaddress').val()
+        // let clientphone=$('.clientphone').val()
+        // localStorage.setItem('clientname', clientname)
+        // localStorage.setItem('clientaddress', clientaddress)
+        // localStorage.setItem('clientphone', clientphone)
 
         clientid=$('.clientid').val()
         loading()

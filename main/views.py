@@ -1,7 +1,7 @@
 
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
-from .models import Brand, Category, Client, Order, Orderitem, Produit, Coupon, Model, Mark
+from .models import Brand, Category, Client, Order, Orderitem, Produit, Client, Model, Mark
 import pandas as pd
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, login, logout
@@ -225,14 +225,14 @@ def addbulk(request):
 @user_passes_test(tocatalog, login_url='loginpage')
 @login_required(login_url='loginpage')
 def commande(request):
-    clientname=request.POST.get('clientname')
-    clientaddress=request.POST.get('clientaddress')
-    clientphone=request.POST.get('clientphone')
+    # clientname=request.POST.get('clientname')
+    # clientaddress=request.POST.get('clientaddress')
+    # clientphone=request.POST.get('clientphone')
     total=request.POST.get('total') 
     modpymnt=request.POST.get('modpymnt')
     modlvrsn=request.POST.get('modlvrsn')
     totalremise=request.POST.get('totalremise', 0)
-    order=Order.objects.create(clientname=clientname, clientaddress=clientaddress, clientphone=clientphone, salseman=request.user.username, total=total, modpymnt=modpymnt, modlvrsn=modlvrsn, totalremise=totalremise, code=str(uuid.uuid4()))
+    order=Order.objects.create(client_id=request.POST.get('client'), salseman=request.user.username, total=total, modpymnt=modpymnt, modlvrsn=modlvrsn, totalremise=totalremise, code=str(uuid.uuid4()))
     commande=request.POST.getlist('commande[]')
     for i in commande:
         ref, name, qty=i.split(':')
@@ -257,8 +257,9 @@ def orders(request):
     # get orders from db and order them by date ascendant
     orders=Order.objects.all()
     delivered=len(Order.objects.all().filter(isdelivered=True))
+    paied=len(Order.objects.all().filter(ispaied=True))
 
-    return render(request, 'orders.html', {'orders':orders, 'delivered':delivered, 'title':'Commandes', 'notdel':len(orders)-delivered})
+    return render(request, 'orders.html', {'orders':orders, 'delivered':delivered, 'title':'Commandes', 'notdel':len(orders)-delivered, 'paied':paied})
 
 
 def orderitems(request, id):
@@ -272,6 +273,12 @@ def orderitems(request, id):
 def dilevered(request, id):
     order=Order.objects.get(pk=id)
     order.isdelivered=True
+    order.save()
+    return redirect(orders)
+
+def paied(request, id):
+    order=Order.objects.get(pk=id)
+    order.ispaied=True
     order.save()
     return redirect(orders)
 
@@ -351,9 +358,10 @@ def addclient(request):
     address=request.POST.get('address')
     city=request.POST.get('city')
     Client.objects.create(name=name, phone=phone, address=address, city=city)
+    options=['<option value="'+str(i.id)+'">'+i.name+' | '+i.city+'</option>' for i in Client.objects.all().order_by('-id')]
+    print(options)
     return JsonResponse({
-        'valid':True,
-        'message':'Client ajouté avec succès'
+        'options':options,
     })
 
 def logoutuser(request):
@@ -382,7 +390,8 @@ def create_product(request):
 
 @user_passes_test(tocatalog, login_url='loginpage')
 def cart(request):
-    return render(request, 'cart.html', {'title':'Panier'})
+    clients=Client.objects.all()
+    return render(request, 'cart.html', {'title':'Panier', 'clients':clients})
 
 def me(request):
     return render(request, 'me.html', {'title':'Develper - abdelwahed ait ali'})
