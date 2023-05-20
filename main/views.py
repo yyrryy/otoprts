@@ -17,7 +17,7 @@ from django.db.models import Q
 
 def product(request, id):
     product=Produit.objects.get(pk=id)
-    return render(request, 'product.html', {'product':product})
+    return render(request, 'product.html', {'product':product, 'title':product.name})
 
 
 def searchref(request):
@@ -185,7 +185,7 @@ def create(request):
     # get category from db
     categories=Category.objects.all()
     # get brand from db
-    return render(request, 'create.html', {'categories':categories, })
+    return render(request, 'create.html', {'categories':categories, 'title':'add bulk'})
 
 
 # add category ajax route
@@ -313,6 +313,7 @@ def catalog(request):
     #     has_promotion=Exists(Produit.objects.filter(category_id=OuterRef('pk'), isoffer=True)),
     #     total_products=Count('produit')
     # )
+    productslen=len(Produit.objects.all())
     marks = Mark.objects.annotate(
         has_promotion=Exists(Produit.objects.filter(mark_id=OuterRef('pk'), isoffer=True)),
         total_products=Count('produit')
@@ -324,6 +325,7 @@ def catalog(request):
             'clients':Client.objects.all(),
             'title':'Catalog',
             'cc':marks,
+            'productslen':productslen
         }
     return render(request, 'catalog.html', ctx)
 

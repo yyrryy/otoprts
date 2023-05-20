@@ -57,13 +57,13 @@
 	</div>
 </div>
 
-<div class="row" style="margin-bottom: 5rem;">
+<div class="container" style="margin-bottom: 5rem;">
   <!-- products holder -->
   <div class="products-view__list products-list products-list--grid--4 position-relative" data-layout="list" data-with-features="false">
 
   <!-- title holder -->
   <div class="col-12 bg-white shadow rounded p-2 categorytitle fixed-bottom">
-    <div class="d-flex justify-content-between align-items-center">
+    <!-- <div class="d-flex justify-content-between align-items-center">
       <a href="/catalog" class="bi bi-arrow-left me-2 btn text-primary">Catalog</a>
       <div>
         {{category.title.upper}}
@@ -71,10 +71,8 @@
 
 
       
-      <!-- <button class="btn showcommande">
-        Articles comandés: <span class="commanditems">0</span>
-    </button> -->
-    </div>
+      
+    </div> -->
 
       <div class="d-flex justify-content-between align-items-center row">
         <div class="form-group">
@@ -89,7 +87,7 @@
         </div>
       </div>
   </div>
-    <div class="products-list__content">
+    <div class="products-list__content container">
         {% for i in products %}
         <div class="products-list__item rounded">
           <div class="product-card">

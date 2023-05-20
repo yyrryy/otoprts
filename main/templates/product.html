@@ -7,7 +7,7 @@
 {% block content %}
 <div class="block-split">
     <div class="container">
-      <div class="block-split__row row no-gutters">
+      <div class="block-split__row no-gutters">
         <div class="block-split__item block-split__item-content col-auto">
           <div class="product product--layout--full">
             <div class="product__body">
@@ -38,11 +38,15 @@
                 <div class="product__info-card">
                   <div class="product__info-body">
                     {% if product.isoffer %}
-                    <div class="product__badge tag-badge tag-badge--sale">{{product.offer}}</div>
+                    <div class="product__badge tag-badge tag-badge--sale">
+                      <strong>
+                        {{product.offre}}
+                      </strong>
+                    </div>
                     {% endif %}
                     <div class="product__prices-stock">
                       <div class="product__prices">
-                        <div class="product__price product__price--current">{{product.price}} NET</div>
+                        <div class="product__price product__price--current">{{product.price|floatformat:2}} NET</div>
                       </div>
                       {% if product.stock %}
                     <div class="status-badge status-badge--style--success status-badge--has-icon status-badge--has-text"><div class="status-badge__body"><div class="status-badge__icon"><svg width="13" height="13"><path d="M12,4.4L5.5,11L1,6.5l1.4-1.4l3.1,3.1L10.6,3L12,4.4z"></path></svg></div><div class="status-badge__text">In Stock</div><div class="status-badge__tooltip" tabindex="0" data-toggle="tooltip" title="" data-original-title="In Stock"></div></div></div>
