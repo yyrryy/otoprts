@@ -137,10 +137,15 @@
 			</div>
 		  </div>
 		  <div class="container">
+			<div class="mb-2 d-flex justify-content-between">
+				
+				<input type="text" placeholder="Marque" aria-describedby="button-addon1" class="form-control border bg-light" id="searchbox">
+				<svg xmlns="http://www.w3.org/2000/svg" id="b2448b99-d97f-419e-8dc3-d5510f0392fe" data-name="Layer 1" width="72" height="47" viewBox="0 0 709.53268 558.59384" class="injected-svg ClassicGrid__ImageFile-sc-td9pmq-4 fNAcXv grid_media" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M664.81368,212.24945a135.01972,135.01972,0,1,0,7.65509,199.4028L838.08687,551.4a12.44209,12.44209,0,0,0,16.06592-19.00287l-.01831-.01544L688.51631,392.63391A135.02729,135.02729,0,0,0,664.81368,212.24945ZM654.13692,379.17712a101.15765,101.15765,0,1,1-12.0766-142.54788l.00006,0A101.15764,101.15764,0,0,1,654.13692,379.17712Z" transform="translate(-245.23366 -170.70308)" fill="#3f3d56"></path></svg>
+			</div>
 			<div class="block-categories__list">
 			  
 			  {% for i in cc %}
-			  <a href="/marks/products/{{i.id}}" class="block-categories__item category-card category-card--layout--classic">
+			  <a href="/marks/products/{{i.id}}" class="block-categories__item category-card category-card--layout--classic products-list__item">
 				<div class="category-card__body">
 				  <div class="category-card__content align-items-center">
 					<div class="category-card__image image image--type--category">

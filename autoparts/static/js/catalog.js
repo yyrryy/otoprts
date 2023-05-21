@@ -340,6 +340,7 @@ let typeInterval = 500;
 let searchInput = document.getElementById('searchbox');
 
 searchInput.addEventListener('keyup', () => {
+    console.log('rr')
     clearTimeout(typingTimer);
     typingTimer = setTimeout(liveSearch, typeInterval);
 });

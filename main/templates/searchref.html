@@ -1,12 +1,10 @@
 {% for i in products %}
-<a class="suggestions__item suggestions__product" href="/product/{{i.id}}">
-    <div class="suggestions__product-image image image--type--product">
-      <div class="image__body">
-        <img class="image__tag" src="{{i.image}}" alt="">
-      </div>
-    </div>
+<a class="suggestions__item suggestions__product mb-3 p-3" href="/product/{{i.id}}">
+    
     <div class="suggestions__product-info">
-      <div class="suggestions__product-name">{{i.name}}</div>
+      <div class="suggestions__product-name">
+        <strong>{{i.mark.name.upper}} -</strong>  {{i.name.upper}}
+      </div>
       
     </div>
     <div class="suggestions__product-price">{{i.price}} Net</div>

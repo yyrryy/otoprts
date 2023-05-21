@@ -4,7 +4,7 @@
 {% block css %}
 <style>
   .products-list__item:hover {
-    box-shadow: -3px 5px 1px 0px #d9d9d9;
+    box-shadow: -1px 3px 9px 2px #d9d9d9
   }
 </style>
 {% endblock %}
@@ -56,13 +56,8 @@
 	  </div>
 	</div>
 </div>
-
-<div class="container" style="margin-bottom: 5rem;">
-  <!-- products holder -->
-  <div class="products-view__list products-list products-list--grid--4 position-relative" data-layout="list" data-with-features="false">
-
-  <!-- title holder -->
-  <div class="col-12 bg-white shadow rounded p-2 categorytitle fixed-bottom">
+<div class="col-12 shadow rounded p-2 categorytitle fixed-bottom container" style="
+  background: lightgray;">
     <!-- <div class="d-flex justify-content-between align-items-center">
       <a href="/catalog" class="bi bi-arrow-left me-2 btn text-primary">Catalog</a>
       <div>
@@ -74,27 +69,47 @@
       
     </div> -->
 
-      <div class="d-flex justify-content-between align-items-center row">
-        <div class="form-group">
-          <div class="input-group">
-            <input type="search" placeholder="Chercher Model/Voiture ..." aria-describedby="button-addon1" class="form-control border bg-light" id="searchbox">
-            <div class="input-group-append">
-              <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="bi bi-search"></i></button>
-            </div>
+      <div class="d-flex justify-content-between align-items-center">
+          <a href="/catalog" class="btn btn-primary">
+            ←
+          </a>
+          <div class="d-flex col-8">
+            <input type="text" placeholder="Chercher Model/Voiture ..." aria-describedby="button-addon1" class="form-control border bg-light" id="searchbox">
+            <svg xmlns="http://www.w3.org/2000/svg" id="b2448b99-d97f-419e-8dc3-d5510f0392fe" data-name="Layer 1" width="72" height="47" viewBox="0 0 709.53268 558.59384" class="injected-svg ClassicGrid__ImageFile-sc-td9pmq-4 fNAcXv grid_media" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M664.81368,212.24945a135.01972,135.01972,0,1,0,7.65509,199.4028L838.08687,551.4a12.44209,12.44209,0,0,0,16.06592-19.00287l-.01831-.01544L688.51631,392.63391A135.02729,135.02729,0,0,0,664.81368,212.24945ZM654.13692,379.17712a101.15765,101.15765,0,1,1-12.0766-142.54788l.00006,0A101.15764,101.15764,0,0,1,654.13692,379.17712Z" transform="translate(-245.23366 -170.70308)" fill="#3f3d56"></path></svg>
           </div>
-
-          <!-- <input type="text" class="form-control " placeholder="Chercher" id="searchbox"> -->
+        <div class="position-relative">
+          <a href="/cart" class="">
+            <span class="">
+              <svg width="32" height="32">
+                <circle cx="10.5" cy="27.5" r="2.5"></circle>
+                <circle cx="23.5" cy="27.5" r="2.5"></circle>
+                <path d="M26.4,21H11.2C10,21,9,20.2,8.8,19.1L5.4,4.8C5.3,4.3,4.9,4,4.4,4H1C0.4,4,0,3.6,0,3s0.4-1,1-1h3.4C5.8,2,7,3,7.3,4.3
+      l3.4,14.3c0.1,0.2,0.3,0.4,0.5,0.4h15.2c0.2,0,0.4-0.1,0.5-0.4l3.1-10c0.1-0.2,0-0.4-0.1-0.4C29.8,8.1,29.7,8,29.5,8H14
+      c-0.6,0-1-0.4-1-1s0.4-1,1-1h15.5c0.8,0,1.5,0.4,2,1c0.5,0.6,0.6,1.5,0.4,2.2l-3.1,10C28.5,20.3,27.5,21,26.4,21z"></path>
+              </svg>
+              <span class="indicator__counter commanditems">0</span>
+            </span>
+          </a>        
         </div>
+        
       </div>
   </div>
-    <div class="products-list__content container">
+<div class="container" style="margin-bottom: 5rem;">
+  <!-- products holder -->
+  <div class="products-view__list products-list products-list--grid--4 position-relative" data-layout="list" data-with-features="false">
+
+  <!-- title holder -->
+  
+    <div class="products-list__content">
         {% for i in products %}
-        <div class="products-list__item rounded">
-          <div class="product-card">
+        <div class="products-list__item col-md-9 col-12 mb-2">
+          <div class="border rounded product-card">
             <div class="product-card__image">
               
               <div class="image image--type--product text-center">
+                <img src="{{i.mark.image}}" width="70">
                 <img  src="{{i.image}}" alt="{{ i.name }}" loading="lazy" style="width: 100%;" data-toggle="modal" data-target="#imagedisplaymodal" class="imagedisplaybtn" imgsrc="{{i.image}}">
+
               </div>
               <div class="status-badge status-badge--style--success product-card__fit status-badge--has-icon status-badge--has-text">
               </div>
@@ -104,10 +119,11 @@
                 <span class="product-card__meta-title">REF:</span> {{i.ref.upper}}
               </div>
               <div class="product-card__name">
-                <div class=" mb-5">
+                <div class="">
                     <p>
                       {{i.name.upper}} - {{ i.ref.upper }}
                     </p>
+
                 </div>
                 <div class="d-flex flex-column">
                   <div class="d-flex justify-content-between">
@@ -135,7 +151,6 @@
               
             </div>
             <div class="product-card__footer d-flex flex-column">
-              <img src="{{i.mark.image}}" width="70">
 
               <div class="product-card__prices p-2 border w-100 mt-2">
                 <div class="product-card__price product-card__price--current ">

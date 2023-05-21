@@ -299,7 +299,7 @@ def productscategories(request, id):
     products=Produit.objects.filter(category_id=id)
     return render(request, 'products.html', {'products':products, 'title':'Produits de '+str(c), 'category':c})
 
-
+@user_passes_test(isadmin, login_url='loginpage')
 @login_required(login_url='loginpage')
 def dashboard(request):
     user=request.user
