@@ -3,11 +3,19 @@
       <div class="container">
         <div class="mobile-header__body">
           
+          {% if user.groups.all.0.name == 'admin' %}
+          <a class="mobile-header__logo" href="/dashboard">
+            <!-- mobile-logo -->
+            <img src="/static/images/logo.png" alt="Logo">
+            <!-- mobile-logo / end -->
+          </a>
+          {% else %}
           <a class="mobile-header__logo" href="/catalog">
             <!-- mobile-logo -->
             <img src="/static/images/logo.png" alt="Logo">
             <!-- mobile-logo / end -->
           </a>
+          {% endif %}
           {% if user.groups.all.0.name != 'accounting' %}
           <div class="mobile-header__search mobile-search d-none flex-column">
             <div class="mobile-search__body">
@@ -50,6 +58,7 @@
               
             </div>
           </div>
+          
           <div class="mobile-header__indicators">
             <div class="mobile-indicator mobile-indicator--search">
               <button type="button" class="mobile-indicator__button">
@@ -73,6 +82,7 @@
                 </span>
               </a>
             </div> -->
+            {% if  user.groups.all.0.name != 'admin' %}
             <div class="mobile-indicator">
               <a href="/cart" class="mobile-indicator__button">
                 <span class="mobile-indicator__icon">
@@ -87,6 +97,7 @@
                 </span>
               </a>
             </div>
+            {% endif %}
           </div>
           {% endif %}
         </div>

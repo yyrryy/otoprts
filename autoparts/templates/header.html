@@ -1,16 +1,24 @@
 <header class="site__header">
   <div class="header">
     
-    
     <div class="header__logo">
-      <a href="/catalog" class="logo">
-        <div class="logo__slogan">Auto parts for Cars, trucks and motorcycles</div>
+      {% if user.groups.all.0.name == 'admin' %}
+      <a href="/dashboard" class="logo">
         <div class="logo__image">
           <!-- logo -->
           <img src="/static/images/logo.png" alt="">
           <!-- logo / end -->
         </div>
       </a>
+      {% else %}
+      <a href="/catalog" class="logo">
+        <div class="logo__image">
+          <!-- logo -->
+          <img src="/static/images/logo.png" alt="">
+          <!-- logo / end -->
+        </div>
+      </a>
+      {% endif %}
     </div>
     {% if user.groups.all.0.name != 'accounting' %}
 
@@ -59,7 +67,7 @@
         </div>
       </div>
     </div>
-
+    {% if user.groups.all.0.name != 'admin' %}
     <div class="header__indicators fixed-toprigh bg-white">
       
       <div class="indicator indicator--trigger--click">
@@ -111,6 +119,7 @@
       </div>
       
     </div>
+    {% endif %}
     {% endif %}
 
   </div>

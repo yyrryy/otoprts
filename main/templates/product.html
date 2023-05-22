@@ -27,7 +27,7 @@
                 
               </div>
               <div class="product__header d-flex justify-content-between">
-                <h1 class="product__title">{{product.name}}</h1>
+                <h1 class="product__title">{{product.name.upper}}</h1>
                 <div class="product__subtitle">
                  
                   
@@ -63,13 +63,13 @@
                           
                           <tr>
                             <th>Ref</th>
-                            <td>{{product.ref}}</td>
+                            <td>{{product.ref.upper}}</td>
                           </tr>
                           <tr>
-                            <th>Mark</th>
+                            <th>Marque</th>
                             <td>
                               <!-- hint: link to mark to display all products in mark -->
-                              {{product.mark.name}}
+                              {{product.mark.name.upper}}
                             </td>
                             
                           </tr>

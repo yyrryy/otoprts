@@ -11,12 +11,12 @@
               <a href="account-dashboard.html">Dashboard</a>
             </li>
             <li class="account-nav__item">
-              <a href="account-garage.html">Garage</a>
+              <a href="/orders">Commandes</a>
             </li>
             <li class="account-nav__item">
-              <a href="account-profile.html">Edit Profile</a>
+              <a href="/catalog">Catalog</a>
             </li>
-            <li class="account-nav__item">
+            <!-- <li class="account-nav__item">
               <a href="account-orders.html">Order History</a>
             </li>
             <li class="account-nav__item">
@@ -34,7 +34,7 @@
             <li class="account-nav__divider" role="presentation"></li>
             <li class="account-nav__item">
               <a href="  {%url 'logoutuser'%} ">Logout</a>
-            </li>
+            </li> -->
           </ul>
         </div>
       </div>
@@ -42,7 +42,7 @@
         <div class="dashboard row">
           <div class="dashboard__profile card profile-card col-md-3">
             <div class="card-body profile-card__body">
-              <div class="profile-card__name">11</div>
+              <div class="profile-card__name">{{products}}</div>
               <div class="profile-card__email">References</div>
             </div>
           </div>
@@ -50,52 +50,32 @@
 
           <div class="dashboard__profile card profile-card col-md-3">
             <div class="card-body profile-card__body">
-              <div class="profile-card__name">5</div>
+              <div class="profile-card__name">{{orders}}</div>
               <div class="profile-card__email">Commandes Aujourd'hui</div>
             </div>
           </div>
          
         </div> <div class="dashboard__orders card">
             <div class="card-header">
-              <h5>Commandes Rectent</h5>
+              <h5>20 Articles plus commandés ce mois</h5>
             </div>
             <div class="card-divider"></div>
-            <div class="card-table">
+            <div class="card-table p-2">
               <div class="table-responsive-sm">
-                <table>
+                <table class="table table-bordered">
                   <thead>
                     <tr>
-                      <th>N°</th>
-                      <th>Date</th>
-                      <th>Status</th>
-                      <th>Total</th>
+                      <th>Article</th>
+                      <th>Quantité</th>
                     </tr>
                   </thead>
                   <tbody>
+                    {%for i in productthismonth%}
                     <tr>
-                      <td>
-                        <a href="account-order-details.html">#8132</a>
-                      </td>
-                      <td>02 April, 2019</td>
-                      <td>Pending</td>
-                      <td>$2,719.00 for 5 item(s)</td>
+                      <td>{{i.product.name}}</td>
+                      <td>{{i.qty}}</td>
                     </tr>
-                    <tr>
-                      <td>
-                        <a href="account-order-details.html">#7592</a>
-                      </td>
-                      <td>28 March, 2019</td>
-                      <td>Pending</td>
-                      <td>$374.00 for 3 item(s)</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <a href="account-order-details.html">#7192</a>
-                      </td>
-                      <td>15 March, 2019</td>
-                      <td>Shipped</td>
-                      <td>$791.00 for 4 item(s)</td>
-                    </tr>
+                    {%endfor%}
                   </tbody>
                 </table>
               </div>

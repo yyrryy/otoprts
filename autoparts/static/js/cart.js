@@ -32,9 +32,10 @@ const validercmnd=(clientid)=>{
   commande=[]
   holder.each((i, el)=>{
       ref=$(el).attr('ref')
+      id=$(el).attr('id')
       n=$(el).attr('n')
       qty=$(el).find('.qtyholder .input-number > .qty').val()
-      cmd=ref+':'+n+':'+qty
+      cmd=ref+':'+n+':'+qty+':'+id
       commande.push(cmd)
   })
   
@@ -83,7 +84,7 @@ const loadpdcts=()=>{
       for (i of products){
           let [ref, n, ctg, qty, pr, tt, img, min, id]=i
           $('.cart-table__body').append(`
-          <tr class="cart-table__row cmndholder" ref="${ref}" n="${n}">
+          <tr class="cart-table__row cmndholder" ref="${ref}" n="${n}" id="${id}">
           <td class="cart-table__column cart-table__column--product">
             <small>${ref}</small>
           </td>
@@ -180,10 +181,10 @@ $(document).ready(function () {
             });
             console.log(emptySelects)
             // Add a red border to all empty select elements
-            emptySelects.css('border', '1px solid red');
+            emptySelects.addClass('is-invalid');
             
             // Remove the red border from non-empty select elements
-            $('select.modes').not(emptySelects).css('border', '');
+            $('select.modes').not(emptySelects).removeClass('is-invalid');
             alert('Veuillez remplir tous les champs')
             
             return

@@ -81,7 +81,7 @@
         {% endif %}
         <div class="d-flex justify-content-between sticky-bottom">
           
-          {% if user.groups.all.0.name == 'accounting' or user.groups.all.0.name == 'admin' %}
+          {% if user.groups.all.0.name == 'accounting' %}
           {% if not order.isdelivered %}
           <form action="/dilevered/{{order.id}}" method="POST">
             {%csrf_token%}

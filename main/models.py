@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+import datetime
 
 # Create your models here.
 
@@ -106,9 +106,11 @@ class Order(models.Model):
 
 class Orderitem(models.Model):
     order=models.ForeignKey(Order, on_delete=models.CASCADE)
+    product=models.ForeignKey(Produit, on_delete=models.CASCADE, default=None, null=True)
     ref=models.CharField(max_length=100, null=True, default=None)
     name=models.CharField(max_length=100, null=True, default=None)
     qty=models.IntegerField()
+    date=models.DateTimeField(default=datetime.datetime.now, blank=True)
 
 
 

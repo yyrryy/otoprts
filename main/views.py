@@ -11,9 +11,11 @@ import uuid
 # import csrf_exampt
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
-from django.contrib.sitemaps import Sitemap
 from django.shortcuts import reverse
 from django.db.models import Q
+import datetime
+
+
 
 def product(request, id):
     product=Produit.objects.get(pk=id)
@@ -85,14 +87,13 @@ def loginpage(request):
         if (request.user.groups.first().name=='accounting'):
             return redirect(orders)
         if (request.user.groups.first().name=='admin'):
-            return redirect(orders)
+            return redirect(dashboard)
         if (request.user.groups.first().name=='clients'):
             return redirect(catalog)
     if request.method == 'POST':
-        username = request.POST.get('username')
+        username = request.POST.get('username').lower()
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
-        print('user', user)
         if user is not None:
             login(request, user)
             group=user.groups.all().first().name
@@ -102,6 +103,8 @@ def loginpage(request):
                 return redirect(catalog)
             elif group == 'accounting':
                 return redirect(orders)
+            elif group == 'admin':
+                return redirect(dashboard)
         else:
             return redirect(loginpage)
     return render(request, 'login.html')
@@ -235,8 +238,8 @@ def commande(request):
     order=Order.objects.create(client_id=request.POST.get('client'), salseman=request.user.username, total=total, modpymnt=modpymnt, modlvrsn=modlvrsn, totalremise=totalremise, code=str(uuid.uuid4()))
     commande=request.POST.getlist('commande[]')
     for i in commande:
-        ref, name, qty=i.split(':')
-        Orderitem.objects.create(order=order, ref=ref, name=name, qty=int(qty))
+        ref, name, qty, id=i.split(':')
+        Orderitem.objects.create(order=order, ref=ref, name=name, qty=int(qty), product_id=id)
     # return a json res
     
     # send_mail(message='Nouveau commande.', subject=f'Nouveau commande. #{order.id}')
@@ -302,9 +305,14 @@ def productscategories(request, id):
 @user_passes_test(isadmin, login_url='loginpage')
 @login_required(login_url='loginpage')
 def dashboard(request):
-    user=request.user
-    print(user.groups.all().first())
-    return render(request, 'dashboard.html')
+    ctx={
+        'title':'Dashboard',
+        'orders':Order.objects.filter(date__date=datetime.date.today()).count(),
+        'products':Produit.objects.all().count(),
+        'productthismonth':Orderitem.objects.filter(order__date__month=datetime.date.today().month).order_by('-qty')[:20],
+
+    }
+    return render(request, 'dashboard.html', ctx)
 
 @user_passes_test(tocatalog, login_url='loginpage')
 @login_required(login_url='loginpage')

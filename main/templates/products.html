@@ -56,8 +56,8 @@
 	  </div>
 	</div>
 </div>
-<div class="col-12 shadow rounded p-2 categorytitle fixed-bottom container" style="
-  background: lightgray;">
+<div class="col-12 shadow-lg rounded p-2 categorytitle fixed-bottom container" style="
+  background: #ebebeb;">
     <!-- <div class="d-flex justify-content-between align-items-center">
       <a href="/catalog" class="bi bi-arrow-left me-2 btn text-primary">Catalog</a>
       <div>
@@ -141,8 +141,8 @@
                     {% if i.isoffer %}
                     <div class="tag-badge tag-badge--new">{{i.offre}}</div>
                     {% endif %}
-                    {% if i.min %}
-                    <div class="tag-badge tag-badge--hot">{{i.min}} PCS</div>
+                    {% if i.min|floatformat:-2 %}
+                    <div class="tag-badge tag-badge--hot">{{i.min|floatformat:-2}} PCS</div>
                     {% endif %}
                   </div>
                 </div>
@@ -154,12 +154,12 @@
 
               <div class="product-card__prices p-2 border w-100 mt-2">
                 <div class="product-card__price product-card__price--current ">
-                  {{i.price}} Net
+                  {{i.price|floatformat:2}} Net
                 </div>
 
               </div>
-              <div class="cart-table__quantity input-number mb-3"><input readonly class="form-control input-number__input qty" type="number" min="{%if i.min%}{{i.min}}{%else%}1{%endif%}" value="{%if i.min%}{{i.min}}{%else%}1{%endif%}"><div class="input-number__add"></div><div class="input-number__sub"></div></div>
-          <button class="btn btn-primary cmnd w-100" pdct="{{i.id}}" pdctref="{{i.ref}}" pdctname="{{i.name}}" pdctpr="{{i.price}}" pdctid="{{i.id}}" pdctimg="{{i.image}}" pdctmin="{{i.min}}" pdctcategory="{{i.category.title}}">Cmnd</button>
+              <div class="cart-table__quantity input-number mb-3"><input readonly class="form-control input-number__input qty" type="number" min="{%if i.min|floatformat:-2%}{{i.min|floatformat:-2}}{%else%}1{%endif%}" value="{%if i.min|floatformat:-2%}{{i.min|floatformat:-2}}{%else%}1{%endif%}"><div class="input-number__add"></div><div class="input-number__sub"></div></div>
+          <button class="btn btn-primary cmnd w-100" pdct="{{i.id}}" pdctref="{{i.ref}}" pdctname="{{i.name}}" pdctpr="{{i.price}}" pdctid="{{i.id}}" pdctimg="{{i.image}}" pdctmin="{{i.min|floatformat:-2}}" pdctcategory="{{i.category.title}}">Cmnd</button>
             </div>
             
           </div>
