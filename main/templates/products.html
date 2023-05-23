@@ -56,7 +56,7 @@
 	  </div>
 	</div>
 </div>
-<div class="col-12 shadow-lg rounded p-2 categorytitle fixed-bottom container" style="
+<div class="col-12 shadow-lg rounded p-2 categorytitle fixed-bottom container border border-2" style="
   background: #ebebeb;">
     <!-- <div class="d-flex justify-content-between align-items-center">
       <a href="/catalog" class="bi bi-arrow-left me-2 btn text-primary">Catalog</a>
@@ -77,6 +77,7 @@
             <input type="text" placeholder="Chercher Model/Voiture ..." aria-describedby="button-addon1" class="form-control border bg-light" id="searchbox">
             <svg xmlns="http://www.w3.org/2000/svg" id="b2448b99-d97f-419e-8dc3-d5510f0392fe" data-name="Layer 1" width="72" height="47" viewBox="0 0 709.53268 558.59384" class="injected-svg ClassicGrid__ImageFile-sc-td9pmq-4 fNAcXv grid_media" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M664.81368,212.24945a135.01972,135.01972,0,1,0,7.65509,199.4028L838.08687,551.4a12.44209,12.44209,0,0,0,16.06592-19.00287l-.01831-.01544L688.51631,392.63391A135.02729,135.02729,0,0,0,664.81368,212.24945ZM654.13692,379.17712a101.15765,101.15765,0,1,1-12.0766-142.54788l.00006,0A101.15764,101.15764,0,0,1,654.13692,379.17712Z" transform="translate(-245.23366 -170.70308)" fill="#3f3d56"></path></svg>
           </div>
+          {% if user.groups.all.0.name != 'admin' %}
         <div class="position-relative">
           <a href="/cart" class="">
             <span class="">
@@ -91,7 +92,7 @@
             </span>
           </a>        
         </div>
-        
+        {% endif %}
       </div>
   </div>
 <div class="container" style="margin-bottom: 5rem;">
@@ -158,8 +159,10 @@
                 </div>
 
               </div>
+          {% if user.groups.all.0.name != 'admin' %}
               <div class="cart-table__quantity input-number mb-3"><input readonly class="form-control input-number__input qty" type="number" min="{%if i.min|floatformat:-2%}{{i.min|floatformat:-2}}{%else%}1{%endif%}" value="{%if i.min|floatformat:-2%}{{i.min|floatformat:-2}}{%else%}1{%endif%}"><div class="input-number__add"></div><div class="input-number__sub"></div></div>
           <button class="btn btn-primary cmnd w-100" pdct="{{i.id}}" pdctref="{{i.ref}}" pdctname="{{i.name}}" pdctpr="{{i.price}}" pdctid="{{i.id}}" pdctimg="{{i.image}}" pdctmin="{{i.min|floatformat:-2}}" pdctcategory="{{i.category.title}}">Cmnd</button>
+          {% endif %}
             </div>
             
           </div>

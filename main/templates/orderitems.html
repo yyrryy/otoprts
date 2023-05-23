@@ -34,10 +34,10 @@
             {% for i in orderitems %}
             <tr>
                 <td>
-                    {{i.ref}}
+                    {{i.ref.upper}}
                 </td>
                 <td>
-                  {{i.name}}
+                  {{i.name.upper}}
               </td>
               <td>
                 {{i.qty}}

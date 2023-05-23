@@ -86,10 +86,10 @@ const loadpdcts=()=>{
           $('.cart-table__body').append(`
           <tr class="cart-table__row cmndholder" ref="${ref}" n="${n}" id="${id}">
           <td class="cart-table__column cart-table__column--product">
-            <small>${ref}</small>
+            <strong>${ref.toUpperCase()}</strong>
           </td>
           <td class="cart-table__column cart-table__column--product">
-            <small>${n}</small>
+            <strong>${n.toUpperCase()}</strong>
           </td>
           <td class="cart-table__column cart-table__column--price" data-title="Price">
           <small class="priceholder" price=${pr}>${pr} NET</small>

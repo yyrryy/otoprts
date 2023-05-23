@@ -23,13 +23,8 @@ def product(request, id):
 
 
 def searchref(request):
-    ref=request.POST.get('ref')
-    print(ref)
+    ref=request.POST.get('ref').lower()
     products = Produit.objects.filter(Q(ref__icontains=ref) | Q(name__icontains=ref))
-    for i in products:
-        print(i.ref)
-        print(i.name)
-        print(i.price)
     return JsonResponse({
         'data':render(request, 'searchref.html', {'products':products}).content.decode('utf-8')
     })
