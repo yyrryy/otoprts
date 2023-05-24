@@ -68,7 +68,7 @@
       </div>
     </div>
     {% if user.groups.all.0.name != 'admin' %}
-    <div class="header__indicators fixed-toprigh bg-white">
+    <div class="header__indicators">
       
       <div class="indicator indicator--trigger--click">
         <a href="account-login.html" class="indicator__button">
@@ -103,6 +103,7 @@
         </div>
       </div>
 
+
       <div class="indicator indicator--trigger--click">
         <a href="/cart" class="">
           <span class="indicator__icon">
@@ -114,6 +115,11 @@
     c-0.6,0-1-0.4-1-1s0.4-1,1-1h15.5c0.8,0,1.5,0.4,2,1c0.5,0.6,0.6,1.5,0.4,2.2l-3.1,10C28.5,20.3,27.5,21,26.4,21z"></path>
             </svg>
             <span class="indicator__counter commanditems">0</span>
+            
+          </span>
+          <span class="indicator__title">Panier</span>
+          <span class="indicator__value">
+            <span class="ttt">0</span> NET
           </span>
         </a>        
       </div>

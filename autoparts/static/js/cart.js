@@ -12,7 +12,8 @@ const updatetotal=()=>{
     $('.totalremise').text((t.toFixed(2)*0.95).toFixed(2))
   }else{
     $('.totalremise').text(t.toFixed(2))
-  } 
+  }
+  $('.ttt').text(t.toFixed(2))
 }
 
 
@@ -28,6 +29,7 @@ const clearstorage =()=>{
 }
 
 const validercmnd=(clientid)=>{
+  $('.remise').removeClass('d-none')
   holder=$('.cmndholder')
   commande=[]
   holder.each((i, el)=>{
@@ -81,8 +83,11 @@ const loadpdcts=()=>{
   if (products && products.length){
       $('.valider').prop('disabled', false)
       $('.fromclient').prop('disabled', false)
+      ttt=0
       for (i of products){
           let [ref, n, ctg, qty, pr, tt, img, min, id]=i
+          ttt+=parseFloat(tt)
+
           $('.cart-table__body').append(`
           <tr class="cart-table__row cmndholder" ref="${ref}" n="${n}" id="${id}">
           <td class="cart-table__column cart-table__column--product">
@@ -127,7 +132,8 @@ C11.2,9.8,11.2,10.4,10.8,10.8z"></path>
               }
           )})
       }
-      updatetotal()
+      $('.ttt').text(ttt.toFixed(2))
+      $('.total').text(ttt.toFixed(2))
       return
   }
 }
@@ -171,7 +177,6 @@ $(document).ready(function () {
 
     // valider click
     $('.valider').on('click', ()=>{
-        loading('verification')
         //
         if ($('[name="modpymnt"]').val()==0 || $('[name="modlvrsn"]').val()==0 || $('.clientid').val()==0){
             stoploading()
@@ -195,10 +200,12 @@ $(document).ready(function () {
         // localStorage.setItem('clientname', clientname)
         // localStorage.setItem('clientaddress', clientaddress)
         // localStorage.setItem('clientphone', clientphone)
-
-        clientid=$('.clientid').val()
-        loading()
-        validercmnd(clientid)
+        if (confirm('Valider la commande ?')) {
+          console.log('valider')
+          clientid=$('.clientid').val()
+          loading()
+          validercmnd(clientid)
+        }
     })
 
     
@@ -258,18 +265,18 @@ $(document).ready(function () {
         else{
           
           $('.remise').addClass('d-none')
-          $("input[name=qtytosub]").each((i, el)=>{
+          // $("input[name=qtytosub]").each((i, el)=>{
             
-                v=$(el).val()
-                subt=$(el).attr('price')*v
-                // find the subtotal cell
-                subholder=$(el).parent().parent().parent().find('.subtotal')
-                subholder.text(subt.toFixed(2))
-              })
-              $('.priceholder').each((i, el)=>{
-                $(el).text($(el).attr('price'))
-              })
-              updatetotal()
+          //       v=$(el).val()
+          //       subt=$(el).attr('price')*v
+          //       // find the subtotal cell
+          //       subholder=$(el).parent().parent().parent().find('.subtotal')
+          //       subholder.text(subt.toFixed(2))
+          //     })
+          //     $('.priceholder').each((i, el)=>{
+          //       $(el).text($(el).attr('price'))
+          //     })
+          //     updatetotal()
         }
 
     })

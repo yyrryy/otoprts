@@ -60,6 +60,42 @@
         ::-webkit-scrollbar-thumb:hover {
         background: #555; 
         }
+        #button {
+            display: inline-block;
+            background-color: #e82323;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            border-radius: 4px;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            transition: background-color .3s, 
+                opacity .5s, visibility .5s;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+            }
+            #button::after {
+            content: "⬆";
+            font-family: FontAwesome;
+            font-weight: normal;
+            font-style: normal;
+            font-size: 2em;
+            line-height: 50px;
+            color: #fff;
+            }
+            #button:hover {
+            cursor: pointer;
+            background-color: #333;
+            }
+            #button:active {
+            background-color: #555;
+            }
+            #button.show {
+            opacity: 1;
+            visibility: visible;
+            }
     </style>
     {% block css%}
     {% endblock %}
@@ -70,6 +106,7 @@
     <!-- mobile header -->
     
     <!-- site -->
+    <a id="button"></a>
     <div class="site">
 
         {% if user.username %}
@@ -277,6 +314,40 @@
     <script src="{% static 'js/main.js'%}"></script>
     
     <script>
+        const loadtotal=()=>{
+            products=JSON.parse(localStorage.getItem('productsdetails'))
+            $('.loadingcartitems').addClass('d-none')
+            if (products && products.length){
+                $('.valider').prop('disabled', false)
+                $('.fromclient').prop('disabled', false)
+                ttt=0
+                for (i of products){
+                    let tt=i[5]
+                    ttt+=parseFloat(tt)
+        
+                    
+                }
+                $('.ttt').text(ttt.toFixed(2))
+                return
+            }
+        }
+        loadtotal()
+
+        var btn = $('#button');
+
+        $(window).scroll(function() {
+        if ($(window).scrollTop() > 300) {
+            btn.addClass('show');
+        } else {
+            btn.removeClass('show');
+        }
+        });
+
+        btn.on('click', function(e) {
+        e.preventDefault();
+        $('html, body').animate({scrollTop:0}, '300');
+        });
+
         const displayimage=()=>{
             $('.imagedisplaybtn').each((i, el)=>{
                 $(el).on('click', function(){

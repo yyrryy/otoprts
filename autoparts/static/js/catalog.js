@@ -39,7 +39,6 @@ const checkstorage = (id)=>{
 
 
 const savetostorage=(id, ref, n, ctg, qty, pr, tt, img, min)=>{
-    console.log(n)
     // get products from localstorage
     products=JSON.parse(localStorage.getItem('products')) || []
     productsdetails=JSON.parse(localStorage.getItem('productsdetails')) || []
@@ -59,6 +58,9 @@ const addcmnd=(name, ctg, ref, qty, pr, id, img, min)=>{
     // checks local storage if the item is already there
     if(!checkstorage(id)){
         sub=(pr*qty).toFixed(2)
+        let bigt=parseFloat($('.ttt').text())
+        $('.ttt').text((bigt+parseFloat(sub)).toFixed(2))
+        // $('.ttt').text(((parseFloat($('.ttt').text()))+sub).toFixed(2))
         savetostorage(id, ref, name, ctg, qty, pr, sub, img, min)
         console.log('updated counter')
         $('.commanditems').html(parseInt($('.commanditems').html())+1)
