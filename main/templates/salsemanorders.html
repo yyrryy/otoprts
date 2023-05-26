@@ -6,89 +6,93 @@
 {% endblock %}
 {% block content %}
 
-
-<div class="">
-  <div class="card">
-    <div class="card-header d-flex flex-column">
-      <div class="d-lg-flex d-block justify-content-between">
-        <h5>Bon de Commande: #{{order.id}}</h5>
-      <p>
-        paiment: {{order.modpymnt}}
-      </p>
-      <p>
-        mode de livraison: {{ order.modlvrsn}}
-      </p>
-      </div>
-      <div class="">
-        <h5>Client: {{order.client.name}}</h5>
+<button class="btn btn-primary" onclick="PrintInvoice('avances')">
+  Telecharger
+</button>
+<div id="avances">
+  <div class="">
+    <div class="card">
+      <div class="card-header d-flex flex-column">
+        <div class="d-lg-flex d-block justify-content-between">
+          <h5>Bon de Commande: #{{order.id}}</h5>
         <p>
-          {{order.client.phone}} <br> {{order.client.address}} - {{order.client.city}}
+          paiment: {{order.modpymnt}}
         </p>
         <p>
-          
+          mode de livraison: {{ order.modlvrsn}}
         </p>
-      </div>
-    </div>
-    <div class="card-divider"></div>
-    <div class="card-table">
-      <div class="table-responsive-sm">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Representant</th>
-              <th>Total</th>
-              <th>Total Remise</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{{ order.date|date:"d/m/Y" }}</td>
-              <td>{{ order.salseman }}</td>
-              <td>{{ order.total}}</td>
-              <td>{{ order.totalremise}}</td>
-            </tr>
+        </div>
+        <div class="">
+          <h5>Client: {{order.client.name}}</h5>
+          <p>
+            {{order.client.phone}} <br> {{order.client.address}} - {{order.client.city}}
+          </p>
+          <p>
             
-          </tbody>
-        </table>
+          </p>
+        </div>
       </div>
+      <div class="card-divider"></div>
+      <div class="card-table">
+        <div class="table-responsive-sm">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Representant</th>
+                <th>Total</th>
+                <th>Total Remise</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ order.date|date:"d/m/Y" }}</td>
+                <td>{{ order.salseman }}</td>
+                <td>{{ order.total}}</td>
+                <td>{{ order.totalremise}}</td>
+              </tr>
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-divider"></div>
+  
     </div>
-    <div class="card-divider"></div>
-
+  
   </div>
-
-</div>
-
-<div class="orderitems mt-3 bg-white rounded p-2">
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>ref</th>
-        <th>Article</th>
-        <th>qty</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for i in items %}
-            <tr>
-                <td>
-                    {{i.ref.upper}}
+  
+  <div class="orderitems mt-3 bg-white rounded p-2">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>ref</th>
+          <th>Article</th>
+          <th>qty</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in items %}
+              <tr>
+                  <td>
+                      {{i.ref.upper}}
+                  </td>
+                  <td>
+                    {{i.name.upper}}
                 </td>
                 <td>
-                  {{i.name.upper}}
+                  {{i.qty}}
               </td>
-              <td>
-                {{i.qty}}
-            </td>
-                {% empty %}
-                <td>
-                    none
-                </td>
-
-            </tr>
-            {% endfor %}
-    </tbody>
-  </table>
+                  {% empty %}
+                  <td>
+                      none
+                  </td>
+  
+              </tr>
+              {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 {% if user.groups.all.0.name == 'accounting' %}
 <div class="fixed-bottom">
@@ -152,28 +156,17 @@
 {% endblock %}
 {% block js %}
 <script>
-  $('.ord').each(function(){
-      $(this).click(function(){
-        loading()
-        
-        id=$(this).attr('orderid');
-
-            $.ajax({
-                url: '/orderitems/'+id,
-                type: 'POST',
-                data:{
-                  'csrfmiddlewaretoken': '{{ csrf_token }}',
-                },
-                success: function(data){
-                  console.log($('.orderitems'))
-                  $('.orderitems').html(data.data);
-                  stoploading()
-                  $('.closeorderitems').click(function(){
-                    $('.orderitems').removeClass('openorder');
-                  })
-                }
-            });
-        });
-    })
-</script>
+  function PrintInvoice(divName){
+         var printContents = document.getElementById(divName).innerHTML;
+         var originalContents = document.body.innerHTML;
+         document.body.innerHTML = printContents;
+         $('body').css('font-size', '12px')
+         $('table').css('font-size', '9px');
+         $("table > thead > tr > th").css('padding', '0px');
+         $("table > tbody > tr > td").css('padding', '0px');
+         $('body').addClass('d-flex flex-column vh-100 p-3')
+         window.print();
+         document.body.innerHTML = originalContents;
+    }
+  </script>
 {% endblock %}

@@ -90,8 +90,9 @@ const loadpdcts=()=>{
 
           $('.cart-table__body').append(`
           <tr class="cart-table__row cmndholder" ref="${ref}" n="${n}" id="${id}">
+          
           <td class="cart-table__column cart-table__column--product">
-            <strong>${ref.toUpperCase()}</strong>
+            <a src="${img}" data-toggle="modal" data-target="#imagedisplaymodal" class="imagedisplaybtn" imgsrc="${img}">${ref.toUpperCase()}</a>
           </td>
           <td class="cart-table__column cart-table__column--product">
             <strong>${n.toUpperCase()}</strong>
