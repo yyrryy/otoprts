@@ -357,7 +357,6 @@ function CustomNumber(input, sub, add) {
                     this.querySelector('.input-number__add')
 
                 );
-                console.log('ff')
                 $(this).data('customNumber', instance);
 
             }

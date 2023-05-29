@@ -173,13 +173,11 @@
 
     function liveSearch() {
         let search_query = document.getElementById("searchbox").value;
-        console.log(search_query)
         //Use innerText if all contents are visible
         //Use textContent for including hidden elements
         for (var i = 0; i < cards.length; i++) {
             if(cards[i].textContent.toLowerCase()
                     .includes(search_query.toLowerCase())) {
-                      console.log(cards[i])
                       cards[i].classList.remove("d-none");
             } else {
                 cards[i].classList.add("d-none");

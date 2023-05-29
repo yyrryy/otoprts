@@ -51,11 +51,9 @@
   $(document).ready(function() {
     $($('input[name="cpass"]')).on('input', function() {
       if ($('input[name="pass"]').val() == $('input[name="cpass"]').val()) {
-        console.log('ok')
         $('input[name="cpass"]').removeClass('border-danger')
         $('.passbtn').removeAttr('disabled');
       } else {
-        console.log('not ok')
         $('input[name="cpass"]').addClass('border-danger')
         $('.passbtn').attr('disabled', 'disabled');
       }

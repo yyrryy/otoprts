@@ -62,7 +62,6 @@ const addcmnd=(name, ctg, ref, qty, pr, id, img, min)=>{
         $('.ttt').text((bigt+parseFloat(sub)).toFixed(2))
         // $('.ttt').text(((parseFloat($('.ttt').text()))+sub).toFixed(2))
         savetostorage(id, ref, name, ctg, qty, pr, sub, img, min)
-        console.log('updated counter')
         $('.commanditems').html(parseInt($('.commanditems').html())+1)
         $('.valider').prop('disabled', false)
 
@@ -147,7 +146,6 @@ $("#addclientform").submit(function(event) {
     event.preventDefault();
 
     var formData = $(this).serialize();
-    console.log(formData)
     loading()
     $.ajax({
       type: "POST",
@@ -175,7 +173,6 @@ $("#addclientform").submit(function(event) {
 //             csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()
 //         },
 //         success: function(response){
-//             console.log(response)
 //             $('#addclientmodal').modal('hide')
 //             updateclients()
 //         }
@@ -200,11 +197,9 @@ const clearcommande=()=>{
 
 $('.cmnd').each((i, el)=>{
     $(el).on('click', ()=>{
-        console.log('clickd')
         // id=$(el).attr('pdct');
         $(el).attr('disabled', true)
         ref=$(el).attr('pdctref')
-        console.log(ref)
         name=$(el).attr('pdctname')
         ctg=$(el).attr('pdctcategory')
         pr=$(el).attr('pdctpr')
@@ -258,7 +253,6 @@ $('[name=category]').on('change',() => {
                 Error:(error)=>{
                     stoploading()
                     alert('error')
-                    console.log(error)
                 }
     
             })
@@ -273,7 +267,6 @@ $('.valider').on('click', ()=>{
         stoploading()
         alert('Veuillez choisir un mode de payement ou de livraison')
         $('.modes').addClass('border-danger')
-        console.log('error')
         return
     }
     validercmnd(client.val())
@@ -322,13 +315,11 @@ let cards = document.querySelectorAll('.products-list__item')
 
 function liveSearch() {
     let search_query = document.getElementById("searchbox").value;
-    console.log(search_query)
     //Use innerText if all contents are visible
     //Use textContent for including hidden elements
     for (var i = 0; i < cards.length; i++) {
         if(cards[i].textContent.toLowerCase()
                 .includes(search_query.toLowerCase())) {
-                    console.log(cards[i])
                     cards[i].classList.remove("d-none");
         } else {
             cards[i].classList.add("d-none");
@@ -342,7 +333,6 @@ let typeInterval = 500;
 let searchInput = document.getElementById('searchbox');
 
 searchInput.addEventListener('keyup', () => {
-    console.log('rr')
     clearTimeout(typingTimer);
     typingTimer = setTimeout(liveSearch, typeInterval);
 });

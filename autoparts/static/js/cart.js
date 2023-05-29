@@ -140,7 +140,6 @@ C11.2,9.8,11.2,10.4,10.8,10.8z"></path>
 }
 
 $(document).ready(function () {
-    console.log('cart')
     
     $('.createclient').on('click', ()=>{
       var isAnyEmpty = $('.notempty').filter(function() { return $(this).val() == ''; }).length > 0;
@@ -154,7 +153,6 @@ $(document).ready(function () {
         $('input.notempty').not(emptyInputs).css('border', '');
   
       }else{
-        console.log('create client')
         loading('client')
         $.ajax({
           type: "POST",
@@ -185,7 +183,6 @@ $(document).ready(function () {
             let emptySelects = $('select.modes').filter(function() {
               return this.value==0
             });
-            console.log(emptySelects)
             // Add a red border to all empty select elements
             emptySelects.addClass('is-invalid');
             
@@ -202,7 +199,6 @@ $(document).ready(function () {
         // localStorage.setItem('clientaddress', clientaddress)
         // localStorage.setItem('clientphone', clientphone)
         if (confirm('Valider la commande ?')) {
-          console.log('valider')
           clientid=$('.clientid').val()
           loading()
           validercmnd(clientid)
