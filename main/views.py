@@ -398,7 +398,7 @@ def cart(request):
     clients=Client.objects.all()
     return render(request, 'cart.html', {'title':'Panier', 'clients':clients})
 
-def me(request):
+def developer(request):
     return render(request, 'me.html', {'title':'Develper - abdelwahed ait ali'})
 
 # def signup(request):
