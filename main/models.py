@@ -30,6 +30,7 @@ class Produit(models.Model):
     name=models.CharField(max_length=500, null=True)
     #price
     price= models.FloatField()
+    checkprice= models.FloatField(default=None, null=True, blank=True)
 
     #stock
     # stock=models.IntegerField(default=1)
