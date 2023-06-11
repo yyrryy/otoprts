@@ -127,9 +127,7 @@
                     </div>
                   </div>
                   <div class="product-card__info p-2">
-                    <div class="product-card__meta">
-                      <span class="product-card__meta-title">REF:</span> {{i.ref.upper}}
-                    </div>
+                    
                     <div class="product-card__name">
                       <div class="">
                           <p>
@@ -163,7 +161,9 @@
                     
                   </div>
                   <div class="product-card__footer d-flex flex-column">
-
+                    <div class="bg-dark text-white w-100 text-center rounded mt-2">
+                      <strong>REF: {{i.ref.upper}} </strong>
+                    </div>
                     <div class="product-card__prices p-2 border w-100 mt-2">
                       <div class="product-card__price product-card__price--current ">
                         {{i.price|floatformat:2}} Net
