@@ -345,6 +345,43 @@
 {% block js %}
 
 <script>
+	let typingTimer;               
+	let typeInterval = 500;  
+	let searchInput = document.getElementById('searchboxmarks');
+	let ctgsearchInput = document.getElementById('searchboxctg');
+	// search in products
+	let cards = document.querySelectorAll('.markscards')
+	let ctgcards = document.querySelectorAll('.ctgcards')
+
+	function liveSearch(e) {
+		for (var i = 0; i < cards.length; i++) {
+			if(cards[i].textContent.toLowerCase()
+					.includes(e.target.value.toLowerCase())) {
+						cards[i].classList.remove("d-none");
+			} else {
+				cards[i].classList.add("d-none");
+			}
+		}
+	}
+
+	function ctgliveSearch(e) {
+		for (var i = 0; i < ctgcards.length; i++) {
+			if(ctgcards[i].textContent.toLowerCase()
+					.includes(e.target.value.toLowerCase())) {
+						ctgcards[i].classList.remove("d-none");
+			} else {
+				ctgcards[i].classList.add("d-none");
+			}
+		}
+	}
+	searchInput.addEventListener('keyup', (e) => {
+		clearTimeout(typingTimer);
+		typingTimer = setTimeout(liveSearch(e), typeInterval);
+	});
+	ctgsearchInput.addEventListener('keyup', (e) => {
+		clearTimeout(typingTimer);
+		typingTimer = setTimeout(ctgliveSearch(e), typeInterval);
+	});
 	var Tabs = function($) {
   return {
     
@@ -480,6 +517,5 @@
 
 Tabs.init();
 </script>
-<script src="{% static 'js/catalog.js' %} "></script>
 
 {% endblock %}

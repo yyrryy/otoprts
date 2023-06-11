@@ -310,53 +310,32 @@ $('.showcommande').on('click', ()=>{
     $('body').addClass('overflow-hidden position-fixed')
 })
 
-// search in products
-let cards = document.querySelectorAll('.markscards')
-let ctgcards = document.querySelectorAll('.ctgcards')
 
-function liveSearch(e) {
-    console.log(e.target.value)
-    //Use innerText if all contents are visible
-    //Use textContent for including hidden elements
-    for (var i = 0; i < cards.length; i++) {
-        if(cards[i].textContent.toLowerCase()
-                .includes(e.target.value.toLowerCase())) {
-                    cards[i].classList.remove("d-none");
-        } else {
-            cards[i].classList.add("d-none");
-        }
-    }
-}
-
-function ctgliveSearch(e) {
-    console.log(e.target.value)
-    //Use innerText if all contents are visible
-    //Use textContent for including hidden elements
-    for (var i = 0; i < ctgcards.length; i++) {
-        if(ctgcards[i].textContent.toLowerCase()
-                .includes(e.target.value.toLowerCase())) {
-                    ctgcards[i].classList.remove("d-none");
-        } else {
-            ctgcards[i].classList.add("d-none");
-        }
-    }
-}
 
 //A little delay
 let typingTimer;               
-let typeInterval = 500;  
-let searchInput = document.getElementById('searchboxmarks');
-let ctgsearchInput = document.getElementById('searchboxctg');
+let typeInterval = 500;
+let pdctscards = document.querySelectorAll('.products-list__item')
+  function pdctsliveSearch(e) {
+    //Use innerText if all contents are visible
+    //Use textContent for including hidden elements
+    for (var i = 0; i < pdctscards.length; i++) {
+        if(pdctscards[i].textContent.toLowerCase()
+                .includes(e.target.value.toLowerCase())) {
+                    pdctscards[i].classList.remove("d-none");
+        } else {
+            pdctscards[i].classList.add("d-none");
+        }
+    }
+  }
+  let pdctssearchInput = document.getElementById('searchbox');
 
-searchInput.addEventListener('keyup', (e) => {
-    console.log('rr')
-    clearTimeout(typingTimer);
-    typingTimer = setTimeout(liveSearch(e), typeInterval);
-});
-ctgsearchInput.addEventListener('keyup', (e) => {
-    clearTimeout(typingTimer);
-    typingTimer = setTimeout(ctgliveSearch(e), typeInterval);
-});
+  pdctssearchInput.addEventListener('keyup', (e) => {
+      console.log('rr')
+      clearTimeout(typingTimer);
+      typingTimer = setTimeout(pdctsliveSearch(e), typeInterval);
+  });
+
 
 // fixed cart
 $(window).scroll(function() {
