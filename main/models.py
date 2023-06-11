@@ -7,6 +7,7 @@ import datetime
 class Category(models.Model):
     title=models.CharField(max_length=150)
     code=models.CharField(max_length=150, default=None, null=True)
+    image=models.CharField(max_length=500, default='/static/images/mark.jpg', null=True, blank=True)
     def __str__(self) -> str:
         return self.title
 class Brand(models.Model):

@@ -311,15 +311,16 @@ $('.showcommande').on('click', ()=>{
 })
 
 // search in products
-let cards = document.querySelectorAll('.products-list__item')
+let cards = document.querySelectorAll('.markscards')
+let ctgcards = document.querySelectorAll('.ctgcards')
 
-function liveSearch() {
-    let search_query = document.getElementById("searchbox").value;
+function liveSearch(e) {
+    console.log(e.target.value)
     //Use innerText if all contents are visible
     //Use textContent for including hidden elements
     for (var i = 0; i < cards.length; i++) {
         if(cards[i].textContent.toLowerCase()
-                .includes(search_query.toLowerCase())) {
+                .includes(e.target.value.toLowerCase())) {
                     cards[i].classList.remove("d-none");
         } else {
             cards[i].classList.add("d-none");
@@ -327,14 +328,34 @@ function liveSearch() {
     }
 }
 
+function ctgliveSearch(e) {
+    console.log(e.target.value)
+    //Use innerText if all contents are visible
+    //Use textContent for including hidden elements
+    for (var i = 0; i < ctgcards.length; i++) {
+        if(ctgcards[i].textContent.toLowerCase()
+                .includes(e.target.value.toLowerCase())) {
+                    ctgcards[i].classList.remove("d-none");
+        } else {
+            ctgcards[i].classList.add("d-none");
+        }
+    }
+}
+
 //A little delay
 let typingTimer;               
 let typeInterval = 500;  
-let searchInput = document.getElementById('searchbox');
+let searchInput = document.getElementById('searchboxmarks');
+let ctgsearchInput = document.getElementById('searchboxctg');
 
-searchInput.addEventListener('keyup', () => {
+searchInput.addEventListener('keyup', (e) => {
+    console.log('rr')
     clearTimeout(typingTimer);
-    typingTimer = setTimeout(liveSearch, typeInterval);
+    typingTimer = setTimeout(liveSearch(e), typeInterval);
+});
+ctgsearchInput.addEventListener('keyup', (e) => {
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(ctgliveSearch(e), typeInterval);
 });
 
 // fixed cart

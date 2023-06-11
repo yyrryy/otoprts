@@ -316,13 +316,18 @@ def catalog(request):
     #     has_promotion=Exists(Produit.objects.filter(category_id=OuterRef('pk'), isoffer=True)),
     #     total_products=Count('produit')
     # )
+    ids=[6]
     productslen=len(Produit.objects.all())
     marks = Mark.objects.annotate(
         has_promotion=Exists(Produit.objects.filter(mark_id=OuterRef('pk'), isoffer=True)),
         total_products=Count('produit')
     )
+    categories = Category.objects.filter(pk__in=ids).annotate(
+        has_promotion=Exists(Produit.objects.filter(mark_id=OuterRef('pk'), isoffer=True)),
+        total_products=Count('produit')
+    )
     ctx={
-            'categories': Category.objects.all(),
+            'categories': categories,
             'brands':Brand.objects.all(),
             'models':Model.objects.all(),
             'clients':Client.objects.all(),
