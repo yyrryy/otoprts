@@ -316,6 +316,9 @@ def catalog(request):
     #     has_promotion=Exists(Produit.objects.filter(category_id=OuterRef('pk'), isoffer=True)),
     #     total_products=Count('produit')
     # )
+    constraction=True
+    if constraction:
+        return render(request, 'constraction.html', {'title':'Under Constraction'})
     ids=[6]
     productslen=len(Produit.objects.all())
     marks = Mark.objects.annotate(
