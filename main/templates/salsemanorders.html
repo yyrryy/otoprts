@@ -16,14 +16,14 @@
         <div class="d-lg-flex d-block justify-content-between">
           <h5>Bon de Commande: #{{order.id}}</h5>
         <p>
-          paiment: {{order.modpymnt}}
+          paiment: {{order.modpymnt.upper}}
         </p>
         <p>
-          mode de livraison: {{ order.modlvrsn}}
+          mode de livraison: {{ order.modlvrsn.upper}}
         </p>
         </div>
         <div class="">
-          <h5>Client: {{order.client.name}}</h5>
+          <h5>Client: {{order.client.name.upper}}</h5>
           <p>
             {{order.client.phone}} <br> {{order.client.address}} - {{order.client.city}}
           </p>
@@ -41,7 +41,7 @@
                 <th>Date</th>
                 <th>Representant</th>
                 <th>Total</th>
-                <th>Total Remise</th>
+                <!-- <th>Total Remise</th> -->
               </tr>
             </thead>
             <tbody>
@@ -49,7 +49,7 @@
                 <td>{{ order.date|date:"d/m/Y" }}</td>
                 <td>{{ order.salseman }}</td>
                 <td>{{ order.total}}</td>
-                <td>{{ order.totalremise}}</td>
+                <!-- <td>{{ order.totalremise}}</td> -->
               </tr>
               
             </tbody>

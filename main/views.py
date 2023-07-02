@@ -316,7 +316,7 @@ def catalog(request):
     #     has_promotion=Exists(Produit.objects.filter(category_id=OuterRef('pk'), isoffer=True)),
     #     total_products=Count('produit')
     # )
-    constraction=True
+    constraction=False
     if constraction:
         return render(request, 'constraction.html', {'title':'Under Constraction'})
     ids=[6]
@@ -340,8 +340,16 @@ def catalog(request):
         }
     return render(request, 'catalog.html', ctx)
 
+@user_passes_test(bothsalseaccount, login_url='loginpage')
+@login_required(login_url='loginpage')
+def ordersforeach(request):
+    # get id of request user
+    id=request.user
+    orders=Order.objects.filter(salseman=id)
+    delivered=len(orders.filter(isdelivered=True))
+    paied=len(orders.filter(ispaied=True))
 
-
+    return render(request, 'orders.html', {'orders':orders, 'delivered':delivered, 'title':'Commandes', 'notdel':len(orders)-delivered, 'paied':paied})
 @user_passes_test(bothsalseaccount, login_url='loginpage')
 @login_required(login_url='loginpage')
 def salsemanorders(request, str_id):

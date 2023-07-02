@@ -36,5 +36,6 @@ urlpatterns = [
     path('developer', views.developer, name='developer'),
     path('create_product', views.create_product, name='create_product'),
     path('cart', views.cart, name='cart'),
+    path('ordersforeach', views.ordersforeach, name='ordersforeach'),
     path('sitemap', views.sitemap, name='sitemap'),
 ]

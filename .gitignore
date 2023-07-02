@@ -6,3 +6,4 @@ requirements.txt
 db.*
 __pycache__
 migrations
+logs.txt
