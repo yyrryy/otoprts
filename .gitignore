@@ -7,3 +7,5 @@ db.*
 __pycache__
 migrations
 logs.txt
+*.sql
+in

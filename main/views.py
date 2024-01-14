@@ -325,7 +325,7 @@ def catalog(request):
         has_promotion=Exists(Produit.objects.filter(mark_id=OuterRef('pk'), isoffer=True)),
         total_products=Count('produit')
     )
-    categories = Category.objects.filter(pk__in=ids).annotate(
+    categories = Category.objects.filter(code__startswith='o').annotate(
         has_promotion=Exists(Produit.objects.filter(mark_id=OuterRef('pk'), isoffer=True)),
         total_products=Count('produit')
     )
