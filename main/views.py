@@ -215,9 +215,13 @@ def addbulk(request):
     for d in df.itertuples():
         print(d)
         try:
-            Produit.objects.create(ref=str(d.ref).lower(), name=d.n.lower(),category_id=d.category, price=round(d.pr, 2), isoffer=d.isoffer, min=d.min, offre=d.offer, image=d.image, mark_id=d.mark)
+            pr=Produit.objects.get(ref=str(d.ref).lower())
+            pr.name=d.n.lower()
+            pr.price=round(d.pr, 2)
+            pr.isoffer=d.isoffer
+            pr.save()
         except Exception as e:
-            print(e)
+            Produit.objects.get(ref=str(d.ref).lower(), name=d.n.lower(),category_id=d.category, price=round(d.pr, 2), isoffer=d.isoffer, min=d.min, offre=d.offer, image=d.image, mark_id=d.mark)
     return redirect(create)
 
 @user_passes_test(tocatalog, login_url='loginpage')
