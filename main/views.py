@@ -215,7 +215,8 @@ def addbulk(request):
     for d in df.itertuples():
         print(d)
         try:
-            pr=Produit.objects.get(ref=str(d.ref).lower())
+            print(d.ref)
+            pr=Produit.objects.get(ref=str(d.ref).lower(), mark_id=d.mark)
             pr.name=d.n.lower()
             pr.price=round(d.pr, 2)
             pr.isoffer=d.isoffer
