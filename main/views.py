@@ -220,7 +220,7 @@ def addbulk(request):
             pr.price = round(d.pr, 2)
             pr.isoffer = d.isoffer
             pr.save()
-        except Produit.DoesNotExist:
+        except:
             # Create a new Produit object if it doesn't exist
             Produit.objects.create(
                 ref=str(d.ref).lower(),
@@ -233,9 +233,6 @@ def addbulk(request):
                 image=d.image,
                 mark_id=d.mark
             )
-        except Exception as e:
-            # Handle other exceptions if needed
-            print(f"An error occurred: {e}")
     return redirect(create)
 
 @user_passes_test(tocatalog, login_url='loginpage')
