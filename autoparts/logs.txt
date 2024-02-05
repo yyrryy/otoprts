@@ -182,3 +182,14 @@ Traceback (most recent call last):
   File "C:\Users\hp\AppData\Local\Programs\Python\Python310\lib\site-packages\django\db\models\sql\query.py", line 1423, in build_filter
     arg, value = filter_expr
 TypeError: cannot unpack non-iterable bool object
+Internal Server Error: /ordersforeach
+Traceback (most recent call last):
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\hp\Desktop\projects\otoprts\main\views.py", line 367, in ordersforeach
+    orders=Order.objects.all(client=request.user.client)
+TypeError: BaseManager.all() got an unexpected keyword argument 'client'

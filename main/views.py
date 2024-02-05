@@ -355,14 +355,18 @@ def catalog(request):
         }
     return render(request, 'catalog.html', ctx)
 
-@user_passes_test(bothsalseaccount, login_url='loginpage')
+#@user_passes_test(bothsalseaccount, login_url='loginpage')
 @login_required(login_url='loginpage')
 def ordersforeach(request):
+    print(request.user.client)
     # get id of request user
-    id=request.user
-    orders=Order.objects.filter(salseman=id)
+    if request.user.groups.filter(name='salsemen').exists():
+        id=request.user
+        orders=Order.objects.filter(salseman=id)
+    else:
+        orders=Order.objects.filter(client=request.user.client)
     delivered=len(orders.filter(isdelivered=True))
-    paied=len(orders.filter(ispaied=True))
+    #paied=len(orders.filter(ispaied=True))
 
     return render(request, 'orders.html', {'orders':orders, 'delivered':delivered, 'title':'Commandes', 'notdel':len(orders)-delivered, 'paied':paied})
 @user_passes_test(bothsalseaccount, login_url='loginpage')

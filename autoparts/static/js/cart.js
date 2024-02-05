@@ -188,7 +188,7 @@ $(document).ready(function () {
             
             // Remove the red border from non-empty select elements
             $('select.modes').not(emptySelects).removeClass('is-invalid');
-            alert('Veuillez remplir tous les champs')
+            
             
             return
         }
